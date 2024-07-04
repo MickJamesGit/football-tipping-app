@@ -1,7 +1,3 @@
-import Image from "next/image";
-import { UpdateInvoice, DeleteInvoice } from "@/app/ui/invoices/buttons";
-import InvoiceStatus from "@/app/ui/invoices/status";
-import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
 import { fetchGames } from "@/app/lib/data";
 
 export default async function GamesTable({
@@ -17,68 +13,45 @@ export default async function GamesTable({
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
-            {games?.map((game) => (
-              <div
-                key={game.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
-              >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div>
-                    <div className="mb-2 flex items-center">
-                      <p>{game.home_team_name}</p>
-                    </div>
-                    <p className="text-sm text-gray-500">
-                      {game.away_team_name}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    <p className="text-xl font-medium">{game.venue}</p>
-                    <p>{new Date(game.date).toDateString()}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Home Team
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Away Team
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Venue
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">
+          <form>
+            <div>
               {games?.map((game) => (
-                <tr
+                <div
                   key={game.id}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  className="mb-4 w-full rounded-md bg-white p-4 text-center"
                 >
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    {game.home_team_name}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {game.away_team_name}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">{game.venue}</td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {new Date(game.date).toDateString()}
-                  </td>
-                </tr>
+                  <div className="mb-2">
+                    <p className="text-xl font-medium">
+                      {new Date(game.date).toDateString()}
+                    </p>
+                    <p className="text-sm text-gray-500">{game.venue}</p>
+                  </div>
+                  <div className="flex justify-center space-x-4">
+                    <div className="flex items-center">
+                      <div
+                        className={`flex-1 p-2 cursor-pointer border bg-gray-300`}
+                      >
+                        <p>{game.home_team_name}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className={`flex-1 p-2 cursor-pointer border`}>
+                        <p>{game.away_team_name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <div className="mt-4 text-right">
+              <button
+                type="submit"
+                className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+              >
+                Submit Tips
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
