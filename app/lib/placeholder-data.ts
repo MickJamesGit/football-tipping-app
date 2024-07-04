@@ -168,29 +168,47 @@ const games = [
   {
     sport: "NRL",
     round: 18,
-    home_team_id: "27fb62e6-7aee-4e75-a5b9-a393a53bc418", // Paramatta Eels
-    away_team_id: "b20217fc-ee8e-4dae-8e5c-2e3f11c50ac6", // South Sydney Rabbitohs
-    venue: "Commbank Stadium Sydney",
-    date: "2024-07-04",
-    time: "2024-07-04 20:00:00", // Example time
+    home_team_id: "7e87963d-7e24-4674-bc42-3cc904dfb6f2", // Canterbury Bulldogs
+    away_team_id: "83359d25-46e9-41b9-b7ae-a24497c16371", // New Zealand Warriors
+    venue: "Accor Stadium, Sydney",
+    date: "2024-07-06",
+    time: "2024-07-06 15:00:00", // Example time
   },
   {
     sport: "NRL",
     round: 18,
-    home_team_id: "23e83378-a67a-4487-9c04-4dccbdc5fdd0", // Cronulla Sharks
-    away_team_id: "bcee526a-2c97-441d-9778-c5e768ae9170", // Gold Coast Titans
-    venue: "Coffs International Stadium, Coffs Harbour",
-    date: "2024-07-05",
-    time: "2024-07-05 18:00:00", // Example time
+    home_team_id: "a64861a2-e63f-4ff3-9e15-6a6828298cf2", // Wests Tigers
+    away_team_id: "244f662a-56e0-4660-a01b-512732aab632", // Melbourne Storm
+    venue: "Leichhardt Oval, Sydney",
+    date: "2024-07-06",
+    time: "2024-07-06 17:30:00", // Example time
   },
   {
     sport: "NRL",
     round: 18,
-    home_team_id: "31e42016-7263-4b89-a404-62ee6c22161a", // Brisbane Broncos
-    away_team_id: "769c25e8-6a21-4eac-99d7-9e2df2319b37", // Penrith Panthers
-    venue: "Suncorp Stadium, Brisbane",
-    date: "2024-07-05",
-    time: "2024-07-05 20:00:00", // Example time
+    home_team_id: "92036bab-ec4d-411c-8565-06a89cc1a5a9", // North Queensland Cowboys
+    away_team_id: "8be87234-4a55-4985-8830-e0d393318f50", // Manly Sea Eagles
+    venue: "Queensland Country Bank Stadium, Townsville",
+    date: "2024-07-06",
+    time: "2024-07-06 19:35:00", // Example time
+  },
+  {
+    sport: "NRL",
+    round: 18,
+    home_team_id: "c03c2387-09ae-46c1-8686-6f10ec98cab3", // Sydney Roosters
+    away_team_id: "32ee484d-9c61-4377-8ea3-dbf09a185f5e", // St George Illawarra Dragons
+    venue: "Allianz Stadium, Sydney",
+    date: "2024-07-07",
+    time: "2024-07-07 14:00:00", // Example time
+  },
+  {
+    sport: "NRL",
+    round: 18,
+    home_team_id: "d03a75ae-20a1-40a0-91b5-b5c2518bbee9", // Canberra Raiders
+    away_team_id: "674fde86-304a-46ec-a923-10e5af79570c", // Newcastle Knights
+    venue: "GIO Stadium, Canberra",
+    date: "2024-07-07",
+    time: "2024-07-07 16:05:00", // Example time
   },
 ];
 

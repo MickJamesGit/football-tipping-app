@@ -265,6 +265,6 @@ export async function fetchGames(sport: string, round: number) {
     return games;
   } catch (err) {
     console.error("Database Error:", err);
-    throw new Error("Failed to fetch all teams.");
+    throw new Error("Failed to fetch all games.");
   }
 }
