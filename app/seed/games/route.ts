@@ -1,5 +1,5 @@
 import { db } from "@vercel/postgres";
-import { games } from "../lib/placeholder-data";
+import { games } from "../../lib/placeholder-data";
 
 const client = await db.connect();
 
@@ -7,21 +7,21 @@ async function seedGames() {
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   try {
     await client.sql`
-      CREATE TABLE IF NOT EXISTS games (
-        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        sport VARCHAR(255) NOT NULL,
-        round INT NOT NULL,
-        home_team_id UUID NOT NULL,
-        away_team_id UUID NOT NULL,
-        venue VARCHAR(255) NOT NULL,
-        date DATE NOT NULL,
-        time TIME NOT NULL,
-        created_at TIMESTAMP DEFAULT current_timestamp,
-        updated_at TIMESTAMP DEFAULT current_timestamp,
-        FOREIGN KEY (home_team_id) REFERENCES teams(id),
-        FOREIGN KEY (away_team_id) REFERENCES teams(id)
-      );
-    `;
+    CREATE TABLE IF NOT EXISTS games (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      sport VARCHAR(255) NOT NULL,
+      round INT NOT NULL,
+      home_team_id UUID NOT NULL,
+      away_team_id UUID NOT NULL,
+      venue VARCHAR(255) NOT NULL,
+      date DATE NOT NULL,
+      time TIME NOT NULL,
+      created_at TIMESTAMP DEFAULT current_timestamp,
+      updated_at TIMESTAMP DEFAULT current_timestamp,
+      FOREIGN KEY (home_team_id) REFERENCES teams(id),
+      FOREIGN KEY (away_team_id) REFERENCES teams(id)
+    );
+  `;
     console.log('Table "games" created successfully or already exists.');
   } catch (error) {
     console.error('Error creating table "games":', error);

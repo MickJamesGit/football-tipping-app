@@ -26,11 +26,26 @@ export default function GamesTable({
     }));
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const unselectedGames = games.filter((game) => !selectedTeams[game.id]);
+
+    if (unselectedGames.length > 0) {
+      alert("Please select a team for every game before submitting.");
+      return;
+    }
+
+    // Handle form submission
+    console.log("Selected Teams:", selectedTeams);
+    // Add your form submission logic here
+  };
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-3">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div>
               {games?.map((game) => {
                 const date = new Date(game.date).toDateString();

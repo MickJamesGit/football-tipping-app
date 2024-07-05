@@ -5,7 +5,7 @@ export default function AcmeLogo() {
     <div
       className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
     >
-      <p className="text-[32px]">TippingPoint</p>
+      <p className="text-[32px]">Tipping Point</p>
     </div>
   );
 }
