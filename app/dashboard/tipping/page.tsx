@@ -1,7 +1,4 @@
-import Pagination from "@/app/ui/invoices/pagination";
-import Search from "@/app/ui/search";
 import Table from "@/app/ui/games/table";
-import { CreateInvoice } from "@/app/ui/invoices/buttons";
 import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
@@ -12,7 +9,7 @@ import RoundSelector from "@/app/ui/games/roundselecter";
 import { getUser } from "@/auth";
 
 export const metadata: Metadata = {
-  title: "Games",
+  title: "Tipping",
 };
 
 export default async function Page({
@@ -35,7 +32,7 @@ export default async function Page({
     <div className="w-full space-y-8">
       {" "}
       {/* Added space-y-8 for even spacing */}
-      <div className="w-full bg-gray-100 p-4 rounded-lg">
+      <div className="w-full bg-gray-50 p-4 rounded-lg">
         <h1 className={`${lusitana.className} text-2xl text-left`}>Games</h1>
       </div>
       <div className="flex w-full items-center justify-center">
