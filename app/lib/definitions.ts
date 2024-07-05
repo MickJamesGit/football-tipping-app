@@ -98,8 +98,17 @@ export type Games = {
   sport: string;
   round: number;
   home_team_name: string;
+  home_team_id: string;
   away_team_name: string;
+  away_team_id: string;
   venue: string;
   date: string;
   time: string;
+};
+
+export type Tips = {
+  id: string;
+  user_id: string;
+  game_id: string;
+  tip_team_id: string;
 };

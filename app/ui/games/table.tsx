@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { fetchGames } from "@/app/lib/data";
-import { Games } from "@/app/lib/definitions";
+import React, { useState, useEffect } from "react";
+import { Games, Tips } from "@/app/lib/definitions";
 
 type SelectedTeams = {
   [Team: string]: string;
@@ -12,17 +11,28 @@ export default function GamesTable({
   sport,
   round,
   games,
+  tips,
 }: {
   sport: string;
   round: number;
   games: Games[];
+  tips: Tips[];
 }) {
   const [selectedTeams, setSelectedTeams] = useState<SelectedTeams>({});
 
-  const handleTeamClick = (gameId: string, team_name: string) => {
+  useEffect(() => {
+    // Initialize selectedTeams based on existing tips
+    const initialSelectedTeams: SelectedTeams = {};
+    tips.forEach((tip) => {
+      initialSelectedTeams[tip.game_id] = tip.tip_team_id;
+    });
+    setSelectedTeams(initialSelectedTeams);
+  }, [tips]);
+
+  const handleTeamClick = (gameId: string, team_id: string) => {
     setSelectedTeams((prevSelectedTeams) => ({
       ...prevSelectedTeams,
-      [gameId]: team_name,
+      [gameId]: team_id,
     }));
   };
 
@@ -68,12 +78,12 @@ export default function GamesTable({
                     <div className="flex justify-center items-center space-x-4">
                       <div
                         className={`flex-1 p-2 cursor-pointer rounded-lg border ${
-                          selectedTeams[game.id] === game.home_team_name
+                          selectedTeams[game.id] === game.home_team_id
                             ? "bg-blue-500 text-white"
                             : ""
                         }`}
                         onClick={() =>
-                          handleTeamClick(game.id, game.home_team_name)
+                          handleTeamClick(game.id, game.home_team_id)
                         }
                       >
                         <p>{game.home_team_name}</p>
@@ -81,12 +91,12 @@ export default function GamesTable({
                       <div className="p-2">vs</div>
                       <div
                         className={`flex-1 p-2 cursor-pointer rounded-lg border ${
-                          selectedTeams[game.id] === game.away_team_name
+                          selectedTeams[game.id] === game.away_team_id
                             ? "bg-blue-500 text-white"
                             : ""
                         }`}
                         onClick={() =>
-                          handleTeamClick(game.id, game.away_team_name)
+                          handleTeamClick(game.id, game.away_team_id)
                         }
                       >
                         <p>{game.away_team_name}</p>

@@ -8,6 +8,7 @@ import {
   Revenue,
   Teams,
   Games,
+  Tips,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 
@@ -242,6 +243,8 @@ export async function fetchGames(sport: string, round: number) {
       g.id,
       g.sport,
       g.round,
+      g.home_team_id,
+      g.away_team_id,
       t1.name AS home_team_name,
       t2.name AS away_team_name,
       g.venue,
@@ -266,5 +269,38 @@ export async function fetchGames(sport: string, round: number) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch all games.");
+  }
+}
+
+export async function fetchTips(user_id: string, round: number, sport: string) {
+  try {
+    const data = await sql<Tips>`
+      SELECT
+        t.id,
+        t.user_id,
+        t.tip_team_id,
+        t.game_id,
+        t.created_at,
+        t.updated_at
+      FROM
+        tips t
+      JOIN
+        games g ON t.game_id = g.id
+      WHERE
+        g.sport = ${sport} AND g.round = ${round} AND t.user_id = ${user_id}
+      ORDER BY
+        g.date, g.time;
+    `;
+
+    const tips = data.rows.map((tip) => ({
+      id: tip.id,
+      user_id: tip.user_id,
+      tip_team_id: tip.tip_team_id,
+      game_id: tip.game_id,
+    }));
+    return tips;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch tips.");
   }
 }
