@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Games, Tips } from "@/app/lib/definitions";
 
 type SelectedTeams = {
@@ -19,6 +19,9 @@ export default function GamesTable({
   tips: Tips[];
 }) {
   const [selectedTeams, setSelectedTeams] = useState<SelectedTeams>({});
+  const [unselectedGames, setUnselectedGames] = useState<string[]>([]);
+  const [message, setMessage] = useState<string>("");
+  const messageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Initialize selectedTeams based on existing tips
@@ -29,45 +32,72 @@ export default function GamesTable({
     setSelectedTeams(initialSelectedTeams);
   }, [tips]);
 
+  useEffect(() => {
+    // Scroll to the top when the message is updated
+    if (messageRef.current) {
+      messageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [message]);
+
   const handleTeamClick = (gameId: string, team_id: string) => {
     setSelectedTeams((prevSelectedTeams) => ({
       ...prevSelectedTeams,
       [gameId]: team_id,
     }));
+
+    setUnselectedGames((prevUnselectedGames) =>
+      prevUnselectedGames.filter((id) => id !== gameId)
+    );
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const unselectedGames = games.filter((game) => !selectedTeams[game.id]);
+    const unselected = games
+      .filter((game) => !selectedTeams[game.id])
+      .map((game) => game.id);
 
-    if (unselectedGames.length > 0) {
-      alert("Please select a team for every game before submitting.");
+    if (unselected.length > 0) {
+      setUnselectedGames(unselected);
+      setMessage(`Please select a team for every game before submitting.`);
       return;
     }
 
     // Handle form submission
     console.log("Selected Teams:", selectedTeams);
+    setMessage("Tips saved. Good luck!");
+    setUnselectedGames([]);
     // Add your form submission logic here
   };
 
   return (
     <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
+      <div ref={messageRef} className="inline-block min-w-full align-middle">
+        {message && (
+          <div
+            className={`mb-4 text-center p-2 rounded ${message.includes("Tips saved") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+          >
+            {message}
+          </div>
+        )}
         <div className="rounded-lg bg-gray-50 p-2 md:pt-3">
           <form onSubmit={handleSubmit}>
             <div>
-              {games?.map((game) => {
+              {games?.map((game, index) => {
                 const date = new Date(game.date).toDateString();
                 const time = new Date(`1970-01-01T${game.time}Z`);
                 // Manually adjust the time to UTC+10
                 time.setHours(time.getUTCHours() + 10);
                 const formattedTime = time.toISOString().substr(11, 5); // HH:MM format
 
+                const isUnselected = unselectedGames.includes(game.id);
+
                 return (
                   <div
                     key={game.id}
-                    className="mb-4 w-full rounded-md bg-white p-4 text-center"
+                    className={`mb-4 w-full rounded-md p-4 text-center ${
+                      isUnselected ? "border-4 border-red-500" : "bg-white"
+                    }`}
                   >
                     <div className="mb-2">
                       <p className="text-xl font-medium">
