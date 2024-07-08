@@ -225,4 +225,56 @@ const tips = [
   },
 ];
 
-export { users, customers, invoices, revenue, teams, games, tips };
+const rankings = [
+  {
+    user_name: "topTipster43",
+    round: "18",
+    ranking: 1,
+    total_points: 104,
+  },
+  {
+    user_name: "2ndTipster34",
+    round: "18",
+    ranking: 2,
+    total_points: 103,
+  },
+  {
+    user_name: "3rdTipster23",
+    round: "18",
+    ranking: 3,
+    total_points: 102,
+  },
+];
+
+const rounds = [
+  {
+    sport: "NRL",
+    round: "18",
+    start_date: "2024-07-01",
+    end_date: "2024-07-07",
+  },
+  {
+    sport: "NRL",
+    round: "17",
+    start_date: "2024-06-24",
+    end_date: "2024-06-30",
+  },
+  {
+    sport: "NRL",
+    round: "19",
+    start_date: "2024-07-08",
+    end_date: "2024-07-14",
+  },
+];
+
+export {
+  users,
+  customers,
+  invoices,
+  revenue,
+  teams,
+  games,
+  tips,
+  rankings,
+  rounds,
+};

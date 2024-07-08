@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Games, Tips } from "@/app/lib/definitions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 type SelectedTeams = {
   [Team: string]: string;
@@ -107,7 +109,7 @@ export default function GamesTable({
                     </div>
                     <div className="flex justify-center items-center space-x-4">
                       <div
-                        className={`flex-1 p-2 cursor-pointer rounded-lg border ${
+                        className={`flex-1 p-2 cursor-pointer rounded-lg border flex items-center justify-between ${
                           selectedTeams[game.id] === game.home_team_id
                             ? "bg-blue-500 text-white"
                             : ""
@@ -117,10 +119,18 @@ export default function GamesTable({
                         }
                       >
                         <p>{game.home_team_name}</p>
+                        {selectedTeams[game.id] === game.home_team_id && (
+                          <span className="ml-2 inline-flex items-center justify-center w-6 h-6 bg-white border border-black rounded-full">
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="text-black"
+                            />
+                          </span>
+                        )}
                       </div>
                       <div className="p-2">vs</div>
                       <div
-                        className={`flex-1 p-2 cursor-pointer rounded-lg border ${
+                        className={`flex-1 p-2 cursor-pointer rounded-lg border flex items-center justify-between ${
                           selectedTeams[game.id] === game.away_team_id
                             ? "bg-blue-500 text-white"
                             : ""
@@ -130,6 +140,14 @@ export default function GamesTable({
                         }
                       >
                         <p>{game.away_team_name}</p>
+                        {selectedTeams[game.id] === game.away_team_id && (
+                          <span className="ml-2 inline-flex items-center justify-center w-6 h-6 bg-white border border-black rounded-full">
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="text-black"
+                            />
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

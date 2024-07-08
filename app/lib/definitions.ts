@@ -112,3 +112,20 @@ export type Tips = {
   game_id: string;
   tip_team_id: string;
 };
+
+export type NRLRankings = {
+  id: string;
+  round: string;
+  user_name: string;
+  ranking: number;
+  total_points: number;
+};
+
+export type Sport = "NRL" | "AFL";
+
+export type Rounds = {
+  id: string;
+  round: string;
+  start_date: string;
+  end_date: string;
+};

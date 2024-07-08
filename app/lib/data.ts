@@ -9,8 +9,12 @@ import {
   Teams,
   Games,
   Tips,
+  NRLRankings,
+  Rounds,
+  Sport,
 } from "./definitions";
 import { formatCurrency } from "./utils";
+import { Result } from "postcss";
 
 export async function fetchRevenue() {
   try {
@@ -236,7 +240,7 @@ ORDER BY name ASC
   }
 }
 
-export async function fetchGames(sport: string, round: number) {
+export async function fetchGames(sport: string, round: string) {
   try {
     const data = await sql<Games>`
     SELECT
@@ -272,7 +276,7 @@ export async function fetchGames(sport: string, round: number) {
   }
 }
 
-export async function fetchTips(user_id: string, round: number, sport: string) {
+export async function fetchTips(user_id: string, round: string, sport: string) {
   try {
     const data = await sql<Tips>`
       SELECT
@@ -302,5 +306,80 @@ export async function fetchTips(user_id: string, round: number, sport: string) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch tips.");
+  }
+}
+
+export async function fetchLeaderboard(
+  sport: string,
+  round: string
+): Promise<NRLRankings[]> {
+  try {
+    const data = await sql<NRLRankings>`
+      SELECT
+        r.id AS id,
+        r.user_name AS user_name,
+        r.round AS round,
+        r.ranking AS ranking,
+        r.total_points AS total_points
+      FROM
+        rankings r
+      WHERE
+        r.round = ${round}
+      ORDER BY
+        r.ranking;
+    `;
+
+    const rankings = data.rows.map((ranking) => ({
+      id: ranking.id,
+      round: ranking.round,
+      user_name: ranking.user_name,
+      ranking: ranking.ranking,
+      total_points: ranking.total_points,
+    }));
+    return rankings;
+  } catch (err) {
+    console.error("Database Error:", err);
+    console.error(
+      `Failed to fetch leaderboard for sport: ${sport}, round: ${round}`
+    );
+    throw new Error("Failed to fetch leaderboard.");
+  }
+}
+
+export async function fetchCurrentRound(
+  todays_date: string,
+  sport: Sport
+): Promise<Rounds["round"]> {
+  try {
+    const data = await sql<Rounds>`
+      SELECT
+        r.id AS id,
+        r.round_number AS round,
+        r.start_date AS start_date,
+        r.end_date AS end_date
+      FROM
+        rounds r
+      WHERE
+        r.sport = ${sport} AND ${todays_date} BETWEEN r.start_date AND r.end_date
+    `;
+
+    if (data.rows.length === 0) {
+      return "1";
+    }
+
+    const currentRound = data.rows.map((round) => ({
+      id: round.id,
+      round: round.round,
+      start_date: round.start_date,
+      end_date: round.end_date,
+    }));
+
+    return currentRound[0].round;
+  } catch (err) {
+    console.error("Database Error:", err);
+    console.error(
+      `Failed to fetch rounds for sport: ${sport}, date: ${todays_date}`
+    );
+    throw new Error("Failed to fetch current round.");
   }
 }
