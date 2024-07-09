@@ -166,7 +166,10 @@ export async function updateTips(
 
   if (!result.success) {
     console.error("Validation Error:", result.error.issues);
-    return { error: true, message: "Validation Error: Invalid form data." };
+    return {
+      error: true,
+      message: "Error: Unable to save tips. Please try again.",
+    };
   }
 
   const { loggedInUser, tips } = result.data;
@@ -203,9 +206,12 @@ export async function updateTips(
         `;
       }
     }
-    return { error: false, message: "Tips saved successfully." };
+    return { error: false, message: "Success! Your tips have been saved." };
   } catch (error) {
     console.error("Database Error:", error);
-    return { error: true, message: "Database Error: Failed to update tips." };
+    return {
+      error: true,
+      message: "Error: Unable to save tips. Please try again.",
+    };
   }
 }

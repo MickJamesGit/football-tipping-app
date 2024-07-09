@@ -7,6 +7,8 @@ import { State, updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 type SelectedTeams = {
   [game: string]: string;
@@ -32,11 +34,10 @@ export default function GamesTable({
 }) {
   const [selectedTeams, setSelectedTeams] = useState<SelectedTeams>({});
   const [unselectedGames, setUnselectedGames] = useState<string[]>([]);
-  const [submitCount, setSubmitCount] = useState(0);
   const messageRef = useRef<HTMLDivElement | null>(null);
-
   const initialState: States = { message: "", error: false };
   const [state, formAction] = useActionState(updateTips, initialState);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     // Initialize selectedTeams based on existing tips
@@ -48,16 +49,10 @@ export default function GamesTable({
   }, [tips]);
 
   useEffect(() => {
-    // Scroll to the top when the message is updated and form has been submitted
-    if (messageRef.current) {
-      messageRef.current.scrollIntoView({ behavior: "smooth" });
+    if (state.message) {
+      setOpen(true);
     }
-  }, [state.message, submitCount]);
-
-  const handleButtonClick = () => {
-    // Handle your form submission logic here
-    setSubmitCount((prevCount) => prevCount + 1);
-  };
+  }, [state]);
 
   const handleTeamClick = (gameId: string, team_id: string) => {
     setSelectedTeams((prevSelectedTeams) => ({
@@ -68,6 +63,10 @@ export default function GamesTable({
     setUnselectedGames((prevUnselectedGames) =>
       prevUnselectedGames.filter((id) => id !== gameId)
     );
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const getTipStatusIcon = (status: string | undefined) => {
@@ -262,11 +261,23 @@ export default function GamesTable({
               <Button
                 type="submit"
                 className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
-                onClick={handleButtonClick}
               >
                 Save Tips
               </Button>
             </div>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <Alert
+                onClose={handleClose}
+                severity={state.error ? "error" : "success"}
+              >
+                {state.message}
+              </Alert>
+            </Snackbar>
           </form>
         </div>
       </div>

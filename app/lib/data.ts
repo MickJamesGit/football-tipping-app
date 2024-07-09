@@ -14,7 +14,6 @@ import {
   Sport,
 } from "./definitions";
 import { formatCurrency } from "./utils";
-import { Result } from "postcss";
 
 export async function fetchRevenue() {
   try {
@@ -318,24 +317,28 @@ export async function fetchLeaderboard(
   try {
     const data = await sql<NRLRankings>`
       SELECT
-        r.id AS id,
-        r.user_name AS user_name,
-        r.round AS round,
-        r.ranking AS ranking,
-        r.total_points AS total_points
+        u.id AS id,
+        u.name AS user_name,
+        COUNT(t.id) AS total_points
       FROM
-        rankings r
+        tips t
+      JOIN
+        games g ON t.game_id = g.id
+      JOIN
+        users u ON t.user_id = u.id
       WHERE
-        r.round = ${round}
+        g.sport = ${sport} AND
+        g.round = ${round} AND
+        t.status = 'correct'
+      GROUP BY
+        u.id, u.name
       ORDER BY
-        r.ranking;
+        total_points DESC;
     `;
 
     const rankings = data.rows.map((ranking) => ({
       id: ranking.id,
-      round: ranking.round,
       user_name: ranking.user_name,
-      ranking: ranking.ranking,
       total_points: ranking.total_points,
     }));
     return rankings;

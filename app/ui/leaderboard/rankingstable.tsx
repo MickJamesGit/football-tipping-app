@@ -39,7 +39,7 @@ export default function RankingsTable({
               {rankings.map((ranking, index) => (
                 <tr key={ranking.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {ranking.ranking}
+                    {index + 1}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {ranking.user_name}

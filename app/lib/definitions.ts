@@ -116,9 +116,7 @@ export type Tips = {
 
 export type NRLRankings = {
   id: string;
-  round: string;
   user_name: string;
-  ranking: number;
   total_points: number;
 };
 

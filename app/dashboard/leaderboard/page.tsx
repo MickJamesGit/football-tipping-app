@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import RankingsTable from "@/app/ui/leaderboard/rankingstable";
 import { fetchLeaderboard } from "@/app/lib/data";
-import { parse } from "path";
 
 export const metadata: Metadata = {
   title: "Leaderboard",
@@ -22,7 +21,7 @@ export default async function Page({
 }) {
   const sport = "NRL";
   const roundParam = searchParams?.round;
-  const round = "18"; // Handle the case where roundParam is null
+  const round = "19"; // Handle the case where roundParam is null
   const rankings: NRLRankings[] = await fetchLeaderboard(sport, round);
   console.log(rankings);
 
