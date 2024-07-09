@@ -284,6 +284,7 @@ export async function fetchTips(user_id: string, round: string, sport: string) {
         t.user_id,
         t.tip_team_id,
         t.game_id,
+        t.status,
         t.created_at,
         t.updated_at
       FROM
@@ -301,6 +302,7 @@ export async function fetchTips(user_id: string, round: string, sport: string) {
       user_id: tip.user_id,
       tip_team_id: tip.tip_team_id,
       game_id: tip.game_id,
+      status: tip.status,
     }));
     return tips;
   } catch (err) {

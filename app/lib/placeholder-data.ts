@@ -212,19 +212,6 @@ const games = [
   },
 ];
 
-const tips = [
-  {
-    user_id: "410544b2-4001-4271-9855-fec4b6a6442a",
-    tip_team_id: "92036bab-ec4d-411c-8565-06a89cc1a5a9",
-    game_id: "857c89ae-6e86-4c16-9683-bb57036305bd",
-  },
-  {
-    user_id: "410544b2-4001-4271-9855-fec4b6a6442a",
-    tip_team_id: "a64861a2-e63f-4ff3-9e15-6a6828298cf2",
-    game_id: "f96af442-0bd5-496b-b83b-adbd21b477be",
-  },
-];
-
 const rankings = [
   {
     user_name: "topTipster43",
@@ -267,14 +254,4 @@ const rounds = [
   },
 ];
 
-export {
-  users,
-  customers,
-  invoices,
-  revenue,
-  teams,
-  games,
-  tips,
-  rankings,
-  rounds,
-};
+export { users, customers, invoices, revenue, teams, games, rankings, rounds };

@@ -2,14 +2,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Games, Tips } from "@/app/lib/definitions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { State, updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
 
 type SelectedTeams = {
-  [Game: string]: string;
+  [game: string]: string;
 };
 
 export type States = {
@@ -70,6 +70,53 @@ export default function GamesTable({
     );
   };
 
+  const getTipStatusIcon = (status: string | undefined) => {
+    switch (status) {
+      case "correct":
+        return faCheck;
+      case "incorrect":
+        return faTimes;
+      default:
+        return faPen; // Default to faCheck to avoid type errors
+    }
+  };
+
+  const getTipStatusStyles = (status: string | undefined) => {
+    switch (status) {
+      case "correct":
+        return "bg-green-200 text-black";
+      case "incorrect":
+        return "bg-red-200 text-black";
+      default:
+        return "bg-blue-500 text-white";
+    }
+  };
+
+  const getTipIconStyles = (status: string | undefined) => {
+    switch (status) {
+      case "correct":
+        return "bg-green-500 text-white"; // Example styles for a win
+      case "incorrect":
+        return "bg-red-500 text-white"; // Example styles for a lose
+      case "pending":
+        return "";
+      default:
+        return "";
+    }
+  };
+
+  const getStatusMessage = (status: string | undefined) => {
+    switch (status) {
+      case "correct":
+      case "incorrect":
+        return "RESULT";
+      case "pending":
+        return "TIP ENTERED";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="mt-6 flow-root">
       <div ref={messageRef} className="inline-block min-w-full align-middle">
@@ -108,12 +155,23 @@ export default function GamesTable({
                         {date} | {formattedTime} AEST
                       </p>
                       <p className="text-sm text-gray-500">{game.venue}</p>
+                      <p className="text-sm text-gray-500">
+                        {getStatusMessage(
+                          tips.find((tip) => tip.game_id === game.id)?.status
+                        )}
+                      </p>
                     </div>
                     <div className="flex justify-center items-center space-x-4">
                       <div
                         className={`flex-1 p-2 cursor-pointer rounded-lg border flex items-center justify-between ${
                           selectedTeams[game.id] === game.home_team_id
-                            ? "bg-blue-500 text-white"
+                            ? getTipStatusStyles(
+                                tips.find(
+                                  (tip) =>
+                                    tip.game_id === game.id &&
+                                    tip.tip_team_id === game.home_team_id
+                                )?.status
+                              )
                             : ""
                         }`}
                         onClick={() =>
@@ -122,11 +180,27 @@ export default function GamesTable({
                       >
                         <p>{game.home_team_name}</p>
                         {selectedTeams[game.id] === game.home_team_id && (
-                          <span className="ml-2 inline-flex items-center justify-center w-6 h-6 bg-white border border-black rounded-full">
-                            <FontAwesomeIcon
-                              icon={faCheck}
-                              className="text-black"
-                            />
+                          <span
+                            className={`ml-2 inline-flex items-center justify-center w-6 h-6 rounded-full ${getTipIconStyles(
+                              tips.find(
+                                (tip) =>
+                                  tip.game_id === game.id &&
+                                  tip.tip_team_id === game.home_team_id
+                              )?.status
+                            )}`}
+                          >
+                            <div className="w-6 h-6 flex items-center justify-center">
+                              <FontAwesomeIcon
+                                icon={getTipStatusIcon(
+                                  tips.find(
+                                    (tip) =>
+                                      tip.game_id === game.id &&
+                                      tip.tip_team_id === game.home_team_id
+                                  )?.status
+                                )}
+                                style={{ fontSize: "0.75rem" }} // Adjust the icon size here
+                              />
+                            </div>
                           </span>
                         )}
                       </div>
@@ -134,7 +208,13 @@ export default function GamesTable({
                       <div
                         className={`flex-1 p-2 cursor-pointer rounded-lg border flex items-center justify-between ${
                           selectedTeams[game.id] === game.away_team_id
-                            ? "bg-blue-500 text-white"
+                            ? getTipStatusStyles(
+                                tips.find(
+                                  (tip) =>
+                                    tip.game_id === game.id &&
+                                    tip.tip_team_id === game.away_team_id
+                                )?.status
+                              )
                             : ""
                         }`}
                         onClick={() =>
@@ -143,11 +223,27 @@ export default function GamesTable({
                       >
                         <p>{game.away_team_name}</p>
                         {selectedTeams[game.id] === game.away_team_id && (
-                          <span className="ml-2 inline-flex items-center justify-center w-6 h-6 bg-white border border-black rounded-full">
-                            <FontAwesomeIcon
-                              icon={faCheck}
-                              className="text-black"
-                            />
+                          <span
+                            className={`ml-2 inline-flex items-center justify-center w-6 h-6 rounded-full ${getTipIconStyles(
+                              tips.find(
+                                (tip) =>
+                                  tip.game_id === game.id &&
+                                  tip.tip_team_id === game.away_team_id
+                              )?.status
+                            )}`}
+                          >
+                            <div className="w-6 h-6 flex items-center justify-center">
+                              <FontAwesomeIcon
+                                icon={getTipStatusIcon(
+                                  tips.find(
+                                    (tip) =>
+                                      tip.game_id === game.id &&
+                                      tip.tip_team_id === game.away_team_id
+                                  )?.status
+                                )}
+                                style={{ fontSize: "0.75rem" }} // Adjust the icon size here
+                              />
+                            </div>
                           </span>
                         )}
                       </div>
@@ -168,7 +264,7 @@ export default function GamesTable({
                 className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
                 onClick={handleButtonClick}
               >
-                Submit Tips
+                Save Tips
               </Button>
             </div>
           </form>

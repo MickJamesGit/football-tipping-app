@@ -111,6 +111,7 @@ export type Tips = {
   user_id: string;
   game_id: string;
   tip_team_id: string;
+  status: string;
 };
 
 export type NRLRankings = {
