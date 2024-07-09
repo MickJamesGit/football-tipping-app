@@ -216,3 +216,55 @@ export function InvoicesTableSkeleton() {
     </div>
   );
 }
+
+export function TippingSkeleton() {
+  return (
+    <>
+      <div
+        className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-gray-100`}
+      />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <RevenueChartSkeleton />
+        <LatestInvoicesSkeleton />
+      </div>
+    </>
+  );
+}
+
+export function GamesTableSkeleton() {
+  return (
+    <div className="mt-6 flow-root">
+      <div className="inline-block min-w-full align-middle">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-3">
+          <div>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="mb-4 w-full rounded-md p-4 text-center bg-white"
+              >
+                <div className="mb-2">
+                  <div className="h-6 bg-gray-300 rounded w-1/2 mx-auto mb-2"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/4 mx-auto"></div>
+                </div>
+                <div className="flex justify-center items-center space-x-4">
+                  <div className="flex-1 p-2 cursor-pointer rounded-lg border bg-gray-300 h-12"></div>
+                  <div className="p-2">vs</div>
+                  <div className="flex-1 p-2 cursor-pointer rounded-lg border bg-gray-300 h-12"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 text-right">
+            <div className="rounded bg-gray-300 px-4 py-2 h-10 inline-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

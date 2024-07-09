@@ -9,7 +9,7 @@ export const formatCurrency = (amount: number) => {
 
 export const formatDateToLocal = (
   dateStr: string,
-  locale: string = "en-US",
+  locale: string = "en-US"
 ) => {
   const date = new Date(dateStr);
   const options: Intl.DateTimeFormatOptions = {
@@ -66,4 +66,22 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     "...",
     totalPages,
   ];
+};
+
+export const isValidRound = (round: string | undefined): boolean => {
+  // Check if the round is a valid integer and within the expected range
+  if (round && !isNaN(Number(round))) {
+    const roundNumber = Number(round);
+    // Assuming valid rounds are between 1 and 30 for example purposes
+    return roundNumber >= 1 && roundNumber <= 30;
+  }
+  return false;
+};
+
+export const getTodaysDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };

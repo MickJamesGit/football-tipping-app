@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { States } from "../ui/games/table";
 
 export type State = {
   errors?: {
@@ -28,6 +29,36 @@ const FormSchema = z.object({
   }),
   date: z.string(),
 });
+
+const tipSchema = z.object({
+  loggedInUser: z.string().min(1),
+  tips: z.array(
+    z.object({
+      gameId: z.string().min(1),
+      tipTeamId: z.string().min(1),
+    })
+  ),
+});
+
+function extractTipsFromFormData(formData: FormData) {
+  const tipsArray: any = [];
+  const loggedInUser = formData.get("loggedInUser") as string;
+
+  formData.forEach((value, key) => {
+    const match = key.match(/selectedTeam\[([a-zA-Z0-9-]+)\]/);
+    if (match && value) {
+      tipsArray.push({
+        gameId: match[1],
+        tipTeamId: value as string,
+      });
+    }
+  });
+
+  return {
+    loggedInUser,
+    tips: tipsArray,
+  };
+}
 
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
@@ -121,5 +152,60 @@ export async function authenticate(
       }
     }
     throw error;
+  }
+}
+
+export async function updateTips(
+  state: States,
+  formData: FormData
+): Promise<{ error: boolean; message: string }> {
+  const tipsData = extractTipsFromFormData(formData);
+
+  // Validate the data
+  const result = tipSchema.safeParse(tipsData);
+
+  if (!result.success) {
+    console.error("Validation Error:", result.error.issues);
+    return { error: true, message: "Validation Error: Invalid form data." };
+  }
+
+  const { loggedInUser, tips } = result.data;
+
+  try {
+    // Fetch existing tips for the logged-in user
+    const existingTips = await sql`
+      SELECT game_id, tip_team_id
+      FROM tips
+      WHERE user_id = ${loggedInUser}
+    `;
+
+    // Create a map of existing tips for quick lookup
+    const existingTipsMap = new Map();
+    existingTips.rows.map((tip) => {
+      existingTipsMap.set(tip.game_id, tip.tip_team_id);
+    });
+
+    for (const tip of tips) {
+      const { gameId, tipTeamId } = tip;
+
+      if (existingTipsMap.has(gameId)) {
+        // Update the existing tip
+        await sql`
+          UPDATE tips
+          SET tip_team_id = ${tipTeamId}
+          WHERE user_id = ${loggedInUser} AND game_id = ${gameId}
+        `;
+      } else {
+        // Insert a new tip
+        await sql`
+          INSERT INTO tips (user_id, game_id, tip_team_id)
+          VALUES (${loggedInUser}, ${gameId}, ${tipTeamId})
+        `;
+      }
+    }
+    return { error: false, message: "Tips saved successfully." };
+  } catch (error) {
+    console.error("Database Error:", error);
+    return { error: true, message: "Database Error: Failed to update tips." };
   }
 }

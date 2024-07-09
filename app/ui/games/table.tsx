@@ -1,12 +1,20 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import { Games, Tips } from "@/app/lib/definitions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { State, updateTips } from "@/app/lib/actions";
+import { useActionState } from "react";
+import Link from "next/link";
+import { Button } from "@/app/ui/button";
 
 type SelectedTeams = {
-  [Team: string]: string;
+  [Game: string]: string;
+};
+
+export type States = {
+  error?: boolean;
+  message?: string | null;
 };
 
 export default function GamesTable({
@@ -14,16 +22,21 @@ export default function GamesTable({
   round,
   games,
   tips,
+  userId,
 }: {
   sport: string;
   round: number;
   games: Games[];
   tips: Tips[];
+  userId: string;
 }) {
   const [selectedTeams, setSelectedTeams] = useState<SelectedTeams>({});
   const [unselectedGames, setUnselectedGames] = useState<string[]>([]);
-  const [message, setMessage] = useState<string>("");
+  const [submitCount, setSubmitCount] = useState(0);
   const messageRef = useRef<HTMLDivElement | null>(null);
+
+  const initialState: States = { message: "", error: false };
+  const [state, formAction] = useActionState(updateTips, initialState);
 
   useEffect(() => {
     // Initialize selectedTeams based on existing tips
@@ -35,11 +48,16 @@ export default function GamesTable({
   }, [tips]);
 
   useEffect(() => {
-    // Scroll to the top when the message is updated
+    // Scroll to the top when the message is updated and form has been submitted
     if (messageRef.current) {
       messageRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [message]);
+  }, [state.message, submitCount]);
+
+  const handleButtonClick = () => {
+    // Handle your form submission logic here
+    setSubmitCount((prevCount) => prevCount + 1);
+  };
 
   const handleTeamClick = (gameId: string, team_id: string) => {
     setSelectedTeams((prevSelectedTeams) => ({
@@ -52,38 +70,22 @@ export default function GamesTable({
     );
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const unselected = games
-      .filter((game) => !selectedTeams[game.id])
-      .map((game) => game.id);
-
-    if (unselected.length > 0) {
-      setUnselectedGames(unselected);
-      setMessage(`Please select a team for every game before submitting.`);
-      return;
-    }
-
-    // Handle form submission
-    console.log("Selected Teams:", selectedTeams);
-    setMessage("Tips saved. Good luck!");
-    setUnselectedGames([]);
-    // Add your form submission logic here
-  };
-
   return (
     <div className="mt-6 flow-root">
       <div ref={messageRef} className="inline-block min-w-full align-middle">
-        {message && (
+        {state.message && (
           <div
-            className={`mb-4 text-center p-2 rounded ${message.includes("Tips saved") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+            className={`mb-4 text-center p-2 rounded ${
+              state.error == false
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
           >
-            {message}
+            {state.message}
           </div>
         )}
         <div className="rounded-lg bg-gray-50 p-2 md:pt-3">
-          <form onSubmit={handleSubmit}>
+          <form action={formAction}>
             <div>
               {games?.map((game, index) => {
                 const date = new Date(game.date).toDateString();
@@ -150,17 +152,24 @@ export default function GamesTable({
                         )}
                       </div>
                     </div>
+                    <input
+                      type="hidden"
+                      name={`selectedTeam[${game.id}]`}
+                      value={selectedTeams[game.id] || ""}
+                    />
+                    <input type="hidden" name="loggedInUser" value={userId} />
                   </div>
                 );
               })}
             </div>
-            <div className="mt-4 text-right">
-              <button
+            <div className="mt-4 flex justify-end">
+              <Button
                 type="submit"
                 className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+                onClick={handleButtonClick}
               >
                 Submit Tips
-              </button>
+              </Button>
             </div>
           </form>
         </div>
