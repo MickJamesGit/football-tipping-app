@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Games, Tips } from "@/app/lib/definitions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { State, updateTips } from "@/app/lib/actions";
+import { updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
@@ -119,17 +119,6 @@ export default function GamesTable({
   return (
     <div className="mt-6 flow-root">
       <div ref={messageRef} className="inline-block min-w-full align-middle">
-        {state.message && (
-          <div
-            className={`mb-4 text-center p-2 rounded ${
-              state.error == false
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {state.message}
-          </div>
-        )}
         <div className="rounded-lg bg-gray-50 p-2 md:pt-3">
           <form action={formAction}>
             <div>
@@ -267,7 +256,7 @@ export default function GamesTable({
             </div>
             <Snackbar
               open={open}
-              autoHideDuration={6000}
+              autoHideDuration={3000}
               onClose={handleClose}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >

@@ -1,25 +1,30 @@
 import { db } from "@vercel/postgres";
-import { rounds } from "../../lib/placeholder-data";
 
 const client = await db.connect();
 
-async function seedRounds() {
+async function seedUsers() {
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-  try {
-    await client.sql`
-    ALTER TABLE rounds
-ADD COLUMN season VARCHAR(255);
-  `;
-    console.log('Table "rounds" created successfully or already exists.');
-  } catch (error) {
-    console.error('Error creating table "rounds":', error);
-  }
-  try {
-    await client.sql`
-     UPDATE rounds
-SET season = '2024'  -- replace 'DefaultSeason' with the appropriate value
-WHERE season IS NULL`;
 
+  try {
+    await client.sql`
+      ALTER TABLE users
+      ADD COLUMN alias VARCHAR(255),
+      ADD COLUMN created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      ADD COLUMN updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+    `;
+    console.log("table updated.");
+  } catch (error) {
+    console.error("Error updating table:", error);
+  }
+
+  try {
+    await client.sql`
+      UPDATE users
+SET alias = 'DefaultUser123',
+    created_at = CURRENT_TIMESTAMP,
+    updated_at = CURRENT_TIMESTAMP
+WHERE alias IS NULL;
+    `;
     console.log('All existing tips set to "pending" status.');
   } catch (error) {
     console.error('Error updating existing tips to "pending" status:', error);
@@ -31,7 +36,7 @@ WHERE season IS NULL`;
 export async function GET() {
   try {
     await client.sql`BEGIN`;
-    await seedRounds();
+    await seedUsers();
     await client.sql`COMMIT`;
 
     return Response.json({ message: "Database seeded successfully" });
