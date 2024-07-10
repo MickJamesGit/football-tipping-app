@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
-import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -54,7 +53,13 @@ export default function GamesTable({
     }
   }, [state]);
 
-  const handleTeamClick = (gameId: string, team_id: string) => {
+  const handleTeamClick = (
+    gameId: string,
+    team_id: string,
+    gameStatus: string
+  ) => {
+    if (gameStatus === "inprogress" || gameStatus === "completed") return;
+
     setSelectedTeams((prevSelectedTeams) => ({
       ...prevSelectedTeams,
       [gameId]: team_id,
@@ -76,7 +81,7 @@ export default function GamesTable({
       case "incorrect":
         return faTimes;
       default:
-        return faPen; // Default to faCheck to avoid type errors
+        return faPen;
     }
   };
 
@@ -94,9 +99,9 @@ export default function GamesTable({
   const getTipIconStyles = (status: string | undefined) => {
     switch (status) {
       case "correct":
-        return "bg-green-500 text-white"; // Example styles for a win
+        return "bg-green-500 text-white";
       case "incorrect":
-        return "bg-red-500 text-white"; // Example styles for a lose
+        return "bg-red-500 text-white";
       case "pending":
         return "";
       default:
@@ -122,14 +127,23 @@ export default function GamesTable({
         <div className="rounded-lg bg-gray-50 p-2 md:pt-3">
           <form action={formAction}>
             <div>
-              {games?.map((game, index) => {
-                const date = new Date(game.date).toDateString();
-                const time = new Date(`1970-01-01T${game.time}Z`);
-                // Manually adjust the time to UTC+10
-                time.setHours(time.getUTCHours() + 10);
-                const formattedTime = time.toISOString().substr(11, 5); // HH:MM format
+              {games?.map((game) => {
+                const dateTime = new Date(game.datetime);
+
+                // Format the date to a readable format
+                const date = dateTime.toDateString();
+
+                // Format the time to HH:MM format
+                const hours = dateTime.getHours().toString().padStart(2, "0");
+                const minutes = dateTime
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0");
+                const formattedTime = `${hours}:${minutes}`;
 
                 const isUnselected = unselectedGames.includes(game.id);
+                const isDisabled =
+                  game.status === "inprogress" || game.status === "completed";
 
                 return (
                   <div
@@ -160,10 +174,17 @@ export default function GamesTable({
                                     tip.tip_team_id === game.home_team_id
                                 )?.status
                               )
-                            : ""
+                            : isDisabled &&
+                                selectedTeams[game.id] !== game.home_team_id
+                              ? "bg-gray-200 opacity-50 pointer-events-none"
+                              : ""
                         }`}
                         onClick={() =>
-                          handleTeamClick(game.id, game.home_team_id)
+                          handleTeamClick(
+                            game.id,
+                            game.home_team_id,
+                            game.status
+                          )
                         }
                       >
                         <p>{game.home_team_name}</p>
@@ -186,7 +207,7 @@ export default function GamesTable({
                                       tip.tip_team_id === game.home_team_id
                                   )?.status
                                 )}
-                                style={{ fontSize: "0.75rem" }} // Adjust the icon size here
+                                style={{ fontSize: "0.75rem" }}
                               />
                             </div>
                           </span>
@@ -203,10 +224,17 @@ export default function GamesTable({
                                     tip.tip_team_id === game.away_team_id
                                 )?.status
                               )
-                            : ""
+                            : isDisabled &&
+                                selectedTeams[game.id] !== game.away_team_id
+                              ? "bg-gray-200 opacity-50 pointer-events-none"
+                              : ""
                         }`}
                         onClick={() =>
-                          handleTeamClick(game.id, game.away_team_id)
+                          handleTeamClick(
+                            game.id,
+                            game.away_team_id,
+                            game.status
+                          )
                         }
                       >
                         <p>{game.away_team_name}</p>
@@ -229,7 +257,7 @@ export default function GamesTable({
                                       tip.tip_team_id === game.away_team_id
                                   )?.status
                                 )}
-                                style={{ fontSize: "0.75rem" }} // Adjust the icon size here
+                                style={{ fontSize: "0.75rem" }}
                               />
                             </div>
                           </span>

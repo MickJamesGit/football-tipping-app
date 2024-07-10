@@ -251,8 +251,10 @@ export async function fetchGames(sport: string, round: string) {
       t1.name AS home_team_name,
       t2.name AS away_team_name,
       g.venue,
-      g.date,
-      g.time
+      g.datetime,
+      g.season,
+      g.winning_team_id,
+      g.status
     FROM
       games g
     JOIN
@@ -262,7 +264,7 @@ export async function fetchGames(sport: string, round: string) {
     WHERE
       g.sport = ${sport} AND g.round = ${round}
     ORDER BY
-      g.date, g.time;
+      g.datetime;
     `;
 
     const games = data.rows.map((game) => ({
@@ -293,7 +295,7 @@ export async function fetchTips(user_id: string, round: string, sport: string) {
       WHERE
         g.sport = ${sport} AND g.round = ${round} AND t.user_id = ${user_id}
       ORDER BY
-        g.date, g.time;
+        g.datetime;
     `;
 
     const tips = data.rows.map((tip) => ({

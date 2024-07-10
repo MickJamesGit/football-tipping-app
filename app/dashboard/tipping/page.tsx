@@ -41,6 +41,7 @@ export default async function Page({
   }
 
   const games: Games[] = await fetchGames(sport, filteredRound);
+  console.log("Fetched games:", games);
   const email = "user@nextmail.com";
   const user = await getUser(email);
   const tips: Tips[] = await fetchTips(user.id, filteredRound, sport);

@@ -102,8 +102,10 @@ export type Games = {
   away_team_name: string;
   away_team_id: string;
   venue: string;
-  date: string;
-  time: string;
+  datetime: string;
+  season: string;
+  winning_team_id: string | null;
+  status: "upcoming" | "inprogress" | "completed";
 };
 
 export type Tips = {
@@ -124,7 +126,20 @@ export type Sport = "NRL" | "AFL";
 
 export type Rounds = {
   id: string;
+  sport: string;
+  season: string;
   round: string;
+  start_date: string;
+  end_date: string;
+};
+
+export type Scores = {
+  id: string;
+  user_id: string;
+  sport: string;
+  season: string;
+  round: string;
+  score: number;
   start_date: string;
   end_date: string;
 };

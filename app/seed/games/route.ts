@@ -7,18 +7,24 @@ async function seedGames() {
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   try {
     await client.sql`
-    -- Add the new season column to the games table
+-- Add the new status column to the games table
 ALTER TABLE games
-ADD COLUMN season VARCHAR(255);
+ADD COLUMN status VARCHAR(255);
 
--- Set the season to '2024' for all existing records
+-- Set the status to 'upcoming' for all existing games
 UPDATE games
-SET season = '2024'
-WHERE season IS NULL;
+SET status = 'upcoming';
 
--- Update the datetime values to be 12 hours later
+-- Set the status to 'completed' for games where Winning_Team_Id is not NULL
 UPDATE games
-SET datetime = datetime + INTERVAL '12 hours';
+SET status = 'completed'
+WHERE Winning_Team_Id IS NOT NULL;
+
+-- Set the status of one specific game to 'inprogress'
+UPDATE games
+SET status = 'inprogress'
+WHERE id = '6b5370b3-c616-46cf-8dbe-d81d7673420e';  -- Replace with the actual game ID
+
 
   `;
     console.log('Table "games" created successfully or already exists.');
