@@ -5,6 +5,9 @@ import {
   InboxIcon,
 } from "@heroicons/react/24/outline";
 import { lusitana } from "@/app/ui/fonts";
+import { getTodaysDate } from "@/app/lib/utils";
+import { fetchPreviousRound, fetchUserRankingSummary } from "@/app/lib/data";
+import { getUser } from "@/auth";
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -12,29 +15,63 @@ const iconMap = {
   pending: ClockIcon,
   invoices: InboxIcon,
 };
-import { fetchCardData } from "@/app/lib/data";
 
 export default async function CardWrapper() {
-  const {
-    numberOfInvoices,
-    numberOfCustomers,
-    totalPaidInvoices,
-    totalPendingInvoices,
-  } = await fetchCardData();
+  const sport = "NRL";
+  const todays_date = getTodaysDate();
+  const lastRound = await fetchPreviousRound(todays_date, sport);
+
+  const email = "user1@nextmail.com";
+  const user = await getUser(email);
+
+  const overallRankingSummary = await fetchUserRankingSummary(
+    sport,
+    "2024",
+    user.id,
+    "overall"
+  );
+
+  const roundRankingSummary = await fetchUserRankingSummary(
+    sport,
+    "2024",
+    user.id,
+    lastRound
+  );
+
   return (
     <>
-      <Card
-        title="Overall ranking"
-        value={totalPaidInvoices}
-        type="collected"
-      />
-      <Card title="Round ranking" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card
-        title="Total Customers"
-        value={numberOfCustomers}
-        type="customers"
-      />
+      {roundRankingSummary !== null ? (
+        <>
+          <Card
+            title={`Round ${lastRound} score`}
+            value={roundRankingSummary.total_points}
+            type="collected"
+          />
+          <Card
+            title={`Round ${lastRound} ranking`}
+            value={roundRankingSummary.ranking}
+            type="customers"
+          />
+        </>
+      ) : (
+        ""
+      )}
+      {overallRankingSummary !== null ? (
+        <>
+          <Card
+            title="Overall score"
+            value={overallRankingSummary.total_points}
+            type="pending"
+          />
+          <Card
+            title="Overall ranking"
+            value={overallRankingSummary.ranking}
+            type="invoices"
+          />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }

@@ -257,3 +257,105 @@ export async function fetchPreviousRound(
     throw new Error("Failed to fetch previous round.");
   }
 }
+
+type UserRanking = {
+  ranking: number;
+  total_points: number;
+} | null;
+
+export async function fetchUserRankingSummary(
+  sport: string,
+  season: string,
+  userId: string,
+  round: string
+): Promise<UserRanking> {
+  try {
+    // Step 1: Fetch all user scores for the given sport, season, and round
+    const allData = await sql<{ id: string; total_points: number }>`
+      SELECT
+        u.id AS id,
+        s.score AS total_points
+      FROM
+        scores s
+      JOIN
+        users u ON s.user_id = u.id
+      WHERE
+        s.sport = ${sport} AND
+        s.season = ${season} AND
+        s.round = ${round}
+      ORDER BY
+        s.score DESC
+    `;
+
+    // Step 2: Assign rankings to the dataset
+    const rankedData = allData.rows.map((entry, index) => ({
+      id: entry.id,
+      total_points: entry.total_points,
+      ranking: index + 1,
+    }));
+
+    // Step 3: Find the ranking of the specific user
+    const userRanking = rankedData.find((entry) => entry.id === userId);
+
+    if (userRanking) {
+      return {
+        ranking: userRanking.ranking,
+        total_points: userRanking.total_points,
+      };
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error("Database Error:", err);
+    console.error(
+      `Failed to fetch user ranking for sport: ${sport}, season: ${season}, round: ${round}, user ID: ${userId}`
+    );
+    throw new Error("Failed to fetch user ranking.");
+  }
+}
+
+export type TipResult = {
+  id: string;
+  tip_team_name: string;
+  game_id: string;
+  status: string;
+  home_team_name: string;
+  away_team_name: string;
+};
+
+export async function fetchLatestTipResults(
+  user_id: string,
+  sport: string
+): Promise<TipResult[]> {
+  try {
+    const data = await sql<TipResult>`
+      SELECT
+        t.id,
+        tt.name AS tip_team_name,
+        t.game_id,
+        t.status,
+        ht.name AS home_team_name,
+        at.name AS away_team_name
+      FROM
+        tips t
+      JOIN
+        games g ON t.game_id = g.id
+      JOIN
+        teams ht ON g.home_team_id = ht.id
+      JOIN
+        teams at ON g.away_team_id = at.id
+      JOIN
+        teams tt ON t.tip_team_id = tt.id
+      WHERE
+        g.sport = ${sport} AND t.user_id = ${user_id}
+      ORDER BY
+        g.datetime DESC
+      LIMIT 5;
+    `;
+
+    return data.rows;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch tips.");
+  }
+}
