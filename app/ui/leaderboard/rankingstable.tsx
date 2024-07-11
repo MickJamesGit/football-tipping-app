@@ -7,17 +7,20 @@ export default async function RankingsTable({
   season,
   previousRound,
   currentPage,
+  query,
 }: {
   sport: string;
   season: string;
   previousRound: string;
   currentPage: number;
+  query: string;
 }) {
   const rankings: LeaderboardEntry[] = await fetchLeaderboard(
     sport,
     season,
     previousRound,
-    currentPage
+    currentPage,
+    query
   );
 
   return (
@@ -37,7 +40,7 @@ export default async function RankingsTable({
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  User Name
+                  Alias
                 </th>
                 <th
                   scope="col"
@@ -60,7 +63,7 @@ export default async function RankingsTable({
                     {ranking.ranking}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {ranking.user_name}
+                    {ranking.alias}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {ranking.previous_round_points}

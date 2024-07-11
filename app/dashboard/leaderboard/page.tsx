@@ -1,19 +1,14 @@
 import { lusitana } from "@/app/ui/fonts";
 import { Metadata } from "next";
-import { LeaderboardEntry, NRLRankings, Sport } from "@/app/lib/definitions";
-import RoundSelector from "@/app/ui/leaderboard/roundselector";
+import { Sport } from "@/app/lib/definitions";
 import { Suspense } from "react";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import RankingsTable from "@/app/ui/leaderboard/rankingstable";
-import {
-  fetchCurrentRound,
-  fetchLeaderboard,
-  fetchLeaderboardPages,
-  fetchPreviousRound,
-} from "@/app/lib/data";
+import { fetchLeaderboardPages, fetchPreviousRound } from "@/app/lib/data";
 import SportSelector from "@/app/ui/games/sportselector";
 import { getTodaysDate } from "@/app/lib/utils";
-import Pagination from "@/app/ui/invoices/pagination";
+import Pagination from "@/app/ui/leaderboard/pagination";
+import Search from "@/app/ui/search";
 
 export const metadata: Metadata = {
   title: "Leaderboard",
@@ -26,11 +21,12 @@ export default async function Page({
     round?: string;
     sport?: string;
     page?: number;
+    query?: string;
   };
 }) {
   const defaultSport: Sport = "NRL";
   const season = "2024";
-
+  const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
   const sportParam = searchParams?.sport;
@@ -54,6 +50,7 @@ export default async function Page({
       <div className="flex w-full items-center justify-center flex-col">
         <SportSelector currentSport={sport} />
       </div>
+      <Search placeholder="Search by user alias..." />
       <Suspense
         key={season + sport + currentPage}
         fallback={<InvoicesTableSkeleton />}
@@ -63,6 +60,7 @@ export default async function Page({
           season={season}
           previousRound={previousRound}
           currentPage={currentPage}
+          query={query}
         />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
