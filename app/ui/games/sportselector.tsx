@@ -26,16 +26,15 @@ export default function SportSelector({
       id="sport-select"
       name="sport"
       value={currentSport}
-      className="p-2 text-lg border border-gray-300 bg-gray-100 text-black rounded-lg appearance-none w-40"
+      className="p-3 text-lg border border-gray-300 bg-white text-black rounded-lg w-40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
       onChange={handleSportChange}
-      style={{
-        appearance: "none",
-        WebkitAppearance: "none",
-        MozAppearance: "none",
-      }}
     >
       {sports.map((sport) => (
-        <option key={sport} value={sport}>
+        <option
+          key={sport}
+          value={sport}
+          className="p-2 bg-white text-black hover:bg-gray-100"
+        >
           {sport}
         </option>
       ))}

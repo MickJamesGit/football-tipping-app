@@ -23,6 +23,7 @@ export default async function Page({
   };
 }) {
   const defaultSport: Sport = "NRL";
+  const season = "2024";
 
   const sportParam = searchParams?.sport;
   const sport: Sport =
@@ -42,7 +43,7 @@ export default async function Page({
 
   const games: Games[] = await fetchGames(sport, filteredRound);
   console.log("Fetched games:", games);
-  const email = "user@nextmail.com";
+  const email = "user1@nextmail.com";
   const user = await getUser(email);
   const tips: Tips[] = await fetchTips(user.id, filteredRound, sport);
 

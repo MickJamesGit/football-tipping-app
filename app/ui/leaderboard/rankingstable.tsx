@@ -1,13 +1,25 @@
-"use client";
-
-import { NRLRankings } from "@/app/lib/definitions";
+import { fetchLeaderboard } from "@/app/lib/data";
+import { LeaderboardEntry } from "@/app/lib/definitions";
 import React from "react";
 
-export default function RankingsTable({
-  rankings,
+export default async function RankingsTable({
+  sport,
+  season,
+  previousRound,
+  currentPage,
 }: {
-  rankings: NRLRankings[];
+  sport: string;
+  season: string;
+  previousRound: string;
+  currentPage: number;
 }) {
+  const rankings: LeaderboardEntry[] = await fetchLeaderboard(
+    sport,
+    season,
+    previousRound,
+    currentPage
+  );
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -31,18 +43,27 @@ export default function RankingsTable({
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
+                  Round {previousRound}
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Total Points
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {rankings.map((ranking, index) => (
+              {rankings.map((ranking) => (
                 <tr key={ranking.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {index + 1}
+                    {ranking.ranking}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {ranking.user_name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {ranking.previous_round_points}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {ranking.total_points}

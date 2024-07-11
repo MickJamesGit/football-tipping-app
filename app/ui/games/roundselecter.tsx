@@ -10,7 +10,7 @@ export default function RoundSelector({
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const handleRoundChange = (e) => {
+  const handleRoundChange = (e: { target: { value: any } }) => {
     const selectedRound = e.target.value;
     const params = new URLSearchParams(searchParams);
     params.set("round", selectedRound);
@@ -37,7 +37,7 @@ export default function RoundSelector({
     <div className="flex justify-center items-center mt-4">
       <button
         onClick={handlePreviousRound}
-        className="p-2 text-lg border border-gray-300 bg-gray-100 text-black rounded-l-lg"
+        className="p-3 text-lg border border-gray-300 bg-white text-black rounded-l-lg focus:outline-none border-r-0"
         disabled={currentRound <= 1}
       >
         &larr;
@@ -47,16 +47,21 @@ export default function RoundSelector({
           id="round-select"
           name="round"
           value={currentRound}
-          className="p-2 text-lg border-t border-b border-gray-300 bg-gray-100 text-black w-32 appearance-none"
+          className="p-3 text-lg border-t border-b border-gray-300 bg-white text-black w-28 border-l-0 border-r-0 text-center focus:outline-none focus:ring-0 focus:border-gray-300"
           onChange={handleRoundChange}
           style={{
             appearance: "none",
             WebkitAppearance: "none",
             MozAppearance: "none",
+            backgroundImage: "none",
           }}
         >
           {[...Array(25)].map((_, i) => (
-            <option key={i} value={i + 1}>
+            <option
+              key={i}
+              value={i + 1}
+              className="p-2 bg-white text-black hover:bg-gray-100"
+            >
               Round {i + 1}
             </option>
           ))}
@@ -64,7 +69,7 @@ export default function RoundSelector({
       </form>
       <button
         onClick={handleNextRound}
-        className="p-2 text-lg border border-gray-300 bg-gray-100 text-black rounded-r-lg"
+        className="p-3 text-lg border border-gray-300 bg-white text-black rounded-r-lg focus:outline-none border-l-0"
         disabled={currentRound >= 25}
       >
         &rarr;

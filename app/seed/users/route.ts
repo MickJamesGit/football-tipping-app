@@ -1,36 +1,35 @@
 import { db } from "@vercel/postgres";
+import { users } from "../../lib/placeholder-data";
+const bcrypt = require("bcrypt");
 
 const client = await db.connect();
 
+function generateAlias() {
+  const adjectives = ["Fast", "Red", "Cool", "Silent", "Brave"];
+  const nouns = ["Panther", "Eagle", "Lion", "Wolf", "Tiger"];
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+  return `${adjective}${noun}${Math.floor(Math.random() * 1000)}`;
+}
+
 async function seedUsers() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
   try {
-    await client.sql`
-      ALTER TABLE users
-      ADD COLUMN alias VARCHAR(255),
-      ADD COLUMN created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-      ADD COLUMN updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
-    `;
-    console.log("table updated.");
-  } catch (error) {
-    console.error("Error updating table:", error);
-  }
+    const res = await client.query("SELECT id FROM users");
+    const users = res.rows;
 
-  try {
-    await client.sql`
-      UPDATE users
-SET alias = 'DefaultUser123',
-    created_at = CURRENT_TIMESTAMP,
-    updated_at = CURRENT_TIMESTAMP
-WHERE alias IS NULL;
-    `;
-    console.log('All existing tips set to "pending" status.');
-  } catch (error) {
-    console.error('Error updating existing tips to "pending" status:', error);
-  }
+    for (const user of users) {
+      const alias = generateAlias();
+      await client.query("UPDATE users SET alias = $1 WHERE id = $2", [
+        alias,
+        user.id,
+      ]);
+    }
 
-  return 1;
+    return 1;
+  } catch (error) {
+    console.error("Error seeding users:", error);
+    throw error;
+  }
 }
 
 export async function GET() {

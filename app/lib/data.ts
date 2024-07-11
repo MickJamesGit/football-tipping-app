@@ -12,6 +12,7 @@ import {
   NRLRankings,
   Rounds,
   Sport,
+  LeaderboardEntry,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 
@@ -86,7 +87,7 @@ export async function fetchCardData() {
   }
 }
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 25;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number
@@ -136,10 +137,32 @@ export async function fetchInvoicesPages(query: string) {
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch total number of invoices.");
+  }
+}
+
+export async function fetchLeaderboardPages(sport: string) {
+  try {
+    const countResult = await sql`
+      SELECT COUNT(*)
+      FROM scores
+      WHERE sport = ${sport}
+        AND round = 'overall'
+    `;
+
+    const totalCount = Number(countResult.rows[0].count);
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+    console.log(totalCount);
+    console.log(totalPages);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of users with scores.");
   }
 }
 
@@ -314,40 +337,47 @@ export async function fetchTips(user_id: string, round: string, sport: string) {
 
 export async function fetchLeaderboard(
   sport: string,
-  round: string
-): Promise<NRLRankings[]> {
+  season: string,
+  previousRound: string,
+  currentPage: number
+): Promise<LeaderboardEntry[]> {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
-    const data = await sql<NRLRankings>`
+    const data = await sql<LeaderboardEntry>`
       SELECT
         u.id AS id,
         u.name AS user_name,
-        COUNT(t.id) AS total_points
+        s.score AS total_points,
+        ps.score AS previous_round_points
       FROM
-        tips t
+        scores s
       JOIN
-        games g ON t.game_id = g.id
-      JOIN
-        users u ON t.user_id = u.id
+        users u ON s.user_id = u.id
+      LEFT JOIN
+        scores ps ON ps.user_id = u.id AND ps.round = ${previousRound}
       WHERE
-        g.sport = ${sport} AND
-        g.round = ${round} AND
-        t.status = 'correct'
-      GROUP BY
-        u.id, u.name
+        s.sport = ${sport} AND
+        s.season = ${season} AND
+        s.round = 'overall'
       ORDER BY
-        total_points DESC;
+        total_points DESC
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset}
     `;
 
-    const rankings = data.rows.map((ranking) => ({
+    const rankings = data.rows.map((ranking, index) => ({
       id: ranking.id,
       user_name: ranking.user_name,
       total_points: ranking.total_points,
+      previous_round_points: ranking.previous_round_points || 0,
+      ranking: offset + index + 1, // Adding the ranking number
     }));
+
     return rankings;
   } catch (err) {
     console.error("Database Error:", err);
     console.error(
-      `Failed to fetch leaderboard for sport: ${sport}, round: ${round}`
+      `Failed to fetch leaderboard for sport: ${sport}, season: ${season}, previous round: ${previousRound}`
     );
     throw new Error("Failed to fetch leaderboard.");
   }
@@ -388,5 +418,46 @@ export async function fetchCurrentRound(
       `Failed to fetch rounds for sport: ${sport}, date: ${todays_date}`
     );
     throw new Error("Failed to fetch current round.");
+  }
+}
+
+export async function fetchPreviousRound(
+  todays_date: string,
+  sport: Sport
+): Promise<Rounds["round"]> {
+  try {
+    const data = await sql<Rounds>`
+      SELECT
+        r.id AS id,
+        r.round_number AS round,
+        r.start_date AS start_date,
+        r.end_date AS end_date
+      FROM
+        rounds r
+      WHERE
+        r.sport = ${sport} AND r.end_date < ${todays_date}
+      ORDER BY
+        r.end_date DESC
+      LIMIT 1
+    `;
+
+    if (data.rows.length === 0) {
+      return "1";
+    }
+
+    const previousRound = data.rows.map((round) => ({
+      id: round.id,
+      round: round.round,
+      start_date: round.start_date,
+      end_date: round.end_date,
+    }));
+
+    return previousRound[0].round;
+  } catch (err) {
+    console.error("Database Error:", err);
+    console.error(
+      `Failed to fetch previous rounds for sport: ${sport}, date: ${todays_date}`
+    );
+    throw new Error("Failed to fetch previous round.");
   }
 }

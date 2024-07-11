@@ -3,41 +3,59 @@ import { db } from "@vercel/postgres";
 
 const client = await db.connect();
 
+interface Tip {
+  user_id: string;
+  game_id: string;
+  status: "correct" | "incorrect";
+}
+
+interface Score {
+  id: string;
+  score: number;
+}
+
+function getRandomScore() {
+  return Math.floor(Math.random() * 6); // Generate a random score between 0 and 5
+}
+
 async function seedScores() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   try {
-    await client.sql`
-    CREATE TABLE IF NOT EXISTS scores (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      user_id UUID NOT NULL,
-        sport VARCHAR(255) NOT NULL,
-  season VARCHAR(255) NOT NULL,
-  round VARCHAR(255) NOT NULL,
-  score INT NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-    );
-  `;
-    console.log('Table "tips" created successfully or already exists.');
-  } catch (error) {
-    console.error('Error creating table "tips":', error);
+    // Fetch all users
+    const res = await client.query("SELECT id FROM users");
+    const users = res.rows;
+
+    for (const user of users) {
+      // Generate random scores for rounds 18 and 19
+      const scoreRound18 = getRandomScore();
+      const scoreRound19 = getRandomScore();
+      const overallScore = scoreRound18 + scoreRound19;
+
+      // Insert score for round 18
+      await client.query(
+        `INSERT INTO scores (user_id, sport, season, round, score, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, NOW(), NOW())`,
+        [user.id, "NRL", "2024", "18", scoreRound18]
+      );
+
+      // Insert score for round 19
+      await client.query(
+        `INSERT INTO scores (user_id, sport, season, round, score, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, NOW(), NOW())`,
+        [user.id, "NRL", "2024", "19", scoreRound19]
+      );
+
+      // Insert overall score
+      await client.query(
+        `INSERT INTO scores (user_id, sport, season, round, score, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, NOW(), NOW())`,
+        [user.id, "NRL", "2024", "overall", overallScore]
+      );
+    }
+
+    console.log("Scores seeded successfully.");
+  } catch (err) {
+    console.error("Database Error:", err);
   }
-
-  // const insertedTips = await Promise.all(
-  //   tips.map((tip) => {
-  //     console.log(`
-  //         INSERT INTO tips (user_id, tip_team_id, game_id, status)
-  //         VALUES (${tip.user_id}, ${tip.tip_team_id}, ${tip.game_id}, 'pending');
-  //       `);
-  //     client.sql`
-  //         INSERT INTO tips (user_id, tip_team_id, game_id, status)
-  //         VALUES (${tip.user_id}, ${tip.tip_team_id}, ${tip.game_id}, 'pending');
-  //   `;
-  //   })
-  // );
-
-  return 1;
 }
 
 export async function GET() {
@@ -46,7 +64,10 @@ export async function GET() {
     await seedScores();
     await client.sql`COMMIT`;
 
-    return Response.json({ message: "Database seeded successfully" });
+    return new Response(
+      JSON.stringify({ message: "Database seeded successfully" }),
+      { status: 200 }
+    );
   } catch (error) {
     await client.sql`ROLLBACK`;
     return Response.json({ error }, { status: 500 });

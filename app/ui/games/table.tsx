@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
+import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -111,11 +112,12 @@ export default function GamesTable({
 
   const getStatusMessage = (status: string | undefined) => {
     switch (status) {
-      case "correct":
-      case "incorrect":
-        return "RESULT";
-      case "pending":
-        return "TIP ENTERED";
+      case "inprogress":
+        return "IN PROGRESS";
+      case "upcoming":
+        return "UPCOMING";
+      case "completed":
+        return "COMPLETED";
       default:
         return "";
     }
@@ -158,9 +160,7 @@ export default function GamesTable({
                       </p>
                       <p className="text-sm text-gray-500">{game.venue}</p>
                       <p className="text-sm text-gray-500">
-                        {getStatusMessage(
-                          tips.find((tip) => tip.game_id === game.id)?.status
-                        )}
+                        {getStatusMessage(game.status)}
                       </p>
                     </div>
                     <div className="flex justify-center items-center space-x-4">

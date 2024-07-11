@@ -143,3 +143,11 @@ export type Scores = {
   start_date: string;
   end_date: string;
 };
+
+export type LeaderboardEntry = {
+  id: string;
+  user_name: string;
+  previous_round_points: number;
+  total_points: number;
+  ranking: number; // Adding ranking property
+};
