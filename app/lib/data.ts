@@ -22,8 +22,6 @@ export async function fetchLeaderboardPages(sport: string) {
     const totalCount = Number(countResult.rows[0].count);
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
-    console.log(totalCount);
-    console.log(totalPages);
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
@@ -355,7 +353,6 @@ export async function fetchLatestTipResults(
       LIMIT 5;
     `;
 
-    console.log(data.rows);
     return data.rows;
   } catch (err) {
     console.error("Database Error:", err);

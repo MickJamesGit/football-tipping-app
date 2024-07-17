@@ -26,33 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
 
   return {
     adapter: PostgresAdapter(pool),
-    providers: [
-      Google,
-      Facebook,
-      Instagram,
-      Twitter,
-      Credentials({
-        async authorize(credentials) {
-          const parsedCredentials = z
-            .object({ email: z.string().email(), password: z.string().min(6) })
-            .safeParse(credentials);
-          if (parsedCredentials.success) {
-            const { email, password } = parsedCredentials.data;
-            const user = await getUser(email);
-            if (!user) return null;
-            const passwordsMatch = await bcrypt.compare(
-              password,
-              user.password
-            );
-
-            if (passwordsMatch) return user;
-          }
-
-          console.log("Invalid credentials");
-          return null;
-        },
-      }),
-    ],
+    providers: [Google, Facebook, Instagram, Twitter],
     session: {
       strategy: "database",
     },
@@ -62,11 +36,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
     callbacks: {
       async authorized({ auth, request: { nextUrl } }) {
         const isLoggedIn = !!auth?.user;
-        console.log("isloggedin-auth");
-        console.log(isLoggedIn);
+
         const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
-        console.log("isdashboard-auth");
-        console.log(isOnDashboard);
+
         if (isOnDashboard) {
           if (isLoggedIn) return true;
           return false; // Redirect unauthenticated users to login page

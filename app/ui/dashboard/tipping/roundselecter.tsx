@@ -33,7 +33,6 @@ export default function RoundSelector({
     const maxRound = Math.max(...allRounds);
     if (currentRound < maxRound) {
       const newRound = currentRound + 1;
-      console.log(newRound);
       const params = new URLSearchParams(searchParams);
       params.set("round", newRound.toString());
       router.push(`?${params.toString()}`);

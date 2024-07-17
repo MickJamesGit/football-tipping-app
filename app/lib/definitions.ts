@@ -48,6 +48,13 @@ export type Tips = {
 
 export type Sport = "NRL" | "AFL";
 
+export type AuthProvider =
+  | "Google"
+  | "Facebook"
+  | "Instagram"
+  | "Apple"
+  | "Twitter";
+
 export type Round = {
   id: string;
   sport: string;
