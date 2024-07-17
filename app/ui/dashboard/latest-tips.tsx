@@ -1,20 +1,22 @@
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
 import { TipResult, fetchLatestTipResults } from "@/app/lib/data";
-import { getUser } from "@/auth";
+import { auth, getUser } from "@/auth";
 
 export default async function LatestTips() {
-  const email = "user1@nextmail.com";
-  const user = await getUser(email);
+  const session = await auth();
+
+  if (!session?.user?.email) return null;
+
+  const user = await getUser(session.user.email);
   const sport = "NRL";
   const tipResults: TipResult[] = await fetchLatestTipResults(user.id, sport);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Latest Tips
+        Latest Tip Results
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4 shadow-md">
         <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -33,6 +35,7 @@ export default async function LatestTips() {
                   <p className="truncate text-sm font-semibold md:text-base">
                     {tip.tip_team_name}
                   </p>
+                  Over
                   <p className="text-sm text-gray-500 md:block">
                     {tip.tip_team_name === tip.away_team_name
                       ? tip.home_team_name
@@ -41,7 +44,7 @@ export default async function LatestTips() {
                 </div>
               </div>
               <div
-                className={clsx("text-sm font-semibold", {
+                className={clsx("text-sm font-semibold capitalize", {
                   "text-green-500": tip.status === "correct",
                   "text-red-500": tip.status === "incorrect",
                   "text-blue-500": tip.status === "pending",
@@ -52,12 +55,12 @@ export default async function LatestTips() {
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-between pt-6">
+        <div className="flex justify-end mt-4">
           <Link
-            href="/dashboard/tipping"
+            href="/dashboard/leaderboard"
             className="text-blue-600 font-semibold hover:underline"
           >
-            Update your tips
+            View leaderboard
           </Link>
         </div>
       </div>

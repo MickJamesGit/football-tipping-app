@@ -3,18 +3,23 @@ export type User = {
   name: string;
   email: string;
   password: string;
+  alias: string;
 };
 
-export type Teams = {
+export type UserWithoutId = Omit<User, "id">;
+
+export type Team = {
   id: string;
   name: string;
   sport: string;
 };
 
-export type Games = {
+export type TeamWithoutId = Omit<Team, "id">;
+
+export type Game = {
   id: string;
   sport: string;
-  round: number;
+  round: string;
   home_team_name: string;
   home_team_id: string;
   away_team_name: string;
@@ -26,6 +31,13 @@ export type Games = {
   status: "upcoming" | "inprogress" | "completed";
 };
 
+export type GameWithoutId = Omit<Game, "id">;
+
+export type GameWithoutIdentifiers = Omit<
+  Game,
+  "id" | "home_team_id" | "away_team_id"
+>;
+
 export type Tips = {
   id: string;
   user_id: string;
@@ -36,7 +48,7 @@ export type Tips = {
 
 export type Sport = "NRL" | "AFL";
 
-export type Rounds = {
+export type Round = {
   id: string;
   sport: string;
   season: string;
@@ -44,6 +56,8 @@ export type Rounds = {
   start_date: string;
   end_date: string;
 };
+
+export type RoundWithoutId = Omit<Round, "id">;
 
 export type Scores = {
   id: string;

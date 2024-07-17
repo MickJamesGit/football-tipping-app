@@ -1,12 +1,11 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { Games, Tips } from "@/app/lib/definitions";
+import { Game, Tips } from "@/app/lib/definitions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
-import Link from "next/link";
-import { Button } from "@/app/ui/button";
+import { Button } from "@/app/ui/dashboard/button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
@@ -20,15 +19,11 @@ export type States = {
 };
 
 export default function GamesTable({
-  sport,
-  round,
   games,
   tips,
   userId,
 }: {
-  sport: string;
-  round: number;
-  games: Games[];
+  games: Game[];
   tips: Tips[];
   userId: string;
 }) {
@@ -131,11 +126,7 @@ export default function GamesTable({
             <div>
               {games?.map((game) => {
                 const dateTime = new Date(game.datetime);
-
-                // Format the date to a readable format
                 const date = dateTime.toDateString();
-
-                // Format the time to HH:MM format
                 const hours = dateTime.getHours().toString().padStart(2, "0");
                 const minutes = dateTime
                   .getMinutes()
@@ -165,6 +156,7 @@ export default function GamesTable({
                     </div>
                     <div className="flex justify-center items-center space-x-4">
                       <div
+                        key={game.home_team_id}
                         className={`flex-1 p-2 cursor-pointer rounded-lg border flex items-center justify-between ${
                           selectedTeams[game.id] === game.home_team_id
                             ? getTipStatusStyles(
@@ -215,6 +207,7 @@ export default function GamesTable({
                       </div>
                       <div className="p-2">vs</div>
                       <div
+                        key={game.away_team_id}
                         className={`flex-1 p-2 cursor-pointer rounded-lg border flex items-center justify-between ${
                           selectedTeams[game.id] === game.away_team_id
                             ? getTipStatusStyles(
@@ -269,7 +262,6 @@ export default function GamesTable({
                       name={`selectedTeam[${game.id}]`}
                       value={selectedTeams[game.id] || ""}
                     />
-                    <input type="hidden" name="loggedInUser" value={userId} />
                   </div>
                 );
               })}

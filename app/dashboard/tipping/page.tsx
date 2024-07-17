@@ -1,14 +1,21 @@
-import Table from "@/app/ui/games/table";
+import Table from "@/app/ui/dashboard/tipping/table";
 import { Suspense } from "react";
-import { fetchCurrentRound, fetchGames, fetchTips } from "@/app/lib/data";
+import {
+  fetchAllRounds,
+  fetchCurrentRound,
+  fetchGames,
+  fetchTips,
+} from "@/app/lib/data";
 import { Metadata } from "next";
-import { Games, Sport, Tips } from "@/app/lib/definitions";
-import RoundSelector from "@/app/ui/games/roundselecter";
-import SportSelector from "@/app/ui/games/sportselector";
+import { Game, Sport, Tips } from "@/app/lib/definitions";
+import RoundSelector from "@/app/ui/dashboard/tipping/roundselecter";
+import SportSelector from "@/app/ui/dashboard/tipping/sportselector";
 import { getUser } from "@/auth";
-import { GamesTableSkeleton } from "@/app/ui/skeletons";
+import { GamesTableSkeleton } from "@/app/ui/dashboard/skeletons";
 import { getTodaysDate, isValidRound } from "@/app/lib/utils";
 import PageHeading from "@/app/ui/dashboard/page-heading";
+import { auth } from "../../../auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Tipping",
@@ -22,12 +29,14 @@ export default async function Page({
     sport?: Sport;
   };
 }) {
-  const defaultSport: Sport = "NRL";
-  const season = "2024";
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
 
   const sportParam = searchParams?.sport;
   const sport: Sport =
-    sportParam === "NRL" || sportParam === "AFL" ? sportParam : defaultSport;
+    sportParam === "NRL" || sportParam === "AFL" ? sportParam : "NRL";
 
   const roundParam = searchParams?.round;
   const todays_date = getTodaysDate();
@@ -41,27 +50,22 @@ export default async function Page({
     filteredRound = currentRound;
   }
 
-  const games: Games[] = await fetchGames(sport, filteredRound);
-  console.log("Fetched games:", games);
-  const email = "user1@nextmail.com";
-  const user = await getUser(email);
-  const tips: Tips[] = await fetchTips(user.id, filteredRound, sport);
+  const games: Game[] = await fetchGames(sport, filteredRound);
+  const tips: Tips[] = await fetchTips(session.user.id, filteredRound, sport);
+  const allRounds: number[] = await fetchAllRounds("2024", sport);
 
   return (
     <div className="w-full space-y-8">
       <PageHeading title="Tipping" />
       <div className="flex w-full items-center justify-center flex-col">
         <SportSelector currentSport={sport} />
-        <RoundSelector currentRound={parseInt(filteredRound)} />
+        <RoundSelector
+          currentRound={parseInt(filteredRound)}
+          allRounds={allRounds}
+        />
       </div>
       <Suspense key={filteredRound} fallback={<GamesTableSkeleton />}>
-        <Table
-          sport={sport}
-          round={parseInt(filteredRound)}
-          games={games}
-          tips={tips}
-          userId={user.id}
-        />
+        <Table games={games} tips={tips} userId={session.user.id} />
       </Suspense>
     </div>
   );

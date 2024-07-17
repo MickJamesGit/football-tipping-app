@@ -1,9 +1,9 @@
 import { sql } from "@vercel/postgres";
 import {
-  Teams,
-  Games,
+  Team,
+  Game,
   Tips,
-  Rounds,
+  Round,
   Sport,
   LeaderboardEntry,
 } from "./definitions";
@@ -33,7 +33,7 @@ export async function fetchLeaderboardPages(sport: string) {
 
 export async function fetchTeams() {
   try {
-    const data = await sql<Teams>`
+    const data = await sql<Team>`
 SELECT
   id,
   name,
@@ -53,7 +53,7 @@ ORDER BY name ASC
 
 export async function fetchGames(sport: string, round: string) {
   try {
-    const data = await sql<Games>`
+    const data = await sql<Game>`
     SELECT
       g.id,
       g.sport,
@@ -163,9 +163,11 @@ export async function fetchLeaderboard(
     }));
 
     // Step 3: Apply the alias filter and pagination
-    const filteredData = rankedData.filter((entry) =>
-      entry.alias.toLowerCase().includes(query.toLowerCase())
-    );
+    const filteredData = rankedData.filter((entry) => {
+      const alias = entry.alias || ""; // Fallback to an empty string if alias is null or undefined
+      const searchQuery = query || ""; // Fallback to an empty string if query is null or undefined
+      return alias.toLowerCase().includes(searchQuery.toLowerCase());
+    });
 
     const paginatedData = filteredData.slice(offset, offset + ITEMS_PER_PAGE);
 
@@ -182,9 +184,9 @@ export async function fetchLeaderboard(
 export async function fetchCurrentRound(
   todays_date: string,
   sport: Sport
-): Promise<Rounds["round"]> {
+): Promise<Round["round"]> {
   try {
-    const data = await sql<Rounds>`
+    const data = await sql<Round>`
       SELECT
         r.id AS id,
         r.round_number AS round,
@@ -220,9 +222,9 @@ export async function fetchCurrentRound(
 export async function fetchPreviousRound(
   todays_date: string,
   sport: Sport
-): Promise<Rounds["round"]> {
+): Promise<Round["round"]> {
   try {
-    const data = await sql<Rounds>`
+    const data = await sql<Round>`
       SELECT
         r.id AS id,
         r.round_number AS round,
@@ -347,15 +349,102 @@ export async function fetchLatestTipResults(
       JOIN
         teams tt ON t.tip_team_id = tt.id
       WHERE
-        g.sport = ${sport} AND t.user_id = ${user_id}
+        g.sport = ${sport} AND t.user_id = ${user_id} AND t.status != 'pending'
       ORDER BY
         g.datetime DESC
       LIMIT 5;
     `;
 
+    console.log(data.rows);
     return data.rows;
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch tips.");
+  }
+}
+
+export async function fetchRoundTotalUsers(sport: string, round: string) {
+  try {
+    const countResult = await sql`
+      SELECT COUNT(*)
+      FROM scores
+      WHERE sport = ${sport}
+        AND round = ${round}
+    `;
+
+    const totalCount = Number(countResult.rows[0].count);
+
+    return totalCount;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of users with scores.");
+  }
+}
+
+export async function fetchUpcomingGames(sport: string) {
+  try {
+    const data = await sql<Game>`
+    SELECT
+      g.id,
+      g.sport,
+      g.round,
+      g.home_team_id,
+      g.away_team_id,
+      t1.name AS home_team_name,
+      t2.name AS away_team_name,
+      g.venue,
+      g.datetime,
+      g.season,
+      g.winning_team_id,
+      g.status
+    FROM
+      games g
+    JOIN
+      teams t1 ON g.home_team_id = t1.id
+    JOIN
+      teams t2 ON g.away_team_id = t2.id
+    WHERE
+      g.sport = ${sport} AND g.status='upcoming'
+    ORDER BY
+      g.datetime
+    LIMIT 5
+    `;
+
+    const games = data.rows.map((game) => ({
+      ...game,
+    }));
+    return games;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all games.");
+  }
+}
+
+export async function fetchAllRounds(
+  season: string,
+  sport: Sport
+): Promise<number[]> {
+  try {
+    const data = await sql<{ round: number }>`
+      SELECT
+        r.round_number AS round
+      FROM
+        rounds r
+      WHERE
+        r.sport = ${sport} AND r.season = ${season}
+        ORDER BY
+        r.round_number ASC
+    `;
+
+    // Extract round numbers from the fetched data
+    const rounds = data.rows.map((item) => item.round);
+
+    return rounds;
+  } catch (err) {
+    console.error("Database Error:", err);
+    console.error(
+      `Failed to fetch rounds for sport: ${sport}, season: ${season}`
+    );
+    throw new Error("Failed to fetch rounds.");
   }
 }

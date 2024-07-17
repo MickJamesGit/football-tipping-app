@@ -1,12 +1,12 @@
 "use server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { States } from "../ui/games/table";
+import { States } from "../ui/dashboard/tipping/table";
+import { redirect } from "next/navigation";
 
 const tipSchema = z.object({
-  loggedInUser: z.string().min(1),
   tips: z.array(
     z.object({
       gameId: z.string().min(1),
@@ -17,7 +17,6 @@ const tipSchema = z.object({
 
 function extractTipsFromFormData(formData: FormData) {
   const tipsArray: any = [];
-  const loggedInUser = formData.get("loggedInUser") as string;
 
   formData.forEach((value, key) => {
     const match = key.match(/selectedTeam\[([a-zA-Z0-9-]+)\]/);
@@ -30,7 +29,6 @@ function extractTipsFromFormData(formData: FormData) {
   });
 
   return {
-    loggedInUser,
     tips: tipsArray,
   };
 }
@@ -54,12 +52,58 @@ export async function authenticate(
   }
 }
 
+export async function googleAuthenticate() {
+  try {
+    const session = await auth();
+    if (session) {
+      redirect("/dashboard");
+    } else {
+      await signIn("google", { redirectTo: "/dashboard" });
+    }
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}
+
+export async function facebookAuthenticate() {
+  try {
+    await signIn("facebook");
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}
+
 export async function updateTips(
   state: States,
   formData: FormData
 ): Promise<{ error: boolean; message: string }> {
-  const tipsData = extractTipsFromFormData(formData);
+  const session = await auth();
+  if (!session) redirect("/login");
 
+  if (!session.user?.id) {
+    return {
+      error: true,
+      message: "Error: Unable to save tips. Please try again.",
+    };
+  }
+
+  const tipsData = extractTipsFromFormData(formData);
   // Validate the data
   const result = tipSchema.safeParse(tipsData);
 
@@ -71,14 +115,14 @@ export async function updateTips(
     };
   }
 
-  const { loggedInUser, tips } = result.data;
+  const { tips } = result.data;
 
   try {
     // Fetch existing tips for the logged-in user
     const existingTips = await sql`
       SELECT game_id, tip_team_id
       FROM tips
-      WHERE user_id = ${loggedInUser}
+      WHERE user_id = ${session.user.id}
     `;
 
     // Create a map of existing tips for quick lookup
@@ -95,13 +139,13 @@ export async function updateTips(
         await sql`
           UPDATE tips
           SET tip_team_id = ${tipTeamId}
-          WHERE user_id = ${loggedInUser} AND game_id = ${gameId}
+          WHERE user_id = ${session.user.id} AND game_id = ${gameId}
         `;
       } else {
         // Insert a new tip
         await sql`
           INSERT INTO tips (user_id, game_id, tip_team_id)
-          VALUES (${loggedInUser}, ${gameId}, ${tipTeamId})
+          VALUES (${session.user.id}, ${gameId}, ${tipTeamId})
         `;
       }
     }

@@ -4,31 +4,38 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 export default function RoundSelector({
   currentRound,
+  allRounds,
 }: {
   currentRound: number;
+  allRounds: number[];
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const handleRoundChange = (e: { target: { value: any } }) => {
-    const selectedRound = e.target.value;
+    const selectedRound = parseInt(e.target.value, 10);
     const params = new URLSearchParams(searchParams);
-    params.set("round", selectedRound);
+    params.set("round", selectedRound.toString());
     router.push(`?${params.toString()}`);
   };
 
   const handlePreviousRound = () => {
-    if (currentRound > 1) {
+    const minRound = Math.min(...allRounds);
+    if (currentRound > minRound) {
+      const newRound = currentRound - 1;
       const params = new URLSearchParams(searchParams);
-      params.set("round", (currentRound - 1).toString());
+      params.set("round", newRound.toString());
       router.push(`?${params.toString()}`);
     }
   };
 
   const handleNextRound = () => {
-    if (currentRound < 25) {
+    const maxRound = Math.max(...allRounds);
+    if (currentRound < maxRound) {
+      const newRound = currentRound + 1;
+      console.log(newRound);
       const params = new URLSearchParams(searchParams);
-      params.set("round", (currentRound + 1).toString());
+      params.set("round", newRound.toString());
       router.push(`?${params.toString()}`);
     }
   };
@@ -38,7 +45,7 @@ export default function RoundSelector({
       <button
         onClick={handlePreviousRound}
         className="p-3 text-lg border border-gray-300 bg-white text-black rounded-l-lg focus:outline-none border-r-0"
-        disabled={currentRound <= 1}
+        disabled={currentRound <= Math.min(...allRounds)}
       >
         &larr;
       </button>
@@ -56,13 +63,13 @@ export default function RoundSelector({
             backgroundImage: "none",
           }}
         >
-          {[...Array(25)].map((_, i) => (
+          {allRounds.map((round) => (
             <option
-              key={i}
-              value={i + 1}
+              key={round}
+              value={round}
               className="p-2 bg-white text-black hover:bg-gray-100"
             >
-              Round {i + 1}
+              Round {round}
             </option>
           ))}
         </select>
@@ -70,11 +77,10 @@ export default function RoundSelector({
       <button
         onClick={handleNextRound}
         className="p-3 text-lg border border-gray-300 bg-white text-black rounded-r-lg focus:outline-none border-l-0"
-        disabled={currentRound >= 25}
+        disabled={currentRound >= Math.max(...allRounds)}
       >
         &rarr;
       </button>
     </div>
   );
 }
-``;

@@ -1,38 +1,65 @@
 import { db } from "@vercel/postgres";
-import { games } from "../../lib/placeholder-data";
+import { games } from "../../seed/games/data";
 
 const client = await db.connect();
 
-async function seedGames() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-  try {
-    await client.sql`
--- Add the new status column to the games table
-ALTER TABLE games
-ADD COLUMN status VARCHAR(255);
-
--- Set the status to 'upcoming' for all existing games
-UPDATE games
-SET status = 'upcoming';
-
--- Set the status to 'completed' for games where Winning_Team_Id is not NULL
-UPDATE games
-SET status = 'completed'
-WHERE Winning_Team_Id IS NOT NULL;
-
--- Set the status of one specific game to 'inprogress'
-UPDATE games
-SET status = 'inprogress'
-WHERE id = '6b5370b3-c616-46cf-8dbe-d81d7673420e';  -- Replace with the actual game ID
-
-
-  `;
-    console.log('Table "games" created successfully or already exists.');
-  } catch (error) {
-    console.error('Error creating table "games":', error);
+async function getTeamId(teamName: string) {
+  const result =
+    await client.sql`SELECT id FROM teams WHERE name = ${teamName}`;
+  if (result.rows.length > 0) {
+    return result.rows[0].id;
+  } else {
+    throw new Error(`Team ID not found for team name: ${teamName}`);
   }
+}
 
-  return 1;
+async function seedGames() {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "games" table if it doesn't exist
+    const createTable = await client.sql`
+    CREATE TABLE IF NOT EXISTS games (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      season VARCHAR(255) NOT NULL,
+      round VARCHAR(255) NOT NULL,
+      sport VARCHAR(255) NOT NULL,
+      venue VARCHAR(255) NOT NULL,
+      status VARCHAR(255) NOT NULL,
+      datetime TIMESTAMP NOT NULL,
+      home_team_id UUID,
+      away_team_id UUID,
+      winning_team_id UUID,
+      created_at TIMESTAMP DEFAULT current_timestamp,
+      updated_at TIMESTAMP DEFAULT current_timestamp
+    );
+    `;
+
+    console.log(`Created "games" table`);
+
+    // Insert data into the "games" table
+    const insertedGames = await Promise.all(
+      games.map(async (game) => {
+        const homeTeamId = await getTeamId(game.home_team_name);
+        const awayTeamId = await getTeamId(game.away_team_name);
+
+        return client.sql`
+        INSERT INTO games (sport, round, home_team_id, away_team_id, venue, datetime, season, winning_team_id, status)
+        VALUES (${game.sport}, ${game.round}, ${homeTeamId}, ${awayTeamId}, ${game.venue}, ${game.datetime}, ${game.season}, ${game.winning_team_id}, ${game.status})
+        ON CONFLICT (sport, season, round, home_team_id, away_team_id) DO NOTHING;
+      `;
+      })
+    );
+
+    console.log(`Seeded ${insertedGames.length} GAMES`);
+
+    return {
+      createTable,
+      games: insertedGames,
+    };
+  } catch (error) {
+    console.error("Error seeding game data. Error:", error);
+  }
 }
 
 export async function GET() {

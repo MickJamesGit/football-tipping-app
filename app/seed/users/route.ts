@@ -1,34 +1,45 @@
 import { db } from "@vercel/postgres";
-import { users } from "../../lib/placeholder-data";
+import { users } from "../../seed/users/data";
 const bcrypt = require("bcrypt");
 
 const client = await db.connect();
 
-function generateAlias() {
-  const adjectives = ["Fast", "Red", "Cool", "Silent", "Brave"];
-  const nouns = ["Panther", "Eagle", "Lion", "Wolf", "Tiger"];
-  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const noun = nouns[Math.floor(Math.random() * nouns.length)];
-  return `${adjective}${noun}${Math.floor(Math.random() * 1000)}`;
-}
-
 async function seedUsers() {
   try {
-    const res = await client.query("SELECT id FROM users");
-    const users = res.rows;
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    // Create the "users" table if it doesn't exist
+    const createTable = await client.sql`
+     CREATE TABLE IF NOT EXISTS users (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(320) NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    alias VARCHAR(50) NOT NULL
+    );
+    `;
 
-    for (const user of users) {
-      const alias = generateAlias();
-      await client.query("UPDATE users SET alias = $1 WHERE id = $2", [
-        alias,
-        user.id,
-      ]);
-    }
+    console.log(`Created "users" table`);
 
-    return 1;
+    // Insert data into the "users" table
+    const insertedUsers = await Promise.all(
+      users.map(async (user) => {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        return client.sql`
+        INSERT INTO users (name, email, password, alias)
+        VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.alias})
+        ON CONFLICT (email) DO NOTHING;
+      `;
+      })
+    );
+
+    console.log(`Seeded ${insertedUsers.length} users`);
+
+    return {
+      createTable,
+      users: insertedUsers,
+    };
   } catch (error) {
-    console.error("Error seeding users:", error);
-    throw error;
+    console.error("Error seeding user data. Error:", error);
   }
 }
 
