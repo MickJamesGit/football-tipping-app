@@ -1,5 +1,3 @@
-import { AuthProvider } from "./definitions";
-
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.

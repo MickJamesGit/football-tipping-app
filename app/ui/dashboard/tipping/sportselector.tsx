@@ -26,7 +26,7 @@ export default function SportSelector({
       id="sport-select"
       name="sport"
       value={currentSport}
-      className="p-3 text-lg border border-gray-300 bg-white text-black rounded-lg w-40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
+      className="flex -space-x-px h-10 w-25 items-center justify-center text-sm border rounded-md bg-white border-gray-300 text-black"
       onChange={handleSportChange}
     >
       {sports.map((sport) => (

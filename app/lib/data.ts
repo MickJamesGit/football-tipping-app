@@ -6,6 +6,7 @@ import {
   Round,
   Sport,
   LeaderboardEntry,
+  User,
 } from "./definitions";
 
 const ITEMS_PER_PAGE = 25;
@@ -443,5 +444,21 @@ export async function fetchAllRounds(
       `Failed to fetch rounds for sport: ${sport}, season: ${season}`
     );
     throw new Error("Failed to fetch rounds.");
+  }
+}
+
+export async function getUserAlias(userId: string): Promise<string | null> {
+  try {
+    // Correct the query syntax and parameterization
+    const data = await sql<User>`SELECT alias FROM users WHERE id = ${userId}`;
+
+    if (data.rows.length > 0) {
+      return data.rows[0].alias;
+    } else {
+      return null; // Return null if user is not found
+    }
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch user alias.");
   }
 }

@@ -15,6 +15,8 @@ const tipSchema = z.object({
   ),
 });
 
+const usernameSchema = z.string().min(5).max(25);
+
 function extractTipsFromFormData(formData: FormData) {
   const tipsArray: any = [];
 
@@ -67,6 +69,49 @@ export async function facebookAuthenticate() {
       }
     }
     throw error;
+  }
+}
+
+export async function setUsername(
+  state: States,
+  formData: FormData
+): Promise<{ error: boolean; message: string }> {
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  if (!session.user?.id) {
+    return {
+      error: true,
+      message: "Error: Unable to set username.",
+    };
+  }
+  const alias = formData.get("alias");
+  const result = usernameSchema.safeParse(alias);
+
+  if (!result.success) {
+    console.error("Validation Error:", result.error.issues);
+    return {
+      error: true,
+      message: "Error: Unable to save username. Please try again.",
+    };
+  }
+
+  const username = result.data;
+
+  try {
+    const updatedUsername = await sql`
+      UPDATE users
+SET alias = ${username}
+WHERE id = ${session.user.id}
+    `;
+
+    return { error: false, message: "Success" };
+  } catch (error) {
+    console.error("Database Error:", error);
+    return {
+      error: true,
+      message: "Error: Unable to save username.",
+    };
   }
 }
 

@@ -8,14 +8,13 @@ import {
 } from "@/app/lib/data";
 import { Metadata } from "next";
 import { Game, Sport, Tips } from "@/app/lib/definitions";
-import RoundSelector from "@/app/ui/dashboard/tipping/roundselecter";
 import SportSelector from "@/app/ui/dashboard/tipping/sportselector";
-import { getUser } from "@/auth";
 import { GamesTableSkeleton } from "@/app/ui/dashboard/skeletons";
 import { getTodaysDate, isValidRound } from "@/app/lib/utils";
 import PageHeading from "@/app/ui/dashboard/page-heading";
 import { auth } from "../../../auth";
 import { redirect } from "next/navigation";
+import RoundPagination from "@/app/ui/dashboard/tipping/roundpagination";
 
 export const metadata: Metadata = {
   title: "Tipping",
@@ -57,11 +56,11 @@ export default async function Page({
   return (
     <div className="w-full space-y-8">
       <PageHeading title="Tipping" />
-      <div className="flex w-full items-center justify-center flex-col">
+      <div className="flex w-full space-y-3 items-center justify-center flex-col">
         <SportSelector currentSport={sport} />
-        <RoundSelector
-          currentRound={parseInt(filteredRound)}
+        <RoundPagination
           allRounds={allRounds}
+          initialRound={parseInt(filteredRound)}
         />
       </div>
       <Suspense key={filteredRound} fallback={<GamesTableSkeleton />}>
