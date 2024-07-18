@@ -4,7 +4,10 @@ import { getUserAlias } from "./app/lib/data";
 
 export async function middleware(request: NextRequest) {
   const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
+  const isOnLogin = request.nextUrl.pathname.startsWith("/login");
+
   console.log("Is on Dashboard:", isOnDashboard);
+  console.log("Is on Login:", isOnLogin);
 
   if (isOnDashboard) {
     const session = await auth();
@@ -40,7 +43,16 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  if (isOnLogin) {
+    const session = await auth();
+    if (session) {
+      // If session exists, redirect to dashboard
+      console.log("User logged in, redirecting to dashboard");
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
   // Allow all other requests to proceed
-  console.log("Allowing access to non-dashboard page");
+  console.log("Allowing access to non-dashboard and non-login page");
   return NextResponse.next();
 }

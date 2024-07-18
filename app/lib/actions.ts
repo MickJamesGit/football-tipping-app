@@ -2,9 +2,9 @@
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { auth, signIn } from "@/auth";
-import { AuthError } from "next-auth";
 import { States } from "../ui/dashboard/tipping/table";
 import { redirect } from "next/navigation";
+import { AuthError } from "next-auth";
 
 const tipSchema = z.object({
   tips: z.array(
@@ -144,6 +144,26 @@ export async function updateTips(
   const { tips } = result.data;
 
   try {
+    const currentTime = new Date();
+
+    for (const tip of tips) {
+      const gameId = tip.gameId;
+      const gameDatetimeStr = formData.get(`gameDatetime[${gameId}]`);
+      if (!gameDatetimeStr) {
+        return {
+          error: true,
+          message: `Error: Unable to save tips. Please try again.`,
+        };
+      }
+      const gameDatetime = new Date(gameDatetimeStr.toString());
+      if (currentTime >= gameDatetime) {
+        return {
+          error: true,
+          message: `Error: Game has already started.`,
+        };
+      }
+    }
+
     // Fetch existing tips for the logged-in user
     const existingTips = await sql`
       SELECT game_id, tip_team_id
@@ -182,5 +202,18 @@ export async function updateTips(
       error: true,
       message: "Error: Unable to save tips. Please try again.",
     };
+  }
+}
+
+export async function updateGameStatuses() {
+  try {
+    await sql`
+      UPDATE games
+      SET status = 'inprogress'
+      WHERE datetime <= NOW() AND status != 'inprogress' AND status != 'completed';
+    `;
+    console.log("Game statuses updated successfully.");
+  } catch (error) {
+    console.error("Error updating game statuses:", error);
   }
 }

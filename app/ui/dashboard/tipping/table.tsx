@@ -262,6 +262,11 @@ export default function GamesTable({
                       name={`selectedTeam[${game.id}]`}
                       value={selectedTeams[game.id] || ""}
                     />
+                    <input
+                      type="hidden"
+                      name={`gameDatetime[${game.id}]`}
+                      value={game.datetime}
+                    />
                   </div>
                 );
               })}
