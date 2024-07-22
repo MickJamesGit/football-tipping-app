@@ -33,6 +33,15 @@ export default function GamesTable({
   const initialState: States = { message: "", error: false };
   const [state, formAction] = useActionState(updateTips, initialState);
   const [open, setOpen] = useState(false);
+  const [showSaveButton, setShowSaveButton] = useState(true);
+
+  useEffect(() => {
+    // Check if all games are either 'completed' or 'inprogress'
+    const allGamesCompletedOrInProgress = games.every(
+      (game) => game.status === "completed" || game.status === "inprogress"
+    );
+    setShowSaveButton(!allGamesCompletedOrInProgress);
+  }, [games]);
 
   useEffect(() => {
     // Initialize selectedTeams based on existing tips
@@ -271,14 +280,16 @@ export default function GamesTable({
                 );
               })}
             </div>
-            <div className="mt-4 flex justify-end">
-              <Button
-                type="submit"
-                className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
-              >
-                Save Tips
-              </Button>
-            </div>
+            {showSaveButton && (
+              <div className="mt-4 flex justify-end">
+                <Button
+                  type="submit"
+                  className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+                >
+                  Save Tips
+                </Button>
+              </div>
+            )}
             <Snackbar
               open={open}
               autoHideDuration={3000}
