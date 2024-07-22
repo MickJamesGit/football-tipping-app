@@ -18,6 +18,8 @@ const tipSchema = z.object({
 
 const usernameSchema = z.string().min(5).max(25);
 
+const sportsSchema = z.array(z.string().min(1));
+
 function extractTipsFromFormData(formData: FormData) {
   const tipsArray: any = [];
 
@@ -97,21 +99,57 @@ export async function setUsername(
     };
   }
 
+  const selectedSports = JSON.parse(formData.get("selectedSports") as string);
+  const result2 = sportsSchema.safeParse(selectedSports);
+
+  if (!result2.success) {
+    console.error("Validation Error:", result2.error.issues);
+    return {
+      error: true,
+      message: "Error: Unable to save sports selections. Please try again.",
+    };
+  }
+
   const username = result.data;
+  const sports = result2.data;
 
   try {
+    // Start a transaction
+    await sql`BEGIN`;
+
     const updatedUsername = await sql`
       UPDATE users
 SET alias = ${username}
 WHERE id = ${session.user.id}
     `;
 
+    // Check each selected sport and create entries in user_competitions
+    for (const sport of sports) {
+      const competitionResult = await sql`
+              SELECT id
+              FROM competitions
+              WHERE name = ${sport}
+            `;
+
+      const competition = competitionResult.rows[0];
+
+      if (competition) {
+        await sql`
+                INSERT INTO user_competitions (user_id, competition_id)
+                VALUES (${session.user.id}, ${competition.id})
+              `;
+      }
+    }
+
+    // Commit the transaction
+    await sql`COMMIT`;
+
     return { error: false, message: "Success" };
   } catch (error) {
     console.error("Database Error:", error);
     return {
       error: true,
-      message: "Error: Unable to save username.",
+      message: "Error: Unable to save username and sports selections.",
     };
   }
 }
