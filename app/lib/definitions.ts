@@ -84,3 +84,24 @@ export type LeaderboardEntry = {
   total_points: number;
   ranking: number;
 };
+
+export type Competition = {
+  id: string;
+  name: string;
+  start_date: string;
+  end_date: string;
+};
+
+export type CompetitionWithoutId = Omit<Competition, "id">;
+
+export type UserCompetition = {
+  id: string;
+  user_id: string;
+  competition_id: string;
+  signup_date: string;
+};
+
+export type SeedUserCompetition = {
+  user_id: string;
+  competition_id: string;
+};

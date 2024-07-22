@@ -5,6 +5,7 @@ import { auth, signIn } from "@/auth";
 import { States } from "../ui/dashboard/tipping/table";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
+import { Game } from "./definitions";
 
 const tipSchema = z.object({
   tips: z.array(
@@ -215,5 +216,51 @@ export async function updateGameStatuses() {
     console.log("Game statuses updated successfully.");
   } catch (error) {
     console.error("Error updating game statuses:", error);
+  }
+}
+
+export async function setNewUserTips(
+  userId: string,
+  sport: string,
+  season: string
+) {
+  try {
+    // Start a transaction
+    await sql`BEGIN`;
+
+    // Get all game IDs, away team IDs, and winning team IDs for the given sport and season
+    const gameResult = await sql`
+      SELECT id, away_team_id, winning_team_id
+      FROM games 
+      WHERE sport = ${sport} AND season = ${season} AND winning_team_id IS NOT NULL
+    `;
+
+    const games = gameResult.rows;
+
+    if (games.length === 0) {
+      console.log("No games have results yet. No tips to set.");
+      await sql`ROLLBACK`;
+      return;
+    }
+
+    // Insert tips for each game for the new user
+    for (const game of games) {
+      const status =
+        game.winning_team_id === game.away_team_id ? "correct" : "incorrect";
+
+      await sql`
+        INSERT INTO tips (user_id, tip_team_id, game_id, created_at, updated_at, status) 
+        VALUES (${userId}, ${game.away_team_id}, ${game.id}, NOW(), NOW(), ${status})
+      `;
+    }
+
+    // Commit the transaction
+    await sql`COMMIT`;
+
+    console.log("New user tips set successfully.");
+  } catch (error) {
+    // Rollback the transaction in case of an error
+    await sql`ROLLBACK`;
+    console.error("Error setting new user tips:", error);
   }
 }
