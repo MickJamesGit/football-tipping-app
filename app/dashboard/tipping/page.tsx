@@ -1,71 +1,120 @@
-import Table from "@/app/ui/dashboard/tipping/table";
-import { Suspense } from "react";
-import {
-  fetchAllRounds,
-  fetchCurrentRound,
-  fetchGames,
-  fetchTips,
-} from "@/app/lib/data";
 import { Metadata } from "next";
-import { Game, Sport, Tips } from "@/app/lib/definitions";
-import SportSelector from "@/app/ui/dashboard/tipping/sportselector";
-import { GamesTableSkeleton } from "@/app/ui/dashboard/skeletons";
-import { getTodaysDate, isValidRound } from "@/app/lib/utils";
-import PageHeading from "@/app/ui/dashboard/page-heading";
-import { auth } from "../../../auth";
-import { redirect } from "next/navigation";
-import RoundPagination from "@/app/ui/dashboard/tipping/roundpagination";
-
 export const metadata: Metadata = {
   title: "Tipping",
 };
+import Typography from "@mui/material/Typography";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
+import PageHeading from "@/app/ui/dashboard/page-heading";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { fetchUserCompetitions } from "@/app/lib/data";
+import { lusitana } from "@/app/ui/fonts";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: {
-    round?: string;
-    sport?: Sport;
-  };
-}) {
+export type Competition = {
+  id: string;
+  name: string;
+};
+
+export type UserCompetitions = {
+  signedUp: Competition[];
+  notSignedUp: Competition[];
+};
+
+export default async function Page() {
   const session = await auth();
   if (!session || !session.user || !session.user.id) {
     return redirect("/login");
   }
 
-  const sportParam = searchParams?.sport;
-  const sport: Sport =
-    sportParam === "NRL" || sportParam === "AFL" ? sportParam : "NRL";
-
-  const roundParam = searchParams?.round;
-  const todays_date = getTodaysDate();
-
-  let filteredRound: string = "";
-
-  if (isValidRound(roundParam)) {
-    filteredRound = roundParam!;
-  } else {
-    const currentRound = await fetchCurrentRound(todays_date, sport);
-    filteredRound = currentRound;
-  }
-
-  const games: Game[] = await fetchGames(sport, filteredRound);
-  const tips: Tips[] = await fetchTips(session.user.id, filteredRound, sport);
-  const allRounds: number[] = await fetchAllRounds("2024", sport);
+  const competitions: UserCompetitions = await fetchUserCompetitions(
+    session.user.id
+  );
 
   return (
     <div className="w-full space-y-8">
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/dashboard">
+          Dashboard
+        </Link>
+        <Typography color="text.primary">Tipping menu</Typography>
+      </Breadcrumbs>
       <PageHeading title="Tipping" />
-      <div className="flex w-full space-y-3 items-center justify-center flex-col">
-        <SportSelector currentSport={sport} />
-        <RoundPagination
-          allRounds={allRounds}
-          initialRound={parseInt(filteredRound)}
-        />
+      <div className="w-full">
+        {competitions.signedUp.length > 0 && (
+          <>
+            <h1
+              className={`${lusitana.className} text-3xl text-left mt-4 mb-2 border-b pb-2`}
+            >
+              Registered Competitions
+            </h1>
+            <div className="flex flex-wrap gap-4 mt-6">
+              {competitions.signedUp.map((competition) => (
+                <Card key={competition.id} sx={{ maxWidth: 345 }}>
+                  <CardActionArea
+                    href={`/dashboard/tipping/tips?sport=${competition.name}`}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={`/cards/${competition.name}.webp`}
+                      alt={competition.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {competition.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Enter or update your tips for the upcoming{" "}
+                        {competition.name} games.
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
+        {competitions.notSignedUp.length > 0 && (
+          <>
+            {competitions.signedUp.length > 0 && (
+              <h1
+                className={`${lusitana.className} text-3xl text-left mt-8 mb-2 border-b pb-2`}
+              >
+                Unregistered Competitions
+              </h1>
+            )}
+            <div className="flex flex-wrap gap-4 mt-6">
+              {competitions.notSignedUp.map((competition) => (
+                <Card key={competition.id} sx={{ maxWidth: 345 }}>
+                  <CardActionArea
+                    href={`/dashboard/tipping/tips?sport=${competition.name}`}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={`/cards/${competition.name}.webp`}
+                      alt={competition.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {competition.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Register now for the {competition.name} season.
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
       </div>
-      <Suspense key={filteredRound} fallback={<GamesTableSkeleton />}>
-        <Table games={games} tips={tips} userId={session.user.id} />
-      </Suspense>
     </div>
   );
 }
