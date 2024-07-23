@@ -16,9 +16,7 @@ import Checkbox from "@mui/material/Checkbox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
-const sports = ["NRL", "AFL"];
-
-export default function LoginForm() {
+export default function LoginForm({ sports }: { sports: string[] }) {
   const router = useRouter();
   const initialState = { message: "", error: false };
   const [errorMessage, formAction, isPending] = useActionState(
