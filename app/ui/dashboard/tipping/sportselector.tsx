@@ -4,12 +4,12 @@ import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Sport } from "@/app/lib/definitions";
 
-const sports: Sport[] = ["NRL", "AFL"];
-
 export default function SportSelector({
   currentSport,
+  sports,
 }: {
   currentSport: Sport;
+  sports: string[];
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();

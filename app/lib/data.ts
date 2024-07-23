@@ -9,6 +9,7 @@ import {
   User,
 } from "./definitions";
 import { getTodaysDate } from "./utils";
+import { Competition, UserCompetitions } from "../dashboard/tipping/page";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -479,5 +480,44 @@ export async function fetchActiveSports(): Promise<string[]> {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch active sports.");
+  }
+}
+
+export async function fetchUserCompetitions(
+  userId: string
+): Promise<UserCompetitions> {
+  const todays_date = getTodaysDate();
+  try {
+    console.log("here");
+    const signedUpData = await sql<Competition>`
+      SELECT c.id, c.name
+      FROM competitions c
+      WHERE c.id IN (
+        SELECT uc.competition_id
+        FROM user_competitions uc
+        WHERE uc.user_id = ${userId}
+      )
+      AND ${todays_date} BETWEEN c.start_date AND c.end_date
+    `;
+
+    const notSignedUpData = await sql<Competition>`       SELECT c.id, c.name
+      FROM competitions c
+      WHERE c.id NOT IN (
+        SELECT uc.competition_id
+        FROM user_competitions uc
+        WHERE uc.user_id = ${userId}
+      )
+      AND ${todays_date} BETWEEN c.start_date AND c.end_date
+  `;
+
+    const userCompetitions: UserCompetitions = {
+      signedUp: signedUpData.rows,
+      notSignedUp: notSignedUpData.rows,
+    };
+
+    return userCompetitions;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch user competitions.");
   }
 }
