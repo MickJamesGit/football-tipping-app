@@ -8,6 +8,7 @@ import {
   LeaderboardEntry,
   User,
 } from "./definitions";
+import { getTodaysDate } from "./utils";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -460,5 +461,23 @@ export async function getUserAlias(userId: string): Promise<string | null> {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch user alias.");
+  }
+}
+
+export async function fetchActiveSports(): Promise<string[]> {
+  const todays_date = getTodaysDate();
+  try {
+    const data = await sql<{ name: string }>`
+      SELECT s.name AS name
+      FROM competitions s
+      WHERE ${todays_date} BETWEEN s.start_date AND s.end_date
+    `;
+
+    const sports = data.rows.map((row) => row.name);
+    console.log(sports);
+    return sports;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch active sports.");
   }
 }
