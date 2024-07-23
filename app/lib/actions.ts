@@ -302,3 +302,21 @@ export async function setNewUserTips(
     console.error("Error setting new user tips:", error);
   }
 }
+
+export async function updateUserCompetitions(
+  userId: string,
+  competitionId: string
+) {
+  try {
+    await sql`
+        INSERT INTO user_competitions (user_id, competition_id) 
+        VALUES (${userId}, ${competitionId})
+      `;
+
+    console.log("User registered successfully.");
+  } catch (error) {
+    // Rollback the transaction in case of an error
+    await sql`ROLLBACK`;
+    console.error("Error registering for competition:", error);
+  }
+}

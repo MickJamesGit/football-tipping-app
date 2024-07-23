@@ -14,6 +14,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { fetchUserCompetitions } from "@/app/lib/data";
 import { lusitana } from "@/app/ui/fonts";
+import RegisterCard from "@/app/ui/dashboard/tipping/registercard";
 
 export type Competition = {
   id: string;
@@ -30,6 +31,8 @@ export default async function Page() {
   if (!session || !session.user || !session.user.id) {
     return redirect("/login");
   }
+
+  const userId = session.user.id;
 
   const competitions: UserCompetitions = await fetchUserCompetitions(
     session.user.id
@@ -90,26 +93,11 @@ export default async function Page() {
             )}
             <div className="flex flex-wrap gap-4 mt-6">
               {competitions.notSignedUp.map((competition) => (
-                <Card key={competition.id} sx={{ maxWidth: 345 }}>
-                  <CardActionArea
-                    href={`/dashboard/tipping/tips?sport=${competition.name}`}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={`/cards/${competition.name}.webp`}
-                      alt={competition.name}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {competition.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Register now for the {competition.name} season.
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
+                <RegisterCard
+                  key={competition.id}
+                  userId={userId}
+                  competition={competition}
+                />
               ))}
             </div>
           </>
