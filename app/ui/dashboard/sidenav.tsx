@@ -1,10 +1,11 @@
 import Link from "next/link";
 import NavLinks from "@/app/ui/dashboard/nav-links";
 import { PowerIcon } from "@heroicons/react/24/outline";
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 import SiteLogo from "@/app/ui/site-logo";
+import { redirect } from "next/navigation";
 
-export default function SideNav() {
+export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
       <Link

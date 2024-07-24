@@ -5,11 +5,21 @@ import {
   StarIcon,
   TrophyIcon,
   InformationCircleIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+  Avatar,
+  BottomNavigation,
+  BottomNavigationAction,
+  IconButton,
+  Paper,
+  Tooltip,
+} from "@mui/material";
+import React from "react";
+import AccountMenu from "./account-menu";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -21,11 +31,18 @@ const links = [
     icon: StarIcon,
   },
   { name: "Leaderboard", href: "/dashboard/leaderboard", icon: TrophyIcon },
-  { name: "Help", href: "/dashboard/help", icon: InformationCircleIcon },
 ];
 
 export default function NavLinks() {
   const pathname = usePathname();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -53,8 +70,22 @@ export default function NavLinks() {
                 />
               );
             })}
+
+            {/* Account link with UserCircleIcon */}
+            <BottomNavigationAction
+              sx={{ marginTop: 1 }}
+              key="Account"
+              component="button"
+              onClick={handleClick}
+              label="Account"
+              icon={<UserCircleIcon />}
+              value="account"
+            />
           </BottomNavigation>
         </Paper>
+
+        {/* Account menu overlay */}
+        <AccountMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
       </div>
 
       {/* Desktop view */}
