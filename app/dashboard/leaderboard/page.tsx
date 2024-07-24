@@ -4,7 +4,11 @@ import { Sport } from "@/app/lib/definitions";
 import { Suspense } from "react";
 import { InvoicesTableSkeleton } from "@/app/ui/dashboard/skeletons";
 import RankingsTable from "@/app/ui/dashboard/ranking/rankingstable";
-import { fetchLeaderboardPages, fetchPreviousRound } from "@/app/lib/data";
+import {
+  fetchActiveSports,
+  fetchLeaderboardPages,
+  fetchPreviousRound,
+} from "@/app/lib/data";
 import SportSelector from "@/app/ui/dashboard/tipping/sportselector";
 import { getTodaysDate } from "@/app/lib/utils";
 import Pagination from "@/app/ui/dashboard/ranking/pagination";
@@ -42,6 +46,7 @@ export default async function Page({
   const previousRound = await fetchPreviousRound(todays_date, sport);
 
   const totalPages = await fetchLeaderboardPages(sport);
+  const sports = await fetchActiveSports();
 
   return (
     <div className="w-full space-y-8">
@@ -53,7 +58,7 @@ export default async function Page({
         </h1>
       </div>
       <div className="flex w-full items-center justify-center flex-col">
-        <SportSelector currentSport={sport} />
+        <SportSelector currentSport={sport} sports={sports} />
       </div>
       <Search placeholder="Search by user alias..." />
       <Suspense

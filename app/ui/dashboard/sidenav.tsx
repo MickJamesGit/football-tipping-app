@@ -16,19 +16,26 @@ export default function SideNav() {
         </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
+        <div className="hidden md:block">
+          <NavLinks />
+        </div>
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
-        <form
-          action={async () => {
-            "use server";
-            await signOut();
-          }}
-        >
-          <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-100 hover:text-green-600 md:flex-none md:justify-start md:p-2 md:px-3">
-            <PowerIcon className="w-6" />
-            <div className="hidden md:block">Sign Out</div>
-          </button>
-        </form>
+        <div className="hidden md:block">
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-100 hover:text-green-600 md:flex-none md:justify-start md:p-2 md:px-3">
+              <PowerIcon className="w-6" />
+              <div className="hidden md:block">Sign Out</div>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-md z-50">
+        <NavLinks />
       </div>
     </div>
   );
