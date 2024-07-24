@@ -12,7 +12,6 @@ import { Game } from "../lib/definitions";
 import { fetchUpcomingGames } from "../lib/data";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { requireAuth } from "../lib/auth-check";
 export const metadata: Metadata = {
   title: "Dashboard",
 };
