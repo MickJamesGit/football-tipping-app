@@ -70,26 +70,12 @@ export default function NavLinks() {
                 />
               );
             })}
-
-            {/* Account link with UserCircleIcon */}
-            <BottomNavigationAction
-              sx={{ marginTop: 1 }}
-              key="Account"
-              component="button"
-              onClick={handleClick}
-              label="Account"
-              icon={<UserCircleIcon />}
-              value="account"
-            />
           </BottomNavigation>
         </Paper>
-
-        {/* Account menu overlay */}
-        <AccountMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
       </div>
 
       {/* Desktop view */}
-      <div className="hidden md:block">
+      <div className="hidden md:flex md:flex-col md:gap-2">
         {links.map((link) => {
           const LinkIcon = link.icon;
           return (
@@ -97,7 +83,7 @@ export default function NavLinks() {
               key={link.name}
               href={link.href}
               className={clsx(
-                "flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-100 hover:text-green-600 md:flex-none md:justify-start md:p-2 md:px-3",
+                "flex items-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-100 hover:text-green-600 md:flex-none md:justify-start",
                 {
                   "bg-green-100 text-green-600": pathname === link.href,
                 }
@@ -108,6 +94,17 @@ export default function NavLinks() {
             </Link>
           );
         })}
+
+        {/* Account link with UserCircleIcon */}
+        <button
+          onClick={handleClick}
+          className="flex items-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-100 hover:text-green-600 md:flex-none md:justify-start"
+        >
+          <UserCircleIcon className="w-6" />
+          <p className="hidden md:block">Account</p>
+        </button>
+        {/* Account menu overlay */}
+        <AccountMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
       </div>
     </>
   );

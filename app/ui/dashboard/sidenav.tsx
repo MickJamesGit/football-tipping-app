@@ -4,12 +4,34 @@ import { PowerIcon } from "@heroicons/react/24/outline";
 import { auth, signOut } from "@/auth";
 import SiteLogo from "@/app/ui/site-logo";
 import { redirect } from "next/navigation";
+import { AppBar, Avatar, IconButton, Toolbar } from "@mui/material";
+import { fetchUserdetails } from "@/app/lib/data";
+import AvatarDrawer from "../avatardrawer";
+import { Power } from "@mui/icons-material";
 
 export default async function SideNav() {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const { alias, name, image } = await fetchUserdetails(session.user.id);
+
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
+      <div className="block md:hidden">
+        <AppBar position="fixed" className="bg-green-600">
+          <Toolbar className="flex justify-between">
+            <div className="w-32 text-white">
+              <SiteLogo />
+            </div>
+            <IconButton aria-label="user menu" color="primary">
+              <AvatarDrawer alias={alias} name={name} image={image} />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </div>
       <Link
-        className="mb-2 flex h-20 items-end justify-start rounded-md bg-green-600 p-4 md:h-38"
+        className="hidden md:flex mb-2 h-20 items-end justify-start rounded-md bg-green-600 p-4 md:h-38"
         href="/"
       >
         <div className="w-32 text-white md:w-40">
