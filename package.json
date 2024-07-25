@@ -37,6 +37,7 @@
     "react-countdown": "^2.3.5",
     "react-dom": "19.0.0-rc-8b08e99e-20240713",
     "react-icons": "^5.2.1",
+    "react-social-login-buttons": "^4.1.0",
     "react-toastify": "^10.0.5",
     "tailwindcss": "3.4.5",
     "typescript": "5.5.3",

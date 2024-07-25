@@ -58,10 +58,11 @@ export default async function Page({
     const currentRound = await fetchCurrentRound(todays_date, sport);
     filteredRound = currentRound;
   }
-
-  const games: Game[] = await fetchGames(sport, filteredRound);
-  const tips: Tips[] = await fetchTips(session.user.id, filteredRound, sport);
-  const allRounds: number[] = await fetchAllRounds("2024", sport);
+  const [games, tips, allRounds] = await Promise.all([
+    fetchGames(sport, filteredRound),
+    fetchTips(session.user.id, filteredRound, sport),
+    fetchAllRounds("2024", sport),
+  ]);
 
   return (
     <div className="w-full space-y-8">

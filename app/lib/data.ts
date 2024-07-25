@@ -475,7 +475,6 @@ export async function fetchActiveSports(): Promise<string[]> {
     `;
 
     const sports = data.rows.map((row) => row.name);
-    console.log(sports);
     return sports;
   } catch (err) {
     console.error("Database Error:", err);
@@ -488,7 +487,6 @@ export async function fetchUserCompetitions(
 ): Promise<UserCompetitions> {
   const todays_date = getTodaysDate();
   try {
-    console.log("here");
     const signedUpData = await sql<Competition>`
       SELECT c.id, c.name
       FROM competitions c

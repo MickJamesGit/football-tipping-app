@@ -10,14 +10,10 @@ import LatestTips from "../ui/dashboard/latest-tips";
 import UpcomingGames from "../ui/dashboard/upcoming-games";
 import { Game } from "../lib/definitions";
 import { fetchUpcomingGames } from "../lib/data";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 export default async function Page() {
-  const session = await auth();
-  if (!session) redirect("/login");
   const games: Game[] = await fetchUpcomingGames("NRL");
   return (
     <main>
