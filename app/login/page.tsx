@@ -1,52 +1,54 @@
+"use client";
+
 import SiteLogo from "@/app/ui/site-logo";
-import LoginForm from "@/app/ui/login/login-form";
-import { googleAuthenticate, facebookAuthenticate } from "../lib/actions";
+import { googleAuthenticate } from "../lib/actions";
+import {
+  FacebookLoginButton,
+  GoogleLoginButton,
+  InstagramLoginButton,
+  AppleLoginButton,
+  XLoginButton,
+} from "react-social-login-buttons";
 
 export default function Page() {
+  function handleClick() {
+    alert("Thank you for using React Social Login Buttons!");
+  }
+
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-green-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">
+    <main className="flex items-center justify-center md:h-screen bg-gray-100">
+      <div className="relative mx-auto flex w-full max-w-md flex-col space-y-4 p-6 bg-white rounded-lg shadow-md">
+        <div className="flex items-center justify-center h-20 w-full rounded-lg bg-green-500 p-3 md:h-24">
+          <div className="w-32 md:w-36 text-white">
             <SiteLogo />
           </div>
         </div>
-        <form
-          action={async () => {
-            "use server";
-            await googleAuthenticate();
-          }}
-        >
-          <button
-            type="submit"
-            className="flex items-center justify-center w-full py-2 mt-4 text-black border border-black rounded-lg hover:bg-gray-100"
-          >
-            <img
-              src="/google-logo.png"
-              alt="Google Logo"
-              className="w-6 h-6 mr-2"
-            />
-            Sign in with Google
-          </button>
-        </form>
-        <form
-          action={async () => {
-            "use server";
-            await facebookAuthenticate();
-          }}
-        >
-          <button
-            type="submit"
-            className="flex items-center justify-center w-full py-2 mt-4 text-black border border-black rounded-lg hover:bg-gray-100"
-          >
-            <img
-              src="/facebook-logo.png"
-              alt="Facebook Logo"
-              className="w-6 h-6 mr-2"
-            />
-            Sign in with Facebook
-          </button>
-        </form>
+        <div className="text-center mt-4">
+          <p className="text-lg">Select a login option to continue</p>
+        </div>
+        <div className="border-t border-gray-300 my-4"></div>
+        <div className="flex flex-col space-y-3">
+          <FacebookLoginButton
+            onClick={handleClick}
+            className="!w-full !py-2 !text-sm"
+          />
+          <InstagramLoginButton
+            onClick={handleClick}
+            className="!w-full !py-2 !text-sm"
+          />
+          <GoogleLoginButton
+            onClick={googleAuthenticate}
+            className="!w-full !py-2 !text-sm"
+          />
+          <AppleLoginButton
+            onClick={handleClick}
+            className="!w-full !py-2 !text-sm"
+          />
+          <XLoginButton
+            onClick={handleClick}
+            className="!w-full !py-2 !text-sm"
+          />
+        </div>
       </div>
     </main>
   );
