@@ -43,10 +43,12 @@ export default async function Page({
     sportParam === "NRL" || sportParam === "AFL" ? sportParam : defaultSport;
 
   const todays_date = getTodaysDate();
-  const previousRound = await fetchPreviousRound(todays_date, sport);
 
-  const totalPages = await fetchLeaderboardPages(sport);
-  const sports = await fetchActiveSports();
+  const [previousRound, totalPages, sports] = await Promise.all([
+    fetchPreviousRound(todays_date, sport),
+    fetchLeaderboardPages(sport),
+    fetchActiveSports(),
+  ]);
 
   return (
     <div className="w-full space-y-8">

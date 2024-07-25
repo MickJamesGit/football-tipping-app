@@ -21,32 +21,23 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
+  const session = await auth();
+  if (!session?.user?.id) return null;
   const sport = "NRL";
   const todays_date = getTodaysDate();
   const lastRound = await fetchPreviousRound(todays_date, sport);
 
-  const session = await auth();
-
-  if (!session?.user?.email) return null;
-
-  const user = await getUser(session.user.email);
-
-  const overallRankingSummary = await fetchUserRankingSummary(
-    sport,
-    "2024",
-    user.id,
-    "overall"
-  );
-
-  const roundRankingSummary = await fetchUserRankingSummary(
-    sport,
-    "2024",
-    user.id,
-    lastRound
-  );
-
-  const roundTotalUsers = await fetchRoundTotalUsers(sport, lastRound);
-  const overallTotalUsers = await fetchRoundTotalUsers(sport, "overall");
+  const [
+    overallRankingSummary,
+    roundRankingSummary,
+    roundTotalUsers,
+    overallTotalUsers,
+  ] = await Promise.all([
+    fetchUserRankingSummary(sport, "2024", session.user.id, "overall"),
+    fetchUserRankingSummary(sport, "2024", session.user.id, lastRound),
+    fetchRoundTotalUsers(sport, lastRound),
+    fetchRoundTotalUsers(sport, "overall"),
+  ]);
 
   return (
     <>

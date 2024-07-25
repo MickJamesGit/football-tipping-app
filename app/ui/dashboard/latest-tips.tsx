@@ -2,16 +2,17 @@ import clsx from "clsx";
 import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
 import { TipResult, fetchLatestTipResults } from "@/app/lib/data";
-import { auth, getUser } from "@/auth";
+import { auth } from "@/auth";
 
 export default async function LatestTips() {
   const session = await auth();
 
-  if (!session?.user?.email) return null;
-
-  const user = await getUser(session.user.email);
+  if (!session?.user?.id) return null;
   const sport = "NRL";
-  const tipResults: TipResult[] = await fetchLatestTipResults(user.id, sport);
+  const tipResults: TipResult[] = await fetchLatestTipResults(
+    session.user.id,
+    sport
+  );
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
