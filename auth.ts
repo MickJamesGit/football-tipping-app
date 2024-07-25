@@ -46,7 +46,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
         return true;
       },
       async session({ session, user }) {
-        session.user.id = user.id; // Assuming you want the user ID in the session
+        session.user.id = user.id;
         return session;
       },
     },

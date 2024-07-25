@@ -381,6 +381,29 @@ export async function fetchRoundTotalUsers(sport: string, round: string) {
   }
 }
 
+export async function fetchUserdetails(
+  userId: string
+): Promise<{ alias: string; image: string; name: string }> {
+  try {
+    const data = await sql`
+      SELECT alias, image, name
+      FROM users
+      WHERE id = ${userId}
+    `;
+
+    if (data.rows.length === 0) {
+      throw new Error("User not found");
+    }
+
+    const { alias, image, name } = data.rows[0];
+
+    return { alias, image, name };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch user details.");
+  }
+}
+
 export async function fetchUpcomingGames(sport: string) {
   try {
     const data = await sql<Game>`

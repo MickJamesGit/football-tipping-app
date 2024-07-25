@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BanknotesIcon,
   ClockIcon,
@@ -5,13 +7,8 @@ import {
   InboxIcon,
 } from "@heroicons/react/24/outline";
 import { lusitana } from "@/app/ui/fonts";
-import { getTodaysDate } from "@/app/lib/utils";
-import {
-  fetchPreviousRound,
-  fetchRoundTotalUsers,
-  fetchUserRankingSummary,
-} from "@/app/lib/data";
-import { auth, getUser } from "@/auth";
+import Carousel from "react-material-ui-carousel";
+import { Paper } from "@mui/material";
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -20,62 +17,52 @@ const iconMap = {
   invoices: InboxIcon,
 };
 
-export default async function CardWrapper() {
-  const session = await auth();
-  if (!session?.user?.id) return null;
-  const sport = "NRL";
-  const todays_date = getTodaysDate();
-  const lastRound = await fetchPreviousRound(todays_date, sport);
-
-  const [
-    overallRankingSummary,
-    roundRankingSummary,
-    roundTotalUsers,
-    overallTotalUsers,
-  ] = await Promise.all([
-    fetchUserRankingSummary(sport, "2024", session.user.id, "overall"),
-    fetchUserRankingSummary(sport, "2024", session.user.id, lastRound),
-    fetchRoundTotalUsers(sport, lastRound),
-    fetchRoundTotalUsers(sport, "overall"),
-  ]);
+export default function CardWrapper({
+  roundRankingSummary,
+  overallRankingSummary,
+  roundTotalUsers,
+  overallTotalUsers,
+  lastRound,
+}) {
+  const cards = [
+    roundRankingSummary && (
+      <div key="round-ranking-summary">
+        <ScoreCard
+          title={`Round ${lastRound} score`}
+          value={roundRankingSummary.total_points}
+          type="collected"
+        />
+        <RankingCard
+          title={`Round ${lastRound} ranking`}
+          value={roundRankingSummary.ranking}
+          total={roundTotalUsers}
+          type="customers"
+        />
+      </div>
+    ),
+    overallRankingSummary && (
+      <div key="overall-ranking-summary">
+        <ScoreCard
+          title="Overall score"
+          value={overallRankingSummary.total_points}
+          type="pending"
+        />
+        <RankingCard
+          title="Overall ranking"
+          value={overallRankingSummary.ranking}
+          total={overallTotalUsers}
+          type="invoices"
+        />
+      </div>
+    ),
+  ].filter(Boolean);
 
   return (
-    <>
-      {roundRankingSummary !== null ? (
-        <>
-          <ScoreCard
-            title={`Round ${lastRound} score`}
-            value={roundRankingSummary.total_points}
-            type="collected"
-          />
-          <RankingCard
-            title={`Round ${lastRound} ranking`}
-            value={roundRankingSummary.ranking}
-            total={roundTotalUsers}
-            type="customers"
-          />
-        </>
-      ) : (
-        ""
-      )}
-      {overallRankingSummary !== null ? (
-        <>
-          <ScoreCard
-            title="Overall score"
-            value={overallRankingSummary.total_points}
-            type="pending"
-          />
-          <RankingCard
-            title="Overall ranking"
-            value={overallRankingSummary.ranking}
-            total={overallTotalUsers}
-            type="invoices"
-          />
-        </>
-      ) : (
-        ""
-      )}
-    </>
+    <Carousel>
+      {cards.map((card, index) => (
+        <Paper key={index}>{card}</Paper>
+      ))}
+    </Carousel>
   );
 }
 
