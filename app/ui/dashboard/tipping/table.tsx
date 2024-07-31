@@ -21,11 +21,9 @@ export type States = {
 export default function GamesTable({
   games,
   tips,
-  userId,
 }: {
   games: Game[];
   tips: Tips[];
-  userId: string;
 }) {
   const [selectedTeams, setSelectedTeams] = useState<SelectedTeams>({});
   const [unselectedGames, setUnselectedGames] = useState<string[]>([]);
@@ -33,7 +31,7 @@ export default function GamesTable({
   const initialState: States = { message: "", error: false };
   const [state, formAction] = useActionState(updateTips, initialState);
   const [open, setOpen] = useState(false);
-  const [showSaveButton, setShowSaveButton] = useState(true);
+  const [showSaveButton, setShowSaveButton] = useState(false);
 
   useEffect(() => {
     // Check if all games are either 'completed' or 'inprogress'

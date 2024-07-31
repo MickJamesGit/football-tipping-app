@@ -1,5 +1,5 @@
-import DashboardSkeleton from "@/app/ui/dashboard/skeletons";
+import { TipsSkeleton } from "@/app/ui/dashboard/skeletons";
 
 export default function Loading() {
-  return <DashboardSkeleton />;
+  return <TipsSkeleton />;
 }

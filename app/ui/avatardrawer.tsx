@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   Box,
   Button,
@@ -17,7 +18,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Avatar from "@mui/material/Avatar";
-import PersonIcon from "@mui/icons-material/Person";
+import { signOut } from "next-auth/react";
 
 const AvatarDrawer = ({ image, alias, name }) => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -30,6 +31,10 @@ const AvatarDrawer = ({ image, alias, name }) => {
       return;
     }
     setDrawerOpen(open);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   const list = (anchor) => (
@@ -55,21 +60,31 @@ const AvatarDrawer = ({ image, alias, name }) => {
       <Divider />
       <List>
         {[
-          { text: "Account details", icon: <AccountCircleIcon /> },
-          { text: "Communication preferences", icon: <MailIcon /> },
-        ].map(({ text, icon }) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+          {
+            text: "Account details",
+            icon: <AccountCircleIcon />,
+            href: "/dashboard/account",
+          },
+          {
+            text: "Communication preferences",
+            icon: <MailIcon />,
+            href: "/dashboard/account",
+          },
+        ].map(({ text, icon, href }) => (
+          <Link href={href} key={text} passHref>
+            <ListItem disablePadding component="a">
+              <ListItemButton>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={handleSignOut}>
             <ListItemIcon>
               <PowerSettingsNewIcon />
             </ListItemIcon>

@@ -1,9 +1,4 @@
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { z } from "zod";
-import { sql } from "@vercel/postgres";
-import type { User } from "@/app/lib/definitions";
-import bcrypt from "bcrypt";
 import Google from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
 import { Pool } from "@neondatabase/serverless";
@@ -11,13 +6,9 @@ import Facebook from "next-auth/providers/facebook";
 import Instagram from "next-auth/providers/instagram";
 import Twitter from "next-auth/providers/twitter";
 
-export async function getUser(email: string): Promise<User> {
-  try {
-    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0];
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    throw new Error("Failed to fetch user.");
+declare module "next-auth" {
+  interface User {
+    username?: string | null;
   }
 }
 
@@ -46,7 +37,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
         return true;
       },
       async session({ session, user }) {
-        session.user.id = user.id;
+        const result = await pool.query(
+          "SELECT alias FROM users WHERE id = $1",
+          [user.id]
+        );
+        const dbUser = result.rows[0] || {};
+
+        session.user = {
+          ...session.user,
+          id: user.id,
+          name: user.name,
+          image: user.image,
+          username: dbUser.alias || "",
+        };
+
         return session;
       },
     },

@@ -1,3 +1,5 @@
+"use server";
+
 import { sql } from "@vercel/postgres";
 import {
   Team,
@@ -10,6 +12,8 @@ import {
 } from "./definitions";
 import { getTodaysDate } from "./utils";
 import { Competition, UserCompetitions } from "../dashboard/tipping/page";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -90,7 +94,48 @@ export async function fetchGames(sport: string, round: string) {
   }
 }
 
-export async function fetchTips(user_id: string, round: string, sport: string) {
+export async function fetchGameTips(gameIds: string[]) {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const user_id = session.user.id;
+
+  try {
+    // Use parameterized queries to handle arrays correctly
+    const data = await sql`
+      SELECT
+        t.game_id,
+        t.tip_team_id,
+        teams.name AS tip_team_name
+      FROM
+        tips t
+      JOIN
+        teams ON t.tip_team_id = teams.id
+      WHERE
+        t.game_id = ANY(${gameIds}) AND t.user_id = ${user_id}
+    `;
+
+    // Map the results to the desired format
+    const tips = data.rows.map((tip) => ({
+      game_id: tip.game_id,
+      tip_team_id: tip.tip_team_id,
+      tip_team_name: tip.tip_team_name,
+    }));
+
+    return tips;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch tips.");
+  }
+}
+
+export async function fetchTips(sport: string, round: string) {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const user_id = session.user.id;
   try {
     const data = await sql<Tips>`
       SELECT
@@ -183,10 +228,11 @@ export async function fetchLeaderboard(
 }
 
 export async function fetchCurrentRound(
-  todays_date: string,
-  sport: Sport
+  sport: string
 ): Promise<Round["round"]> {
+  const todays_date = getTodaysDate();
   try {
+    console.log(sport);
     const data = await sql<Round>`
       SELECT
         r.id AS id,
@@ -196,7 +242,7 @@ export async function fetchCurrentRound(
       FROM
         rounds r
       WHERE
-        r.sport = ${sport} AND ${todays_date} BETWEEN r.start_date AND r.end_date
+        r.sport = ${sport} AND ${todays_date} BETWEEN r.start_date AND r.end_date AND season = '2024'
     `;
 
     if (data.rows.length === 0) {
@@ -221,9 +267,9 @@ export async function fetchCurrentRound(
 }
 
 export async function fetchPreviousRound(
-  todays_date: string,
-  sport: Sport
+  sport: string
 ): Promise<Round["round"]> {
+  const todays_date = getTodaysDate();
   try {
     const data = await sql<Round>`
       SELECT
@@ -262,19 +308,28 @@ export async function fetchPreviousRound(
 }
 
 type UserRanking = {
-  ranking: number;
-  total_points: number;
-} | null;
+  sportName: string;
+  lastRoundNumber: number;
+  lastRoundCorrectGames: number;
+  lastRoundTotalGames: number;
+  overallTippingPoints: number;
+  overallRanking: number;
+  overallNumberOfUsers: number;
+};
 
 export async function fetchUserRankingSummary(
   sport: string,
-  season: string,
-  userId: string,
   round: string
-): Promise<UserRanking> {
+): Promise<UserRanking | null> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const userId = session.user.id;
+
   try {
-    // Step 1: Fetch all user scores for the given sport, season, and round
-    const allData = await sql<{ id: string; total_points: number }>`
+    // Fetch user scores for the given sport, season, and round
+    const userScoreData = await sql<{ id: string; total_points: number }>`
       SELECT
         u.id AS id,
         s.score AS total_points
@@ -284,26 +339,64 @@ export async function fetchUserRankingSummary(
         users u ON s.user_id = u.id
       WHERE
         s.sport = ${sport} AND
-        s.season = ${season} AND
-        s.round = ${round}
+        s.season = '2024' AND
+        s.round = ${round} AND
+        s.user_id = ${userId}
+    `;
+
+    // Fetch overall scores for all users
+    const overallData = await sql<{ id: string; total_points: number }>`
+      SELECT
+        u.id AS id,
+        s.score AS total_points
+      FROM
+        scores s
+      JOIN
+        users u ON s.user_id = u.id
+      WHERE
+        s.sport = ${sport} AND
+        s.season = '2024' AND
+        s.round = 'overall'
       ORDER BY
         s.score DESC
     `;
 
-    // Step 2: Assign rankings to the dataset
-    const rankedData = allData.rows.map((entry, index) => ({
+    // Fetch total games for the round
+    const totalGamesData = await sql<{ total_games: number }>`
+      SELECT
+        COUNT(*) AS total_games
+      FROM
+        games
+      WHERE
+        sport = ${sport} AND
+        season = '2024' AND
+        round = ${round}
+    `;
+
+    const totalGames = totalGamesData.rows[0]?.total_games || 0;
+    const userScore = userScoreData.rows[0]?.total_points || 0;
+
+    // Assign rankings to the overall dataset
+    const overallRankedData = overallData.rows.map((entry, index) => ({
       id: entry.id,
       total_points: entry.total_points,
       ranking: index + 1,
     }));
 
-    // Step 3: Find the ranking of the specific user
-    const userRanking = rankedData.find((entry) => entry.id === userId);
+    // Find the overall ranking of the specific user
+    const overallUserRanking = overallRankedData.find(
+      (entry) => entry.id === userId
+    );
 
-    if (userRanking) {
+    if (overallUserRanking) {
       return {
-        ranking: userRanking.ranking,
-        total_points: userRanking.total_points,
+        sportName: sport,
+        lastRoundNumber: parseInt(round, 10),
+        lastRoundCorrectGames: userScore,
+        lastRoundTotalGames: totalGames,
+        overallTippingPoints: overallUserRanking.total_points,
+        overallRanking: overallUserRanking.ranking,
+        overallNumberOfUsers: overallRankedData.length,
       };
     } else {
       return null;
@@ -311,7 +404,7 @@ export async function fetchUserRankingSummary(
   } catch (err) {
     console.error("Database Error:", err);
     console.error(
-      `Failed to fetch user ranking for sport: ${sport}, season: ${season}, round: ${round}, user ID: ${userId}`
+      `Failed to fetch user ranking for sport: ${sport}, season: 2024, round: ${round}, user ID: ${userId}`
     );
     throw new Error("Failed to fetch user ranking.");
   }
@@ -404,8 +497,11 @@ export async function fetchUserdetails(
   }
 }
 
-export async function fetchUpcomingGames(sport: string) {
+export async function fetchUpcomingGames(sports: string[]) {
   try {
+    // Convert the array of sports to a format that can be used in the SQL query
+    const sportsList = sports.join(",");
+
     const data = await sql<Game>`
     SELECT
       g.id,
@@ -427,7 +523,7 @@ export async function fetchUpcomingGames(sport: string) {
     JOIN
       teams t2 ON g.away_team_id = t2.id
     WHERE
-      g.sport = ${sport} AND g.status='upcoming'
+      g.sport = ANY (string_to_array(${sportsList}, ',')::text[]) AND g.status='scheduled'
     ORDER BY
       g.datetime
     LIMIT 5
@@ -444,30 +540,63 @@ export async function fetchUpcomingGames(sport: string) {
 }
 
 export async function fetchAllRounds(
-  season: string,
-  sport: Sport
-): Promise<number[]> {
+  sports: string[]
+): Promise<{ sport: string; rounds: string[]; currentRound: string }[]> {
+  const sportsList = sports.join(",");
+  const todaysDate = new Date(getTodaysDate()); // Ensure this function returns the current date in 'YYYY-MM-DD' format
+
   try {
-    const data = await sql<{ round: number }>`
+    const data = await sql<{
+      sport: string;
+      round: string;
+      start_date: string;
+      end_date: string;
+    }>`
       SELECT
-        r.round_number AS round
+        r.sport,
+        r.round_number AS round,
+        r.start_date,
+        r.end_date
       FROM
         rounds r
       WHERE
-        r.sport = ${sport} AND r.season = ${season}
-        ORDER BY
+        r.sport = ANY (string_to_array(${sportsList}, ',')::text[]) AND r.season = '2024'
+      ORDER BY
+        r.sport ASC,
         r.round_number ASC
     `;
 
-    // Extract round numbers from the fetched data
-    const rounds = data.rows.map((item) => item.round);
+    // Group rounds by sport and find the current round
+    const roundsBySport: {
+      [key: string]: { rounds: string[]; currentRound: string };
+    } = {};
+    data.rows.forEach(({ sport, round, start_date, end_date }) => {
+      if (!roundsBySport[sport]) {
+        roundsBySport[sport] = { rounds: [], currentRound: "" };
+      }
+      roundsBySport[sport].rounds.push(round);
 
-    return rounds;
+      // Convert start_date and end_date to Date objects
+      const startDate = new Date(start_date);
+      const endDate = new Date(end_date);
+
+      // Logic to determine the current round
+      if (todaysDate >= startDate && todaysDate <= endDate) {
+        roundsBySport[sport].currentRound = round;
+      }
+    });
+
+    // Convert the object to an array of { sport, rounds, currentRound } objects
+    const result = Object.keys(roundsBySport).map((sport) => ({
+      sport,
+      rounds: roundsBySport[sport].rounds,
+      currentRound: roundsBySport[sport].currentRound,
+    }));
+
+    return result;
   } catch (err) {
     console.error("Database Error:", err);
-    console.error(
-      `Failed to fetch rounds for sport: ${sport}, season: ${season}`
-    );
+    console.error(`Failed to fetch rounds for sports: ${sports.join(", ")}`);
     throw new Error("Failed to fetch rounds.");
   }
 }
@@ -505,12 +634,32 @@ export async function fetchActiveSports(): Promise<string[]> {
   }
 }
 
-export async function fetchUserCompetitions(
-  userId: string
-): Promise<UserCompetitions> {
+export async function fetchUserCompetitions(): Promise<{
+  userCompetitions: {
+    signedUp: {
+      id: string;
+      name: string;
+    }[];
+    notSignedUp: {
+      id: string;
+      name: string;
+      startDate: string;
+      endDate: string;
+      userCount: number;
+    }[];
+  };
+}> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const userId = session.user.id;
   const todays_date = getTodaysDate();
   try {
-    const signedUpData = await sql<Competition>`
+    const signedUpData = await sql<{
+      id: string;
+      name: string;
+    }>`
       SELECT c.id, c.name
       FROM competitions c
       WHERE c.id IN (
@@ -521,24 +670,252 @@ export async function fetchUserCompetitions(
       AND ${todays_date} BETWEEN c.start_date AND c.end_date
     `;
 
-    const notSignedUpData = await sql<Competition>`       SELECT c.id, c.name
+    const notSignedUpData = await sql<{
+      id: string;
+      name: string;
+      start_date: string;
+      end_date: string;
+      userCount: number;
+    }>`
+      SELECT c.id, c.name, c.start_date, c.end_date, COUNT(uc.user_id) AS "userCount"
       FROM competitions c
+      LEFT JOIN user_competitions uc ON c.id = uc.competition_id
       WHERE c.id NOT IN (
         SELECT uc.competition_id
         FROM user_competitions uc
         WHERE uc.user_id = ${userId}
       )
       AND ${todays_date} BETWEEN c.start_date AND c.end_date
-  `;
+      GROUP BY c.id, c.name, c.start_date, c.end_date
+    `;
 
-    const userCompetitions: UserCompetitions = {
+    const userCompetitions = {
       signedUp: signedUpData.rows,
-      notSignedUp: notSignedUpData.rows,
+      notSignedUp: notSignedUpData.rows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        startDate: row.start_date,
+        endDate: row.end_date,
+        userCount: row.userCount,
+      })),
     };
-
-    return userCompetitions;
+    return { userCompetitions };
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch user competitions.");
+  }
+}
+
+export async function fetchLastRoundScores(sports: string[]): Promise<
+  {
+    roundNumber: string;
+    score: number;
+    totalGames: number;
+  }[]
+> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const userId = session.user.id;
+  const todays_date = getTodaysDate();
+
+  try {
+    const results = await Promise.all(
+      sports.map(async (sport) => {
+        const lastRound = await sql<{
+          round_number: string;
+          end_date: string;
+        }>`
+        SELECT round_number, end_date
+        FROM rounds
+        WHERE sport = ${sport}
+        AND end_date = (
+          SELECT MAX(end_date)
+          FROM rounds
+          WHERE sport = ${sport}
+          AND end_date <= ${todays_date}
+        )
+      `;
+
+        const roundNumber =
+          lastRound.rows.length === 0 ? "1" : lastRound.rows[0].round_number;
+
+        const scoreData = await sql<{
+          score: number;
+        }>`
+        SELECT score
+        FROM scores
+        WHERE user_id = ${userId}
+        AND sport = ${sport}
+        AND round = ${roundNumber}
+      `;
+
+        const totalGamesData = await sql<{
+          total_games: number;
+        }>`
+        SELECT COUNT(*) AS total_games
+        FROM games
+        WHERE sport = ${sport}
+        AND round = ${roundNumber}
+      `;
+
+        return {
+          roundNumber,
+          score: scoreData.rows[0]?.score || 0,
+          totalGames: totalGamesData.rows[0]?.total_games || 0,
+        };
+      })
+    );
+
+    console.log(results);
+    return results;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch last round scores.");
+  }
+}
+
+export async function fetchNextGameDates(
+  sports: string[]
+): Promise<{ sport: string; nextGameDate: string; nextGameRound: string }[]> {
+  const todays_date = getTodaysDate();
+
+  try {
+    const results = await Promise.all(
+      sports.map(async (sport) => {
+        const nextGameData = await sql<{
+          start_date: string;
+          round: string;
+        }>`
+        SELECT datetime AS start_date, round
+        FROM games
+        WHERE sport = ${sport}
+        AND datetime > ${todays_date}
+        ORDER BY datetime ASC
+        LIMIT 1
+      `;
+
+        if (nextGameData.rows.length === 0) {
+          return {
+            sport,
+            nextGameDate: "No upcoming games found",
+            nextGameRound: "N/A",
+          };
+        }
+
+        const { start_date, round } = nextGameData.rows[0];
+        return { sport, nextGameDate: start_date, nextGameRound: round };
+      })
+    );
+    console.log(results);
+    return results;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch next game dates.");
+  }
+}
+
+export async function fetchOverallRanking(sports: string[]): Promise<
+  {
+    score: number;
+    ranking: number;
+    totalUsers: number;
+  }[]
+> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const userId = session.user.id;
+
+  try {
+    const results = await Promise.all(
+      sports.map(async (sport) => {
+        const scoreData = await sql<{
+          score: number;
+          ranking: number;
+        }>`
+        SELECT
+          score,
+          RANK() OVER (ORDER BY score DESC) AS ranking
+        FROM scores
+        WHERE user_id = ${userId}
+        AND sport = ${sport}
+        AND round = 'overall'
+      `;
+
+        const totalUsersData = await sql<{
+          total_users: number;
+        }>`
+        SELECT COUNT(*) AS total_users
+        FROM scores
+        WHERE sport = ${sport}
+        AND round = 'overall'
+      `;
+
+        return {
+          score: scoreData.rows[0]?.score || 0,
+          ranking: scoreData.rows[0]?.ranking || 0,
+          totalUsers: totalUsersData.rows[0]?.total_users || 0,
+        };
+      })
+    );
+
+    console.log(results);
+    return results;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch overall ranking.");
+  }
+}
+
+export async function fetchAccountDetails(): Promise<{
+  name: string;
+  alias: string;
+  image: string;
+  receiveTippingReminders: boolean;
+  receiveTippingResults: boolean;
+}> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+  const userId = session.user.id;
+
+  try {
+    const userData = await sql<{
+      name: string;
+      alias: string;
+      image: string;
+      receiveTippingReminders: boolean;
+      receiveTippingResults: boolean;
+    }>`
+    SELECT
+      name,
+      alias,
+      image,
+      receive_tipping_reminders AS "receiveTippingReminders",
+      receive_tipping_results AS "receiveTippingResults"
+    FROM users
+    WHERE id = ${userId}
+  `;
+
+    if (userData.rows.length === 0) {
+      throw new Error("User not found.");
+    }
+
+    const userDetails = userData.rows[0];
+
+    return {
+      name: userDetails.name,
+      alias: userDetails.alias,
+      image: userDetails.image,
+      receiveTippingReminders: userDetails.receiveTippingReminders,
+      receiveTippingResults: userDetails.receiveTippingResults,
+    };
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch account details.");
   }
 }

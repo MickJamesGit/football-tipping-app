@@ -1,3 +1,5 @@
+import { Skeleton } from "@mui/material";
+
 // Loading animation
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
@@ -18,6 +20,73 @@ export function CardSkeleton() {
   );
 }
 
+export function CompetitionCardSkeleton() {
+  return (
+    <div
+      className="relative overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm"
+      style={{ maxWidth: 345 }}
+    >
+      <div className="flex p-4">
+        <div className="h-5 w-5 rounded-md bg-gray-200" />
+        <div className="ml-2 h-6 w-16 rounded-md bg-gray-200 text-sm font-medium" />
+      </div>
+      <div className="h-140 w-full rounded-md bg-gray-200" />
+      <div className="p-4">
+        <div className="h-7 w-3/4 rounded-md bg-gray-200 mb-2" />
+        <div className="h-4 w-full rounded-md bg-gray-200 mb-1" />
+        <div className="h-4 w-5/6 rounded-md bg-gray-200" />
+      </div>
+    </div>
+  );
+}
+
+export function CompetitionsSkeleton() {
+  return (
+    <div className="w-full">
+      {/* Skeleton for "My sports" section */}
+      <h1 className={` text-3xl text-left mt-4 mb-2 border-b pb-2`}></h1>
+      <div className="flex  gap-4 mt-6">
+        <CompetitionCardSkeleton />
+        <CompetitionCardSkeleton />
+      </div>
+      <h1 className={` text-3xl text-left mt-4 mb-2 border-b pb-2`}></h1>
+      <div className="flex  gap-4 mt-6">
+        <CompetitionCardSkeleton />
+        <CompetitionCardSkeleton />
+      </div>
+    </div>
+  );
+}
+
+export function UserHeadingSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-hidden rounded-lg bg-gray-50 p-4 flex items-center`}
+    >
+      <div className="h-10 w-10 rounded-full bg-gray-200" />
+      <div className="ml-4 h-8 w-32 rounded-md bg-gray-200" />
+    </div>
+  );
+}
+
+export function TipsSkeleton() {
+  return (
+    <>
+      <UserHeadingSkeleton />
+      <GamesTableSkeleton />
+    </>
+  );
+}
+
+export function TippingCompetitionsSkeleton() {
+  return (
+    <>
+      <UserHeadingSkeleton />
+      <CompetitionsSkeleton />
+    </>
+  );
+}
+
 export function CardsSkeleton() {
   return (
     <>
@@ -26,21 +95,6 @@ export function CardsSkeleton() {
       <CardSkeleton />
       <CardSkeleton />
     </>
-  );
-}
-
-export function RevenueChartSkeleton() {
-  return (
-    <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
-      <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" />
-      <div className="rounded-xl bg-gray-100 p-4">
-        <div className="mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-white p-4 sm:grid-cols-13 md:gap-4" />
-        <div className="flex items-center pb-2 pt-6">
-          <div className="h-5 w-5 rounded-full bg-gray-200" />
-          <div className="ml-2 h-4 w-20 rounded-md bg-gray-200" />
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -95,7 +149,6 @@ export default function DashboardSkeleton() {
         <CardSkeleton />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <RevenueChartSkeleton />
         <LatestInvoicesSkeleton />
       </div>
     </>
@@ -230,7 +283,6 @@ export function TippingSkeleton() {
         <CardSkeleton />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <RevenueChartSkeleton />
         <LatestInvoicesSkeleton />
       </div>
     </>
