@@ -1,81 +1,42 @@
-import CardWrapper from "@/app/ui/dashboard/cards";
-import { lusitana } from "@/app/ui/fonts";
 import { Suspense } from "react";
 import {
-  CardsSkeleton,
+  CardSkeleton,
   LatestInvoicesSkeleton,
+  UserHeadingSkeleton,
 } from "@/app/ui/dashboard/skeletons";
 import { Metadata } from "next";
-import LatestTips from "../ui/dashboard/latest-tips";
-import UpcomingGames from "../ui/dashboard/upcoming-games";
-import { Game } from "../lib/definitions";
-import {
-  fetchPreviousRound,
-  fetchRoundTotalUsers,
-  fetchUpcomingGames,
-  fetchUserRankingSummary,
-  fetchUserdetails,
-} from "../lib/data";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { Avatar } from "@mui/material";
-import { getTodaysDate } from "../lib/utils";
+import { UserHeading } from "../ui/dashboard/user-heading";
+import { fetchUserCompetitions } from "../lib/data";
+import { UpcomingGamesLayout } from "../ui/dashboard/upcoming-games-layout";
+import DashboardCards from "../ui/dashboard/dashboard-cards";
+
 export const metadata: Metadata = {
   title: "Dashboard",
 };
+
 export default async function Page() {
-  const games: Game[] = await fetchUpcomingGames("NRL");
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
+  const { userCompetitions } = await fetchUserCompetitions();
 
-  const sport = "NRL";
-  const todays_date = getTodaysDate();
-  const lastRound = await fetchPreviousRound(todays_date, sport);
-
-  const [
-    { alias, image },
-    overallRankingSummary,
-    roundRankingSummary,
-    roundTotalUsers,
-    overallTotalUsers,
-  ] = await Promise.all([
-    fetchUserdetails(session.user.id),
-    fetchUserRankingSummary(sport, "2024", session.user.id, "overall"),
-    fetchUserRankingSummary(sport, "2024", session.user.id, lastRound),
-    fetchRoundTotalUsers(sport, lastRound),
-    fetchRoundTotalUsers(sport, "overall"),
-  ]);
+  const registeredSports = userCompetitions.signedUp.map(
+    (competition) => competition.name
+  );
 
   return (
     <main>
-      <div className="w-full bg-gray-50 p-4 rounded-lg mb-6 flex items-center">
-        <Avatar src={image} alt={alias} />
-
-        <h1
-          className={`${lusitana.className} text-2xl text-left ml-4 font-bold`}
-        >
-          {alias}
-        </h1>
-      </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Suspense fallback={<CardsSkeleton />}>
-          <CardWrapper
-            overallRankingSummary={overallRankingSummary}
-            roundRankingSummary={roundRankingSummary}
-            roundTotalUsers={roundTotalUsers}
-            overallTotalUsers={overallTotalUsers}
-            lastRound={lastRound}
-          />
-        </Suspense>
-      </div>
+      <Suspense fallback={<UserHeadingSkeleton />}>
+        <UserHeading userSports={registeredSports} />
+      </Suspense>
+      <Suspense fallback={<CardSkeleton />}>
+        <DashboardCards
+          registeredSports={registeredSports}
+          unregisteredSports={userCompetitions.notSignedUp}
+        />
+      </Suspense>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <LatestTips />
-        </Suspense>
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <UpcomingGames games={games} />
+          <div className="col-span-1 md:col-span-4 lg:col-span-8">
+            <UpcomingGamesLayout sports={registeredSports} />
+          </div>
         </Suspense>
       </div>
     </main>

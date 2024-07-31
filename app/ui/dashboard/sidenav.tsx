@@ -4,10 +4,9 @@ import { PowerIcon } from "@heroicons/react/24/outline";
 import { auth, signOut } from "@/auth";
 import SiteLogo from "@/app/ui/site-logo";
 import { redirect } from "next/navigation";
-import { AppBar, Avatar, IconButton, Toolbar } from "@mui/material";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
 import { fetchUserdetails } from "@/app/lib/data";
 import AvatarDrawer from "../avatardrawer";
-import { Power } from "@mui/icons-material";
 
 export default async function SideNav() {
   const session = await auth();
@@ -19,7 +18,7 @@ export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
       <div className="block md:hidden">
-        <AppBar position="fixed" className="bg-green-600">
+        <AppBar position="fixed" className="bg-primary">
           <Toolbar className="flex justify-between">
             <div className="w-32 text-white">
               <SiteLogo />
@@ -31,7 +30,7 @@ export default async function SideNav() {
         </AppBar>
       </div>
       <Link
-        className="hidden md:flex mb-2 h-20 items-end justify-start rounded-md bg-green-600 p-4 md:h-38"
+        className="hidden md:flex mb-2 h-20 items-end justify-start rounded-md bg-primary p-4 md:h-38"
         href="/"
       >
         <div className="w-32 text-white md:w-40">
@@ -50,7 +49,7 @@ export default async function SideNav() {
               await signOut();
             }}
           >
-            <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-100 hover:text-green-600 md:flex-none md:justify-start md:p-2 md:px-3">
+            <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-primary hover:text-white md:flex-none md:justify-start md:p-2 md:px-3">
               <PowerIcon className="w-6" />
               <div className="hidden md:block">Sign Out</div>
             </button>

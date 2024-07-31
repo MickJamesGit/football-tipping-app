@@ -6,6 +6,7 @@ import { States } from "../ui/dashboard/tipping/table";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { Game } from "./definitions";
+import { revalidatePath } from "next/cache";
 
 const tipSchema = z.object({
   tips: z.array(
@@ -17,6 +18,8 @@ const tipSchema = z.object({
 });
 
 const usernameSchema = z.string().min(5).max(25);
+
+const preferencesSchema = z.boolean();
 
 const sportsSchema = z.array(z.string().min(1));
 
@@ -303,20 +306,112 @@ export async function setNewUserTips(
   }
 }
 
-export async function updateUserCompetitions(
-  userId: string,
-  competitionId: string
-) {
-  try {
-    await sql`
-        INSERT INTO user_competitions (user_id, competition_id) 
-        VALUES (${userId}, ${competitionId})
-      `;
+export async function updateUserCompetitions(competitionId: string) {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
 
+  try {
+    const existingRegistration = await sql`
+      SELECT 1 FROM user_competitions 
+      WHERE user_id = ${session.user.id} AND competition_id = ${competitionId}
+    `;
+
+    if (existingRegistration.rows.length > 0) {
+      console.log("User is already registered for this competition.");
+      return redirect("/dashboard/tipping");
+    }
+
+    await sql`
+      INSERT INTO user_competitions (user_id, competition_id) 
+      VALUES (${session.user.id}, ${competitionId})
+    `;
     console.log("User registered successfully.");
+    redirect("/dashboard/tipping");
+  } catch (error) {
+    console.error("Error registering for competition:", error);
+    throw error;
+  }
+}
+
+export async function updateAccountDetails(
+  state: States,
+  formData: FormData
+): Promise<{ error: boolean; message: string }> {
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  if (!session.user?.id) {
+    return {
+      error: true,
+      message: "Error: Unable to update account details.",
+    };
+  }
+  console.log(formData);
+  const alias = formData.get("username");
+  console.log(alias);
+  const result = usernameSchema.safeParse(alias);
+
+  if (!result.success) {
+    console.error("Validation Error:", result.error.issues);
+    return {
+      error: true,
+      message:
+        "Error: Unable to update username. Usernames must be between 5 and 25 characters.",
+    };
+  }
+
+  const receiveTippingReminders =
+    formData.get("receiveTippingReminders") === "true";
+  console.log(receiveTippingReminders);
+  const receiveTippingResults =
+    formData.get("receiveTippingResults") === "true";
+
+  const remindersResult = preferencesSchema.safeParse(receiveTippingReminders);
+  const resultsResult = preferencesSchema.safeParse(receiveTippingResults);
+
+  if (!remindersResult.success || !resultsResult.success) {
+    console.error("Preferences save error");
+    return {
+      error: true,
+      message:
+        "Error: Unable to save communication preferences. Please try again.",
+    };
+  }
+
+  const username = result.data;
+
+  try {
+    // Start a transaction
+    await sql`BEGIN`;
+
+    // Update the username
+    await sql`
+      UPDATE users
+      SET alias = ${username}
+      WHERE id = ${session.user.id}
+    `;
+
+    // Update the communication preferences
+    await sql`
+      UPDATE users
+      SET receive_tipping_reminders = ${receiveTippingReminders},
+          receive_tipping_results = ${receiveTippingResults}
+      WHERE id = ${session.user.id}
+    `;
+
+    // Commit the transaction
+    await sql`COMMIT`;
+    revalidatePath("/dashboard/account");
+    return { error: false, message: "Success" };
   } catch (error) {
     // Rollback the transaction in case of an error
     await sql`ROLLBACK`;
-    console.error("Error registering for competition:", error);
+    console.error("Database Error:", error);
+    return {
+      error: true,
+      message: "Error: Unable to save account details.",
+    };
   }
 }

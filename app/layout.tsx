@@ -1,6 +1,12 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+import { UserProvider } from "./context/user-context";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 export const metadata: Metadata = {
   title: {
@@ -17,7 +23,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased`}>
+        {" "}
+        <SessionProvider>
+          <UserProvider>{children}</UserProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }
