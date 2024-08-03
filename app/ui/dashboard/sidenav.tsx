@@ -18,7 +18,7 @@ export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
       <div className="block md:hidden">
-        <AppBar position="fixed" className="bg-primary">
+        <AppBar position="fixed" className="bg-primary z-50">
           <Toolbar className="flex justify-between">
             <div className="w-32 text-white">
               <SiteLogo />

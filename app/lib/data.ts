@@ -101,6 +101,7 @@ export async function fetchGameTips(gameIds: string[]) {
   }
   const user_id = session.user.id;
 
+  const gameIdsString = JSON.stringify(gameIds);
   try {
     // Use parameterized queries to handle arrays correctly
     const data = await sql`
@@ -113,7 +114,7 @@ export async function fetchGameTips(gameIds: string[]) {
       JOIN
         teams ON t.tip_team_id = teams.id
       WHERE
-        t.game_id = ANY(${gameIds}) AND t.user_id = ${user_id}
+        t.game_id = ANY(${gameIdsString}) AND t.user_id = ${user_id}
     `;
 
     // Map the results to the desired format
@@ -874,6 +875,7 @@ export async function fetchAccountDetails(): Promise<{
   name: string;
   alias: string;
   image: string;
+  email: string;
   receiveTippingReminders: boolean;
   receiveTippingResults: boolean;
 }> {
@@ -888,6 +890,7 @@ export async function fetchAccountDetails(): Promise<{
       name: string;
       alias: string;
       image: string;
+      email: string;
       receiveTippingReminders: boolean;
       receiveTippingResults: boolean;
     }>`
@@ -895,6 +898,7 @@ export async function fetchAccountDetails(): Promise<{
       name,
       alias,
       image,
+      email,
       receive_tipping_reminders AS "receiveTippingReminders",
       receive_tipping_results AS "receiveTippingResults"
     FROM users
@@ -910,6 +914,7 @@ export async function fetchAccountDetails(): Promise<{
     return {
       name: userDetails.name,
       alias: userDetails.alias,
+      email: userDetails.email,
       image: userDetails.image,
       receiveTippingReminders: userDetails.receiveTippingReminders,
       receiveTippingResults: userDetails.receiveTippingResults,

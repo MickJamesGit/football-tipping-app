@@ -80,7 +80,7 @@ export default function NavLinks() {
   );
 }
 
-function CircleCheckIcon(props) {
+function CircleCheckIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -100,7 +100,7 @@ function CircleCheckIcon(props) {
   );
 }
 
-function HomeIcon(props) {
+function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -120,7 +120,7 @@ function HomeIcon(props) {
   );
 }
 
-function TrophyIcon(props) {
+function TrophyIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -144,7 +144,7 @@ function TrophyIcon(props) {
   );
 }
 
-function XIcon(props) {
+function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -164,7 +164,7 @@ function XIcon(props) {
   );
 }
 
-function UserIcon(props) {
+function UserIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

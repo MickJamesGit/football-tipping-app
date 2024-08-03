@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import { Metadata } from "next";
-import { GamesTableSkeleton } from "@/app/ui/dashboard/skeletons";
+import { TippingTableSkeleton } from "@/app/ui/dashboard/skeletons";
 import { redirect } from "next/navigation";
 import TippingTableLayout from "@/app/ui/dashboard/tipping-table-layout";
 import {
@@ -12,7 +12,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Slash } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Tips",
@@ -44,7 +43,7 @@ export default async function Page({
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Suspense fallback={<GamesTableSkeleton />}>
+      <Suspense fallback={<TippingTableSkeleton />}>
         <TippingTableLayout sport={sport} round={round} />
       </Suspense>
     </div>

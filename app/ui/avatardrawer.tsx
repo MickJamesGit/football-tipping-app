@@ -20,24 +20,33 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Avatar from "@mui/material/Avatar";
 import { signOut } from "next-auth/react";
 
-const AvatarDrawer = ({ image, alias, name }) => {
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+interface AvatarDrawerProps {
+  image: string;
+  alias: string;
+  name: string;
+}
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setDrawerOpen(open);
-  };
+const AvatarDrawer: React.FC<AvatarDrawerProps> = ({ image, alias, name }) => {
+  const [isDrawerOpen, setDrawerOpen] = useState<boolean>(false);
+
+  const toggleDrawer =
+    (anchor: "top" | "left" | "bottom" | "right", open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setDrawerOpen(open);
+    };
 
   const handleSignOut = async () => {
     await signOut();
   };
 
-  const list = (anchor) => (
+  const list = (anchor: "top" | "left" | "bottom" | "right") => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"

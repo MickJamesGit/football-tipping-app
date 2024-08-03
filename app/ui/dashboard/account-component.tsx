@@ -20,6 +20,7 @@ export default function AccountComponent({
   user: {
     name: string;
     alias: string;
+    email: string;
     image: string;
     receiveTippingReminders: boolean;
     receiveTippingResults: boolean;
@@ -41,23 +42,35 @@ export default function AccountComponent({
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    const errorFlag = state.error ?? false;
     if (state.message) {
       setOpen(true);
-      setError(state.error);
+      setError(errorFlag);
     }
   }, [state]);
 
   useEffect(() => {
-    if (!state.error) {
-      // Update state based on submitted values
+    if (state.message && !state.error) {
+      // Only update state on success
       setUsername(username);
       setTippingReminders(tippingReminders);
       setResultsNotifications(resultsNotifications);
     }
-  }, [state, username, tippingReminders, resultsNotifications]);
+  }, [state]);
+
+  const handleTippingRemindersChange = (checked: boolean) => {
+    setTippingReminders(checked === true);
+  };
+
+  const handleResultsNotificationsChange = (checked: boolean) => {
+    setResultsNotifications(checked === true);
+  };
 
   return (
     <>
+      <h1 className="bg-primary py-4 px-6 rounded-lg text-2xl font-bold text-primary-foreground">
+        My Account
+      </h1>
       {open && !error && (
         <div
           id="alert-border-3"
@@ -134,7 +147,7 @@ export default function AccountComponent({
           </Avatar>
           <div className="grid gap-1">
             <h1 className="text-2xl font-bold">{user.name}</h1>
-            <p className="text-muted-foreground">{user.alias}</p>
+            <p className="text-muted-foreground">{user.email}</p>
           </div>
         </div>
         <form action={formAction}>
@@ -164,7 +177,7 @@ export default function AccountComponent({
                   <Checkbox
                     id="receiveTippingReminders"
                     checked={tippingReminders}
-                    onCheckedChange={setTippingReminders}
+                    onCheckedChange={handleTippingRemindersChange}
                   />
                   <div className="grid gap-1.5 leading-none">
                     <Label
@@ -187,7 +200,7 @@ export default function AccountComponent({
                   <Checkbox
                     id="receiveTippingResults"
                     checked={resultsNotifications}
-                    onCheckedChange={setResultsNotifications}
+                    onCheckedChange={handleResultsNotificationsChange}
                   />
                   <div className="grid gap-1.5 leading-none">
                     <Label
