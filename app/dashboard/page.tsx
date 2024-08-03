@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import {
-  CardSkeleton,
-  LatestInvoicesSkeleton,
+  DashboardCardsSkeleton,
+  UpcomingGamesSkeleton,
   UserHeadingSkeleton,
 } from "@/app/ui/dashboard/skeletons";
 import { Metadata } from "next";
@@ -26,14 +26,14 @@ export default async function Page() {
       <Suspense fallback={<UserHeadingSkeleton />}>
         <UserHeading userSports={registeredSports} />
       </Suspense>
-      <Suspense fallback={<CardSkeleton />}>
+      <Suspense fallback={<DashboardCardsSkeleton />}>
         <DashboardCards
           registeredSports={registeredSports}
           unregisteredSports={userCompetitions.notSignedUp}
         />
       </Suspense>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
+        <Suspense fallback={<UpcomingGamesSkeleton />}>
           <div className="col-span-1 md:col-span-4 lg:col-span-8">
             <UpcomingGamesLayout sports={registeredSports} />
           </div>

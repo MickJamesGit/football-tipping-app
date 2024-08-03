@@ -1,18 +1,19 @@
 import React from "react";
-import {
-  Box,
-  Tooltip,
-  IconButton,
-  Avatar,
-  Menu,
-  MenuItem,
-  Divider,
-  ListItemIcon,
-} from "@mui/material";
-import { PersonAdd, Settings, Logout } from "@mui/icons-material";
+import { Avatar, Menu, MenuItem, Divider, ListItemIcon } from "@mui/material";
+import { Logout } from "@mui/icons-material";
 import { deepPurple } from "@mui/material/colors";
 
-export default function AccountMenu({ anchorEl, open, onClose }) {
+interface AccountMenuProps {
+  anchorEl: null | HTMLElement;
+  open: boolean;
+  onClose: () => void;
+}
+
+export default function AccountMenu({
+  anchorEl,
+  open,
+  onClose,
+}: AccountMenuProps) {
   return (
     <Menu
       anchorEl={anchorEl}

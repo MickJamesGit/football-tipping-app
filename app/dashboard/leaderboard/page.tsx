@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { InvoicesTableSkeleton } from "@/app/ui/dashboard/skeletons";
+import { LeaderBoardTableSkeleton } from "@/app/ui/dashboard/skeletons";
 import LeaderboardLayout from "@/app/ui/dashboard/leaderboard-layout";
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default async function Page({
 
   return (
     <div className="w-full space-y-8">
-      <Suspense fallback={<InvoicesTableSkeleton />}>
+      <Suspense fallback={<LeaderBoardTableSkeleton />}>
         <LeaderboardLayout sport={sport} query={query} page={page} />
       </Suspense>
     </div>

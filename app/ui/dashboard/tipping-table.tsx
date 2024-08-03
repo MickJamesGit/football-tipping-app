@@ -23,6 +23,8 @@ import { updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
 import { Game, teamColors, Tips } from "@/app/lib/definitions";
 import { Alert, Snackbar } from "@mui/material";
+import { Toast } from "./toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 type SelectedTeams = {
   [game: string]: string;
@@ -57,6 +59,7 @@ export default function TippingTable({
   const [state, formAction] = useActionState(updateTips, initialState);
   const [open, setOpen] = useState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     // Check if all games are either 'completed' or 'inprogress'
@@ -77,7 +80,14 @@ export default function TippingTable({
 
   useEffect(() => {
     if (state.message) {
-      setOpen(true);
+      toast({
+        title: state.error ? "Error" : "Success",
+        duration: 3000,
+        description: state.message,
+        variant: state.error ? "destructive" : "success",
+        className: state.error ? "" : "bg-green-500 text-white border-none",
+        style: { zIndex: 500 },
+      });
     }
   }, [state]);
 
@@ -335,19 +345,6 @@ export default function TippingTable({
             </Button>
           </div>
         )}
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert
-            onClose={handleClose}
-            severity={state.error ? "error" : "success"}
-          >
-            {state.message}
-          </Alert>
-        </Snackbar>
       </div>
     </form>
   );

@@ -5,7 +5,6 @@ import { auth, signIn } from "@/auth";
 import { States } from "../ui/dashboard/tipping/table";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
-import { Game } from "./definitions";
 import { revalidatePath } from "next/cache";
 
 const tipSchema = z.object({
@@ -167,7 +166,7 @@ export async function updateTips(
   if (!session.user?.id) {
     return {
       error: true,
-      message: "Error: Unable to save tips. Please try again.",
+      message: "Unable to save tips.",
     };
   }
 
@@ -179,7 +178,7 @@ export async function updateTips(
     console.error("Validation Error:", result.error.issues);
     return {
       error: true,
-      message: "Error: Unable to save tips. Please try again.",
+      message: "Unable to save tips. Please try again.",
     };
   }
 
@@ -194,14 +193,14 @@ export async function updateTips(
       if (!gameDatetimeStr) {
         return {
           error: true,
-          message: `Error: Unable to save tips. Please try again.`,
+          message: `Unable to save tips. Please try again.`,
         };
       }
       const gameDatetime = new Date(gameDatetimeStr.toString());
       if (currentTime >= gameDatetime) {
         return {
           error: true,
-          message: `Error: Game has already started.`,
+          message: `Game has already started.`,
         };
       }
     }
@@ -237,12 +236,12 @@ export async function updateTips(
         `;
       }
     }
-    return { error: false, message: "Success! Your tips have been saved." };
+    return { error: false, message: "Tips saved. Good luck!" };
   } catch (error) {
     console.error("Database Error:", error);
     return {
       error: true,
-      message: "Error: Unable to save tips. Please try again.",
+      message: "Unable to save tips. Please try again.",
     };
   }
 }
@@ -358,7 +357,7 @@ export async function updateAccountDetails(
     return {
       error: true,
       message:
-        "Error: Unable to update username. Usernames must be between 5 and 25 characters.",
+        "Error: Unable to update account details. Usernames must be between 5 and 25 characters.",
     };
   }
 
@@ -375,8 +374,7 @@ export async function updateAccountDetails(
     console.error("Preferences save error");
     return {
       error: true,
-      message:
-        "Error: Unable to save communication preferences. Please try again.",
+      message: "Error: Unable to update account details.",
     };
   }
 
@@ -411,7 +409,7 @@ export async function updateAccountDetails(
     console.error("Database Error:", error);
     return {
       error: true,
-      message: "Error: Unable to save account details.",
+      message: "Error: Unable to update account details",
     };
   }
 }
