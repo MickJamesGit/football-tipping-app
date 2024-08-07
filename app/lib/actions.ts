@@ -6,6 +6,18 @@ import { States } from "../ui/dashboard/tipping/table";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
+import {
+  LoginSchema,
+  NewPasswordSchema,
+  RegisterSchema,
+  ResetSchema,
+} from "./schemas";
+import { generatePasswordResetToken, generateVerificationToken } from "./token";
+import bcrypt from "bcryptjs";
+import { getPasswordResetTokenByToken, getUserByEmail } from "./data";
+import { sendPasswordResetEmail, sendVerificationEmail } from "./mail";
+import { PasswordResetToken, VerificationToken } from "./definitions";
+import dayjs from "dayjs";
 
 const tipSchema = z.object({
   tips: z.array(
@@ -61,9 +73,155 @@ export async function googleAuthenticate() {
   }
 }
 
+export const login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
+) => {
+  const validatedFields = LoginSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { error: "Invalid email and/or password." };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: "Invalid email and/or password." };
+  }
+
+  if (!(await bcrypt.compare(password, existingUser.password))) {
+    return {
+      error: "Invalid email and/or password.",
+    };
+  }
+
+  if (!existingUser.emailVerified) {
+    return {
+      error: "Email not verified.",
+    };
+  }
+
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/dashboard",
+    });
+    return { success: "Successfully logged in!" };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid email and/or password." };
+        default:
+          return { error: "Invalid email and/or password." };
+      }
+    }
+
+    throw error;
+  }
+};
+
+export const signup = async (values: z.infer<typeof RegisterSchema>) => {
+  const validatedFields = RegisterSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { error: "Invalid fields submitted. Review entries and resubmit." };
+  }
+
+  const { email, password, name } = validatedFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const existingUser = await getUserByEmail(email);
+
+  if (existingUser) {
+    return { error: "Email is already registered." };
+  }
+
+  // Begin a transaction to ensure atomicity
+  const transaction = await sql`BEGIN`;
+
+  try {
+    // Insert user into database
+    await sql`
+      INSERT INTO users (name, email, password) 
+      VALUES (${name}, ${email}, ${hashedPassword})
+    `;
+
+    // Generate verification token
+    const verificationToken = await generateVerificationToken(email);
+
+    if (!verificationToken) {
+      throw new Error("Failed to generate verification token.");
+    }
+
+    // Send verification email
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+
+    // Commit the transaction if everything is successful
+    await sql`
+    COMMIT
+  `;
+    console.log("Account created.");
+    return { success: "Account created successfully." };
+  } catch (error) {
+    // Rollback the transaction if there's an error
+    await sql`ROLLBACK`;
+
+    return { error: "An error occurred during signup. Please try again." };
+  }
+};
+
+export const verifyEmail = async (token: string) => {
+  // Fetch the verification token record from the database
+  const result = await sql`
+    SELECT email, expires 
+    FROM verification_token 
+    WHERE token = ${token}
+  `;
+
+  // If no record is found, return an error
+  if (result.rowCount === 0) {
+    return { error: "Invalid or expired token." };
+  }
+
+  const { email, expires } = result.rows[0];
+
+  // Check if the token is expired
+  if (dayjs().isAfter(dayjs(expires))) {
+    return { error: "Token has expired." };
+  }
+
+  // Token is valid, update user's emailVerified field
+  const now = dayjs().toISOString();
+  await sql`
+  UPDATE users
+  SET "emailVerified" = ${now}
+  WHERE email = ${email}
+`;
+
+  // Optionally, delete the used token
+  await sql`
+    DELETE FROM verification_token
+    WHERE token = ${token}
+  `;
+
+  return { success: "Email verified successfully." };
+};
+
 export async function facebookAuthenticate() {
   try {
-    await signIn("facebook");
+    const session = await auth();
+    if (session) {
+      redirect("/dashboard");
+    } else {
+      await signIn("facebook", { redirectTo: "/dashboard" });
+    }
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -153,6 +311,60 @@ WHERE id = ${session.user.id}
       error: true,
       message: "Error: Unable to save username and sports selections.",
     };
+  }
+}
+
+export async function deleteVerificationToken(token: string): Promise<boolean> {
+  try {
+    const result =
+      await sql`DELETE FROM verification_token WHERE token=${token} RETURNING *`;
+    return result.rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+export async function deletePasswordResetToken(
+  token: string
+): Promise<boolean> {
+  try {
+    const result =
+      await sql`DELETE FROM password_reset_token WHERE token=${token} RETURNING *`;
+    return result.rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+export async function createPasswordResetToken(
+  email: string,
+  token: string,
+  expires: Date
+): Promise<PasswordResetToken | null> {
+  try {
+    const expiresFormatted = expires.toISOString();
+    const result =
+      await sql<PasswordResetToken>`INSERT INTO password_reset_token (email, token, expires) VALUES (${email}, ${token}, ${expiresFormatted}) RETURNING *`;
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error creating password reset token:", error);
+    return null;
+  }
+}
+
+export async function createVerificationToken(
+  email: string,
+  token: string,
+  expires: Date
+): Promise<VerificationToken | null> {
+  try {
+    const expiresFormatted = expires.toISOString();
+    const result =
+      await sql<VerificationToken>`INSERT INTO verification_token (email, token, expires) VALUES (${email}, ${token}, ${expiresFormatted}) RETURNING *`;
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error creating verification token:", error);
+    return null;
   }
 }
 
@@ -411,5 +623,99 @@ export async function updateAccountDetails(
       error: true,
       message: "Error: Unable to update account details",
     };
+  }
+}
+
+export const resetPassword = async (values: z.infer<typeof ResetSchema>) => {
+  const validatedFields = ResetSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { error: "Invalid email." };
+  }
+
+  const { email } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser) {
+    return {
+      success:
+        "If an account with the provided email exists, you will receive an email shortly with instructions to reset your password.",
+    };
+  }
+
+  const passwordResetToken = await generatePasswordResetToken(email);
+
+  if (!passwordResetToken) {
+    throw new Error("Failed to generate password reset token.");
+  }
+
+  await sendPasswordResetEmail(
+    passwordResetToken.email,
+    passwordResetToken.token
+  );
+
+  return {
+    success:
+      "If an account with the provided email exists, you will receive an email shortly with instructions to reset your password.",
+  };
+};
+
+export const newPassword = async (
+  values: z.infer<typeof NewPasswordSchema>,
+  token?: string | null
+) => {
+  if (!token) {
+    return { error: "An error has occured." };
+  }
+
+  const validatedFields = NewPasswordSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { error: "Invalid fields." };
+  }
+
+  const { password } = validatedFields.data;
+
+  const existingToken = await getPasswordResetTokenByToken(token);
+
+  if (!existingToken) {
+    return { error: "Invalid token." };
+  }
+
+  const hasExpired = new Date(existingToken.expires) < new Date();
+
+  if (hasExpired) {
+    return { error: "Token has expired." };
+  }
+
+  const existingUser = await getUserByEmail(existingToken.email);
+
+  if (!existingUser) {
+    return { error: "Email does not exist." };
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await updatePassword(existingUser.id, hashedPassword);
+
+  await deletePasswordResetToken(existingToken.id);
+
+  return { success: "Password updated!" };
+};
+
+async function updatePassword(userId: string, hashedPassword: string) {
+  try {
+    const result = await sql`
+      UPDATE users
+      SET password = ${hashedPassword}
+      WHERE id = ${userId}
+      RETURNING *;
+    `;
+
+    return result.rows[0]; // Returns the updated user record
+  } catch (error) {
+    console.error("Error updating password:", error);
+    throw new Error("Could not update password");
   }
 }

@@ -1,10 +1,12 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
 import { Pool } from "@neondatabase/serverless";
-import Facebook from "next-auth/providers/facebook";
-import Instagram from "next-auth/providers/instagram";
-import Twitter from "next-auth/providers/twitter";
+import FacebookProvider from "next-auth/providers/facebook";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { getUserByEmail, getUserById } from "./app/lib/data";
+import { LoginSchema } from "./app/lib/schemas";
 
 declare module "next-auth" {
   interface User {
@@ -17,7 +19,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
 
   return {
     adapter: PostgresAdapter(pool),
-    providers: [Google, Facebook, Instagram, Twitter],
+    debug: true,
+    providers: [
+      GoogleProvider({
+        clientId: process.env.AUTH_GOOGLE_ID,
+        clientSecret: process.env.AUTH_GOOGLE_SECRET,
+        allowDangerousEmailAccountLinking: true,
+      }),
+      FacebookProvider({
+        clientId: process.env.AUTH_FACEBOOK_ID,
+        clientSecret: process.env.AUTH_FACEBOOK_SECRET,
+        allowDangerousEmailAccountLinking: true,
+      }),
+      Credentials({
+        async authorize(credentials) {
+          const validatedFields = LoginSchema.safeParse(credentials);
+          if (validatedFields.success) {
+            const { email, password } = validatedFields.data;
+            const user = await getUserByEmail(email);
+            if (!user || !user.password) return null;
+            const passwordsMatch = await bcrypt.compare(
+              password,
+              user.password
+            );
+            if (passwordsMatch) return user;
+          }
+          return null;
+        },
+      }),
+    ],
     session: {
       strategy: "database",
     },

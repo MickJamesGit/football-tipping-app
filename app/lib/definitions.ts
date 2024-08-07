@@ -1,8 +1,11 @@
+import { StringValidation } from "zod";
+
 export type User = {
   id: string;
   name: string;
   email: string;
   password: string;
+  emailVerified: string;
   alias: string;
 };
 
@@ -112,6 +115,20 @@ interface TeamColors {
     secondary: string;
   };
 }
+
+export type VerificationToken = {
+  id: string;
+  email: string;
+  token: string;
+  expires: string;
+};
+
+export type PasswordResetToken = {
+  id: string;
+  email: string;
+  token: string;
+  expires: string;
+};
 
 export const teamColors: TeamColors = {
   "Canberra Raiders": {
