@@ -9,6 +9,8 @@ import {
   Sport,
   LeaderboardEntry,
   User,
+  VerificationToken,
+  PasswordResetToken,
 } from "./definitions";
 import { getTodaysDate } from "./utils";
 import { Competition, UserCompetitions } from "../dashboard/tipping/page";
@@ -704,6 +706,74 @@ export async function fetchUserCompetitions(): Promise<{
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch user competitions.");
+  }
+}
+
+export async function getUserByEmail(email: string): Promise<User | undefined> {
+  try {
+    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
+    return user.rows[0];
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    throw new Error("Failed to fetch user.");
+  }
+}
+
+export async function getUserById(id: string): Promise<User | undefined> {
+  try {
+    const user = await sql<User>`SELECT * FROM users WHERE id=${id}`;
+    return user.rows[0];
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    throw new Error("Failed to fetch user.");
+  }
+}
+
+export async function getVerificationTokenByToken(
+  token: string
+): Promise<VerificationToken | null> {
+  try {
+    const verificationToken =
+      await sql<VerificationToken>`SELECT * FROM verification_token WHERE token=${token}`;
+    return verificationToken.rows[0];
+  } catch {
+    return null;
+  }
+}
+
+export async function getPasswordResetTokenByToken(
+  token: string
+): Promise<PasswordResetToken | null> {
+  try {
+    const passwordResetToken =
+      await sql<PasswordResetToken>`SELECT * FROM password_reset_token WHERE token=${token}`;
+    return passwordResetToken.rows[0];
+  } catch {
+    return null;
+  }
+}
+
+export async function getPasswordResetTokenByEmail(
+  email: string
+): Promise<PasswordResetToken | null> {
+  try {
+    const passwordResetToken =
+      await sql<PasswordResetToken>`SELECT * FROM password_reset_token WHERE email=${email}`;
+    return passwordResetToken.rows[0];
+  } catch {
+    return null;
+  }
+}
+
+export async function getVerificationTokenByEmail(
+  email: string
+): Promise<VerificationToken | null> {
+  try {
+    const verificationToken =
+      await sql<VerificationToken>`SELECT * FROM verification_token WHERE email=${email}`;
+    return verificationToken.rows[0];
+  } catch {
+    return null;
   }
 }
 

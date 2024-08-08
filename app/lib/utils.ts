@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.
@@ -47,4 +48,16 @@ export const getTodaysDate = () => {
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+};
+
+export const generateSessionToken = () => {
+  // Use `randomUUID` if available. (Node 15.6++)
+  return randomUUID?.();
+};
+
+export const fromDate = (
+  timeInSeconds: number,
+  baseDate: number = Date.now()
+): Date => {
+  return new Date(baseDate + timeInSeconds * 1000);
 };
