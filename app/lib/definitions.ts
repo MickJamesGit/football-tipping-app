@@ -9,6 +9,13 @@ export type User = {
   alias: string;
 };
 
+export type Session = {
+  id: string;
+  userId: string;
+  expires: string;
+  sessionToken: string;
+};
+
 export type UserWithoutId = Omit<User, "id">;
 
 export type Team = {

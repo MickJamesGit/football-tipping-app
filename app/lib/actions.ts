@@ -16,7 +16,7 @@ import { generatePasswordResetToken, generateVerificationToken } from "./token";
 import bcrypt from "bcryptjs";
 import { getPasswordResetTokenByToken, getUserByEmail } from "./data";
 import { sendPasswordResetEmail, sendVerificationEmail } from "./mail";
-import { PasswordResetToken, VerificationToken } from "./definitions";
+import { PasswordResetToken, VerificationToken, Session } from "./definitions";
 import dayjs from "dayjs";
 
 const tipSchema = z.object({
@@ -145,10 +145,19 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
 
   try {
     // Insert user into database
+    // Insert the user into the users table and return the generated userId
+    const user = await sql`
+  INSERT INTO users (name, email, password) 
+  VALUES (${name}, ${email}, ${hashedPassword})
+`;
+
+    const userId = user.rows[0].id;
+
+    // Insert user account into accounts table using the returned userId
     await sql`
-      INSERT INTO users (name, email, password) 
-      VALUES (${name}, ${email}, ${hashedPassword})
-    `;
+  INSERT INTO accounts (userId, type, provider, providerAccountId) 
+  VALUES (${userId}, 'credentials', 'credentials', ${userId})
+`;
 
     // Generate verification token
     const verificationToken = await generateVerificationToken(email);
@@ -348,6 +357,24 @@ export async function createPasswordResetToken(
     return result.rows[0];
   } catch (error) {
     console.error("Error creating password reset token:", error);
+    return null;
+  }
+}
+
+export async function createSession(
+  userId: string,
+  sessionToken: string,
+  expires: Date
+): Promise<Session | null> {
+  try {
+    const expiresFormatted = expires.toISOString();
+    const result = await sql<Session>`
+      INSERT INTO sessions ("userId", "sessionToken", "expires") 
+      VALUES (${userId}, ${sessionToken}, ${expiresFormatted}) 
+      RETURNING *`;
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error creating session:", error);
     return null;
   }
 }
