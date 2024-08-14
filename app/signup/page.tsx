@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import SiteLogo from "../ui/site-logo";
 import { facebookAuthenticate, googleAuthenticate } from "../lib/actions";
 import { SignUpForm } from "../ui/signup/sign-up-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Signup",
+  description: "Create an account to start tipping.",
+  keywords: "create, account, tipping, sport, signup",
+};
 
 export default function Page() {
   return (
@@ -26,21 +31,34 @@ export default function Page() {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
+                  OR
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-3">
               <form action={facebookAuthenticate}>
-                <Button variant="outline" className="w-full">
-                  <FacebookIcon className="mr-2 h-5 w-5" />
-                  Facebook
+                <Button
+                  variant="outline"
+                  className="w-full bg-[#1877F2] text-white flex items-center justify-center space-x-2 py-2"
+                >
+                  {/* Use an official Facebook SVG or image */}
+                  <img
+                    src="facebook-logo.png"
+                    alt="Facebook"
+                    className="h-5 w-5"
+                  />
+                  <span>Continue with Facebook</span>
                 </Button>
               </form>
               <form action={googleAuthenticate}>
-                <Button variant="outline" type="submit" className="w-full">
-                  <ChromeIcon className="mr-2 h-5 w-5" />
-                  Google
+                <Button
+                  variant="outline"
+                  type="submit"
+                  className="w-full bg-white border-gray-300 text-gray-900 flex items-center justify-center space-x-2 py-2"
+                >
+                  {/* Use an official Google SVG or image */}
+                  <img src="google-logo.png" alt="Google" className="h-5 w-5" />
+                  <span>Continue with Google</span>
                 </Button>
               </form>
             </div>
@@ -68,27 +86,7 @@ export default function Page() {
   );
 }
 
-function AppleIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" />
-      <path d="M10 2c1 .5 2 2 2 5" />
-    </svg>
-  );
-}
-
-function ChromeIcon(props) {
+function ChromeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -111,7 +109,7 @@ function ChromeIcon(props) {
   );
 }
 
-function FacebookIcon(props) {
+function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -126,45 +124,6 @@ function FacebookIcon(props) {
       strokeLinejoin="round"
     >
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
-  );
-}
-
-function MountainIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
-
-function XIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
     </svg>
   );
 }

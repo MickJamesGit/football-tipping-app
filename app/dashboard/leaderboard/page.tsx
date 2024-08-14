@@ -5,6 +5,8 @@ import LeaderboardLayout from "@/app/ui/dashboard/leaderboard-layout";
 
 export const metadata: Metadata = {
   title: "Leaderboard",
+  description: "Tipping leaderboard for each sport.",
+  keywords: "leader, board, leaderboard, sport, ranking, tipping",
 };
 
 export default async function Page({

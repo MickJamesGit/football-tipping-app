@@ -6,14 +6,12 @@ import {
   Game,
   Tips,
   Round,
-  Sport,
   LeaderboardEntry,
   User,
   VerificationToken,
   PasswordResetToken,
 } from "./definitions";
 import { getTodaysDate } from "./utils";
-import { Competition, UserCompetitions } from "../dashboard/tipping/page";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
@@ -529,7 +527,7 @@ export async function fetchUpcomingGames(sports: string[]) {
       g.sport = ANY (string_to_array(${sportsList}, ',')::text[]) AND g.status='scheduled'
     ORDER BY
       g.datetime
-    LIMIT 5
+    LIMIT 6
     `;
 
     const games = data.rows.map((game) => ({
@@ -617,6 +615,65 @@ export async function getUserAlias(userId: string): Promise<string | null> {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch user alias.");
+  }
+}
+
+// Define the Game interface according to the structure of your data
+interface ActiveGame {
+  id: string;
+  sport: string;
+  round: number;
+  datetime: string;
+  home_team_id: string;
+  home_team_name: string;
+  away_team_id: string;
+  away_team_name: string;
+}
+
+export async function getActiveNoResultGames(): Promise<ActiveGame[] | null> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return redirect("/login");
+  }
+
+  if (session.user.id !== "c5281d79-bbc3-41b8-a41b-56b408afee59") {
+    return null;
+  }
+
+  const currentDateTime = new Date().toISOString(); // Convert the Date object to an ISO string
+
+  try {
+    const result = await sql<ActiveGame>`
+      SELECT 
+        g.id,
+        g.sport,
+        g.round,
+        g.datetime,
+        g.home_team_id,
+        home_team.name as home_team_name,
+        g.away_team_id,
+        away_team.name as away_team_name
+      FROM 
+        games g
+      JOIN 
+        teams home_team ON g.home_team_id = home_team.id
+      JOIN 
+        teams away_team ON g.away_team_id = away_team.id
+      WHERE 
+        g.datetime <= ${currentDateTime} AND g.winning_team_id IS NULL`;
+
+    if (result.rows.length > 0) {
+      // Map over the rows to transform the data if needed
+      const games = result.rows.map((game) => ({
+        ...game,
+      }));
+      return games;
+    } else {
+      return null; // Return null if no games are found
+    }
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch active no-result games.");
   }
 }
 

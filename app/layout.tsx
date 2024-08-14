@@ -2,7 +2,6 @@ import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
-import { UserProvider } from "./context/user-context";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -28,7 +27,7 @@ export default function RootLayout({
         {" "}
         <SessionProvider>
           <Toaster />
-          <UserProvider>{children}</UserProvider>
+          {children}
         </SessionProvider>
       </body>
     </html>

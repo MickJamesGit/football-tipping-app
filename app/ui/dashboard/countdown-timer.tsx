@@ -41,7 +41,9 @@ export const CountdownTimer: React.FC<CountdownProps> = ({ targetDate }) => {
 
   return (
     <>
-      {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+      {timeLeft.days > 0 && <>{timeLeft.days}d </>}
+      {timeLeft.hours > 0 && <>{timeLeft.hours}h </>}
+      {timeLeft.minutes}m {timeLeft.seconds}s
     </>
   );
 };

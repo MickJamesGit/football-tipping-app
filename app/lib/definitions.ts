@@ -1,5 +1,3 @@
-import { StringValidation } from "zod";
-
 export type User = {
   id: string;
   name: string;
@@ -198,7 +196,7 @@ export const teamColors: TeamColors = {
     primary: "#FFD700", // Yellow (Gold)
     secondary: "#002B5C", // Dark Blue
   },
-  "St George Illawarra Dragons": {
+  "St. George Illawarra Dragons": {
     primary: "#FFFFFF", // White
     secondary: "#D50C1A", // Red
   },

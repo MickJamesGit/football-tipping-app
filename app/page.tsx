@@ -1,8 +1,13 @@
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { lusitana } from "@/app/ui/fonts";
 import Image from "next/image";
 import SiteLogo from "@/app/ui/site-logo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "FootyTips",
+  description: "Create an account or log in to start tipping footy.",
+  keywords: "create, account, tipping, sport, signup, tips, login, footy",
+};
 
 export default function Page() {
   return (

@@ -10,10 +10,12 @@ import { signup } from "./../../lib/actions";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 type SignUpProps = {};
 
 export const SignUpForm = ({}: SignUpProps) => {
+  const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -37,8 +39,11 @@ export const SignUpForm = ({}: SignUpProps) => {
 
     startTransition(() => {
       signup(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data.success) {
+          router.push("/signup/check-email");
+        } else {
+          setError(data.error);
+        }
       });
     });
   };

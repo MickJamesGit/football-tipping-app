@@ -6,7 +6,6 @@ import {
 } from "@/app/lib/data";
 import { SportsRegisterCard } from "./sports-register-card";
 import { SubmitTipsCard } from "./submit-tips-card";
-import { FaBaseballBall, FaBasketballBall } from "react-icons/fa";
 
 export async function SportsCompetitionsLayout() {
   const { userCompetitions } = await fetchUserCompetitions();
@@ -48,29 +47,12 @@ export async function SportsCompetitionsLayout() {
           </div>
         </>
       )}
-      {userCompetitions.notSignedUp.length > 0 && (
-        <>
-          {userCompetitions.signedUp.length > 0 && (
-            <h1 className="text-2xl font-bold text-left mt-6 mb-4 pb-2 bg-primary flex items-center gap-2  text-white p-2 rounded-lg shadow-md">
-              <FaBasketballBall /> Other Sports
-            </h1>
-          )}
-          <div className="flex flex-wrap gap-4 mt-6 justify-center">
-            {userCompetitions.notSignedUp.map((competition) => (
-              <SportsRegisterCard
-                key={competition.id}
-                competition={competition}
-              />
-            ))}
-          </div>
-        </>
-      )}
       {userCompetitions.signedUp.length === 0 && (
         <>
-          <h1 className="text-2xl font-bold text-left mt-4 mb-4 pb-2 flex bg-primary items-center gap-2 text-white p-2 rounded-lg shadow-md">
-            <FaBaseballBall /> Join Competition
+          <h1 className="bg-primary py-4 my-5 px-6 rounded-lg text-2xl font-bold text-primary-foreground">
+            Join Competition
           </h1>
-          <div className="flex flex-wrap gap-4 mt-6 justify-center">
+          <div className="flex flex-wrap gap-4 mt-6 mb-6 justify-center">
             {userCompetitions.notSignedUp.map((competition) => (
               <SportsRegisterCard
                 key={competition.id}
@@ -80,6 +62,22 @@ export async function SportsCompetitionsLayout() {
           </div>
         </>
       )}
+      {userCompetitions.signedUp.length > 0 &&
+        userCompetitions.notSignedUp.length > 0 && (
+          <>
+            <h1 className="bg-primary py-4 my-5 px-6 rounded-lg text-2xl font-bold text-primary-foreground">
+              Other Sports
+            </h1>
+            <div className="flex flex-wrap gap-4 mt-6 mb-6 justify-center">
+              {userCompetitions.notSignedUp.map((competition) => (
+                <SportsRegisterCard
+                  key={competition.id}
+                  competition={competition}
+                />
+              ))}
+            </div>
+          </>
+        )}
     </div>
   );
 }
