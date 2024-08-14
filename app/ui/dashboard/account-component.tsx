@@ -78,7 +78,7 @@ export default function AccountComponent({
           role="alert"
         >
           <div className="ms-3 text-sm font-medium">
-            Success! Your account details have been updated.
+            Your account details have been updated.
           </div>
           <button
             type="button"
@@ -143,7 +143,14 @@ export default function AccountComponent({
         <div className="flex items-center gap-4 mb-8">
           <Avatar className="h-16 w-16 rounded-full">
             <AvatarImage src={user.image} />
-            <AvatarFallback>{user.alias}</AvatarFallback>
+            <AvatarFallback className="bg-gray-400 text-white ">
+              {user.alias
+                .split(" ")
+                .map((word) => word[0])
+                .slice(0, 2)
+                .join("")
+                .toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="grid gap-1">
             <h1 className="text-2xl font-bold">{user.name}</h1>

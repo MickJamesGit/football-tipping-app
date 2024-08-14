@@ -5,6 +5,8 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Account",
+  description: "Your account and settings.",
+  keywords: "account, settings, preferences",
 };
 
 export default function Page() {

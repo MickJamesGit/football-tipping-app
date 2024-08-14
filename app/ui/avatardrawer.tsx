@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import {
   Box,
-  Button,
   Drawer,
   List,
   ListItem,
@@ -17,8 +16,8 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import Avatar from "@mui/material/Avatar";
 import { signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface AvatarDrawerProps {
   image: string;
@@ -61,7 +60,18 @@ const AvatarDrawer: React.FC<AvatarDrawerProps> = ({ image, alias, name }) => {
           padding: 2,
         }}
       >
-        <Avatar src={image} alt={alias} sx={{ width: 100, height: 100 }} />
+        <Avatar className="h-[100px] w-[100px] rounded-full">
+          <AvatarImage src={image} />
+          <AvatarFallback className="bg-gray-400 text-white flex items-center justify-center h-full w-full text-2xl">
+            {alias
+              .split(" ")
+              .map((word) => word[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+
         <Typography variant="h6" sx={{ marginTop: 1 }}>
           {name}
         </Typography>

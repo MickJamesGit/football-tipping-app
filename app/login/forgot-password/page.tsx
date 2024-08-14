@@ -1,8 +1,13 @@
-import { Button } from "@/components/ui/button";
-
 import Link from "next/link";
 import SiteLogo from "../../ui/site-logo";
 import { PasswordResetForm } from "@/app/ui/login/password-reset-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Forgot Password",
+  description: "Request password reset.",
+  keywords: "forgot, password, reset, login",
+};
 
 export default function Page() {
   return (

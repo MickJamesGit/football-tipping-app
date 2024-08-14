@@ -15,6 +15,8 @@ import {
 
 export const metadata: Metadata = {
   title: "Tips",
+  description: "Submit or update tips for each round.",
+  keywords: "tips, games, submit, update",
 };
 
 export default async function Page({

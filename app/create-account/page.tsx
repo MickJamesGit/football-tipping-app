@@ -1,19 +1,39 @@
+import Link from "next/link";
 import SiteLogo from "../ui/site-logo";
-import UsernameForm from "../ui/create-account/username-form";
+
 import { fetchActiveSports } from "../lib/data";
+import RegistrationForm from "../ui/create-account/registration-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Account",
+  description: "Create an account to start tipping.",
+  keywords: "create, account, tipping, sport, signup",
+};
 
 export default async function Page() {
   const sports = await fetchActiveSports();
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-green-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">
-            <SiteLogo />
+    <div className="lg:grid lg:grid-cols-2 min-h-screen">
+      <div className="flex items-center justify-center py-12">
+        <div className="mx-auto w-[350px] space-y-6">
+          <div className="space-y-2">
+            <div className="block lg:hidden bg-primary py-8 rounded-lg pl-5">
+              <SiteLogo />
+            </div>
+            <RegistrationForm sports={sports} />
           </div>
         </div>
-        <UsernameForm sports={sports} />
       </div>
-    </main>
+      <div className="hidden bg-background bg-primary lg:block">
+        <Link
+          href="/"
+          className="flex items-center justify-center h-full"
+          prefetch={false}
+        >
+          <SiteLogo />
+        </Link>
+      </div>
+    </div>
   );
 }

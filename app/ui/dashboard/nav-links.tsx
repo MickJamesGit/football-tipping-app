@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import React from "react";
-import AccountMenu from "./account-menu";
 
 const links = [
   { name: "Home", href: "/dashboard", icon: HomeIcon },
@@ -19,14 +18,6 @@ const links = [
 
 export default function NavLinks() {
   const pathname = usePathname();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <>
@@ -38,39 +29,56 @@ export default function NavLinks() {
               .filter((link) => link.name !== "Account")
               .map((link) => {
                 const LinkIcon = link.icon;
+                const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                    className={clsx(
+                      "flex flex-col items-center gap-1 text-muted-foreground transition-colors",
+                      {
+                        "text-foreground": isActive,
+                        "hover:text-foreground": !isActive,
+                      }
+                    )}
                     prefetch={false}
                   >
-                    <LinkIcon className="w-6 h-6" />
+                    <LinkIcon
+                      className={clsx("w-6 h-6", {
+                        "text-primary": isActive,
+                      })}
+                    />
                     <span className="text-xs font-medium">{link.name}</span>
                   </Link>
                 );
               })}
           </nav>
         </div>
-        <AccountMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
       </div>
 
       {/* Desktop view */}
       <div className="hidden md:flex md:flex-col md:gap-2">
         {links.map((link) => {
           const LinkIcon = link.icon;
+          const isActive = pathname === link.href;
           return (
             <Link
               key={link.name}
               href={link.href}
               className={clsx(
-                "flex items-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-primary hover:text-white md:flex-none md:justify-start",
+                "flex items-center gap-2 rounded-md p-3 text-sm font-medium md:flex-none md:justify-start transition-colors",
                 {
-                  "bg-primary text-white": pathname === link.href,
+                  "bg-primary text-white": isActive,
+                  "bg-gray-50 hover:bg-primary hover:text-white": !isActive,
                 }
               )}
             >
-              <LinkIcon className="w-6 h-6" />
+              <LinkIcon
+                className={clsx("w-6 h-6", {
+                  "text-white": isActive,
+                  "text-primary": !isActive,
+                })}
+              />
               <p className="hidden md:block">{link.name}</p>
             </Link>
           );

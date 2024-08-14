@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { auth, signIn } from "@/auth";
-import { States } from "../ui/dashboard/tipping/table";
+import { States } from "../ui/dashboard/tipping-table";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
@@ -145,23 +145,22 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
 
   try {
     // Insert user into database
-    // Insert the user into the users table and return the generated userId
     const user = await sql`
-  INSERT INTO users (name, email, password) 
-  VALUES (${name}, ${email}, ${hashedPassword})
-`;
+      INSERT INTO users (name, email, password) 
+      VALUES (${name}, ${email}, ${hashedPassword})
+      RETURNING id
+    `;
 
     const userId = user.rows[0].id;
 
     // Insert user account into accounts table using the returned userId
     await sql`
-  INSERT INTO accounts (userId, type, provider, providerAccountId) 
-  VALUES (${userId}, 'credentials', 'credentials', ${userId})
-`;
+      INSERT INTO accounts ("userId", type, provider, "providerAccountId") 
+      VALUES (${userId}, 'credentials', 'credentials', ${userId})
+    `;
 
     // Generate verification token
     const verificationToken = await generateVerificationToken(email);
-
     if (!verificationToken) {
       throw new Error("Failed to generate verification token.");
     }
@@ -173,15 +172,12 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
     );
 
     // Commit the transaction if everything is successful
-    await sql`
-    COMMIT
-  `;
-    console.log("Account created.");
-    return { success: "Account created successfully." };
-  } catch (error) {
-    // Rollback the transaction if there's an error
-    await sql`ROLLBACK`;
+    await sql`COMMIT`;
 
+    return { success: true };
+  } catch (error) {
+    console.error("Signup error:", error); // Detailed logging
+    await sql`ROLLBACK`;
     return { error: "An error occurred during signup. Please try again." };
   }
 };
@@ -358,6 +354,182 @@ export async function createPasswordResetToken(
   } catch (error) {
     console.error("Error creating password reset token:", error);
     return null;
+  }
+}
+
+interface GameResult {
+  gameId: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  homeTeamId: string;
+  awayTeamId: string;
+  round: string;
+  sport: string;
+}
+
+export async function saveGameResults(
+  state: States,
+  formData: FormData
+): Promise<{ error: boolean; message: string }> {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    return { error: true, message: "You must be logged in to save scores." };
+  }
+
+  if (session.user.id !== "c5281d79-bbc3-41b8-a41b-56b408afee59") {
+    return {
+      error: true,
+      message: "You are not authorized to save scores.",
+    };
+  }
+
+  const results: GameResult[] = [];
+
+  // Iterate through formData to group data by gameId
+  const gamesData: { [key: string]: any } = {};
+
+  formData.forEach((value, key) => {
+    const match = key.match(/^games\[(.+?)\]\[(.+?)\]$/);
+    if (match) {
+      const gameId = match[1];
+      const field = match[2];
+      if (!gamesData[gameId]) {
+        gamesData[gameId] = {};
+      }
+      gamesData[gameId][field] = value;
+    }
+  });
+
+  // Process each game
+  for (const gameId in gamesData) {
+    const gameData = gamesData[gameId];
+    const homeScore = gameData.homeScore;
+    const awayScore = gameData.awayScore;
+    const homeTeamId = gameData.homeTeamId;
+    const awayTeamId = gameData.awayTeamId;
+    const round = gameData.round;
+    const sport = gameData.sport;
+
+    if (
+      homeScore !== null &&
+      awayScore !== null &&
+      typeof homeTeamId === "string" &&
+      typeof awayTeamId === "string" &&
+      typeof round === "string" &&
+      typeof sport === "string"
+    ) {
+      results.push({
+        gameId,
+        homeScore: parseInt(homeScore.toString(), 10),
+        awayScore: parseInt(awayScore.toString(), 10),
+        homeTeamId,
+        awayTeamId,
+        round,
+        sport,
+      });
+    }
+  }
+
+  if (results.length === 0) {
+    return { error: true, message: "No valid game data submitted." };
+  }
+
+  const currentDateTime = new Date().toISOString();
+
+  try {
+    await sql`BEGIN`;
+
+    for (const result of results) {
+      const {
+        gameId,
+        homeScore,
+        awayScore,
+        homeTeamId,
+        awayTeamId,
+        round,
+        sport,
+      } = result;
+
+      // Ensure scores are valid integers, defaulting to 0 if they are not
+      const parsedHomeScore = isNaN(parseInt(homeScore!.toString(), 10))
+        ? 0
+        : parseInt(homeScore!.toString(), 10);
+      const parsedAwayScore = isNaN(parseInt(awayScore!.toString(), 10))
+        ? 0
+        : parseInt(awayScore!.toString(), 10);
+
+      // Skip processing if both scores are zero
+      if (parsedHomeScore === 0 && parsedAwayScore === 0) {
+        console.log(
+          `Skipping game ID: ${gameId} due to invalid or missing scores.`
+        );
+        continue;
+      }
+
+      let winningTeamId: string | null = null;
+      if (parsedHomeScore > parsedAwayScore) {
+        winningTeamId = homeTeamId;
+      } else if (parsedAwayScore > parsedHomeScore) {
+        winningTeamId = awayTeamId;
+      }
+
+      await sql`
+        UPDATE games
+        SET 
+          winning_team_id = ${winningTeamId},
+          home_team_score = ${homeScore},
+          away_team_score = ${awayScore},
+          status = 'completed',
+          updated_at = ${currentDateTime}
+        WHERE 
+          id = ${gameId}`;
+
+      const tips = await sql`
+        SELECT * FROM tips WHERE game_id = ${gameId}`;
+
+      for (const tip of tips.rows) {
+        const isCorrect = tip.tip_team_id === winningTeamId;
+        const status = isCorrect ? "correct" : "incorrect";
+
+        await sql`
+          UPDATE tips
+          SET status = ${status}
+          WHERE id = ${tip.id}`;
+
+        if (isCorrect) {
+          const season = 2024;
+          const overallRound = "overall";
+          const scoreIncrement = 1;
+
+          await sql`
+              INSERT INTO scores (user_id, round, score, season, sport)
+              VALUES (${tip.user_id}, ${round}, ${scoreIncrement}, ${season}, ${sport})
+              ON CONFLICT (user_id, round, season, sport) DO UPDATE
+              SET score = scores.score + ${scoreIncrement}`;
+
+          // Update overall score
+          await sql`
+              INSERT INTO scores (user_id, round, score, season, sport)
+              VALUES (${tip.user_id}, ${overallRound}, ${scoreIncrement}, ${season}, ${sport})
+              ON CONFLICT (user_id, round, season, sport) DO UPDATE
+              SET score = scores.score + ${scoreIncrement}`;
+        }
+      }
+    }
+
+    await sql`COMMIT`;
+
+    return {
+      error: false,
+      message: "Scores saved and tips graded successfully.",
+    };
+  } catch (err) {
+    await sql`ROLLBACK`;
+    console.error("Database Error:", err);
+    return {
+      error: true,
+      message: "Unable to save scores due to a database error.",
+    };
   }
 }
 

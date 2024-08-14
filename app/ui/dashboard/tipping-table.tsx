@@ -22,9 +22,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { updateTips } from "@/app/lib/actions";
 import { useActionState } from "react";
 import { Game, teamColors, Tips } from "@/app/lib/definitions";
-import { Alert, Snackbar } from "@mui/material";
-import { Toast } from "./toast";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 type SelectedTeams = {
   [game: string]: string;
@@ -84,7 +82,7 @@ export default function TippingTable({
         title: state.error ? "Error" : "Success",
         duration: 3000,
         description: state.message,
-        variant: state.error ? "destructive" : "success",
+        variant: state.error ? "destructive" : null,
         className: state.error ? "" : "bg-green-500 text-white border-none",
         style: { zIndex: 500 },
       });
@@ -229,6 +227,14 @@ export default function TippingTable({
                 secondary: "#ccc",
               };
               const dateTime = new Date(game.datetime);
+              const currentTime = new Date();
+
+              // Calculate if the game is live
+              const timeDifferenceInHours =
+                (currentTime.getTime() - dateTime.getTime()) / (1000 * 60 * 60);
+              const isLive =
+                timeDifferenceInHours >= 0 && timeDifferenceInHours <= 2;
+
               const date = dateTime.toDateString();
               const hours = dateTime.getHours().toString().padStart(2, "0");
               const minutes = dateTime.getMinutes().toString().padStart(2, "0");
@@ -280,11 +286,20 @@ export default function TippingTable({
                     </div>
                   </TableCell>
                   <TableCell className="text-center text-xs h-16 md:text-base text-sm">
+                    {isLive && (
+                      <div className="flex items-center justify-center mb-1">
+                        <div className="w-4 h-4 rounded-full bg-green-500 animate-pulse mr-2"></div>
+                        <span className="text-green-500 text-xs md:text-sm">
+                          Live
+                        </span>
+                      </div>
+                    )}
                     {date} <br />
                     {formattedTime}
                     <br />
                     {game.venue}
                   </TableCell>
+
                   <TableCell
                     className={`h-16 ${
                       selectedTeams[game.id] === game.away_team_id

@@ -3,6 +3,7 @@
 import { Button } from "./button";
 import Link from "next/link";
 import { Game, teamColors } from "@/app/lib/definitions";
+import { format } from "date-fns";
 
 type GamesListProps = {
   games: Game[];
@@ -22,24 +23,14 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
             primary: "#ccc",
             secondary: "#ccc",
           };
-          const dateOptions: Intl.DateTimeFormatOptions = {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-          };
-          const timeOptions: Intl.DateTimeFormatOptions = {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          };
 
-          const formattedDate = new Date(game.datetime).toLocaleDateString(
-            "en-AU",
-            dateOptions
+          const formattedDate = format(
+            new Date(game.datetime),
+            "EEEE, d MMMM" // Use a consistent format string
           );
-          const formattedTime = new Date(game.datetime).toLocaleTimeString(
-            "en-AU",
-            timeOptions
+          const formattedTime = format(
+            new Date(game.datetime),
+            "h:mm a" // Use a consistent format string
           );
 
           return (

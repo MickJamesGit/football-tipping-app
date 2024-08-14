@@ -12,6 +12,8 @@ import DashboardCards from "../ui/dashboard/dashboard-cards";
 
 export const metadata: Metadata = {
   title: "Dashboard",
+  description: "Overview of tipping results and upcoming games.",
+  keywords: "overview, tipping, results, upcoming, games, dashboard",
 };
 
 export default async function Page() {
@@ -34,9 +36,11 @@ export default async function Page() {
       </Suspense>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<UpcomingGamesSkeleton />}>
-          <div className="col-span-1 md:col-span-4 lg:col-span-8">
-            <UpcomingGamesLayout sports={registeredSports} />
-          </div>
+          {registeredSports.length > 0 && (
+            <div className="col-span-1 md:col-span-4 lg:col-span-8">
+              <UpcomingGamesLayout sports={registeredSports} />
+            </div>
+          )}
         </Suspense>
       </div>
     </main>
