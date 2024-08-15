@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import Loader from "./../../ui/dashboard/loader"; // Assuming you have a Loader component
 
 interface RegistrationFormProps {
   sports: string[];
@@ -41,7 +42,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ sports }) => {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="relative space-y-2">
+      {isPending && <Loader />} {/* Display loader when pending */}
       <h1 className="text-3xl font-bold text-center mt-4 mb-4">
         Set up your account
       </h1>

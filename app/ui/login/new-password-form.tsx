@@ -10,6 +10,7 @@ import { newPassword } from "./../../lib/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Loader from "./../../ui/dashboard/loader"; // Import your loader component
 
 type NewPasswordFormProps = {};
 
@@ -48,7 +49,8 @@ export const NewPasswordForm = ({}: NewPasswordFormProps) => {
   };
 
   return (
-    <>
+    <div className="relative">
+      {isPending && <Loader />} {/* Display loader when pending */}
       <h1 className="text-3xl font-bold text-center">New Password</h1>
       <p className="text-muted-foreground text-center">
         Enter your new password
@@ -72,6 +74,6 @@ export const NewPasswordForm = ({}: NewPasswordFormProps) => {
           <p className="text-green-500 text-sm text-left w-full">{success}</p>
         )}
       </form>
-    </>
+    </div>
   );
 };

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@hookform/error-message";
 import { resetPassword } from "./../../lib/actions";
+import Loader from "./../../ui/dashboard/loader"; // Import your loader component
 
 type PasswordResetFormProps = {};
 
@@ -41,24 +42,27 @@ export const PasswordResetForm = ({}: PasswordResetFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <Input {...register("email")} id="email" type="email" />
-      <ErrorMessage
-        errors={errors}
-        name="email"
-        render={({ message }) => (
-          <p className="text-red-500 text-sm text-left w-full">{message}</p>
+    <div className="relative">
+      {isPending && <Loader />} {/* Display loader when pending */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <Input {...register("email")} id="email" type="email" />
+        <ErrorMessage
+          errors={errors}
+          name="email"
+          render={({ message }) => (
+            <p className="text-red-500 text-sm text-left w-full">{message}</p>
+          )}
+        />
+        <Button color="primary" type="submit" className="w-full">
+          Reset Password
+        </Button>
+        {error && (
+          <p className="text-red-500 text-sm text-left w-full">{error}</p>
         )}
-      />
-      <Button color="primary" type="submit" className="w-full">
-        Reset Password
-      </Button>
-      {error && (
-        <p className="text-red-500 text-sm text-left w-full">{error}</p>
-      )}
-      {success && (
-        <p className="text-green-500 text-sm text-left w-full">{success}</p>
-      )}
-    </form>
+        {success && (
+          <p className="text-green-500 text-sm text-left w-full">{success}</p>
+        )}
+      </form>
+    </div>
   );
 };

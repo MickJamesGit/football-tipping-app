@@ -450,6 +450,18 @@ export async function saveGameResults(
         sport,
       } = result;
 
+      const competition = await sql`
+      SELECT id FROM competitions WHERE name = ${sport} LIMIT 1`;
+
+      if (!competition || competition.rows.length === 0) {
+        return {
+          error: true,
+          message: `Competition not found for sport = ${sport}.`,
+        };
+      }
+
+      const competitionId = competition.rows[0].id;
+
       // Ensure scores are valid integers, defaulting to 0 if they are not
       const parsedHomeScore = isNaN(parseInt(homeScore!.toString(), 10))
         ? 0
@@ -484,8 +496,26 @@ export async function saveGameResults(
         WHERE 
           id = ${gameId}`;
 
-      const tips = await sql`
+      const initialTips = await sql`
         SELECT * FROM tips WHERE game_id = ${gameId}`;
+
+      // Insert a new tip with the away_team_id for users who have signed up for the competition and don't have a tip for this game
+      const usersWithTips = initialTips.rows.map((tip) => tip.user_id);
+
+      const usersInCompetition = await sql`
+        SELECT user_id FROM user_competitions WHERE competition_id = ${competitionId}`;
+
+      const usersWithoutTips = usersInCompetition.rows.filter(
+        (user) => !usersWithTips.includes(user.user_id)
+      );
+      for (const user of usersWithoutTips) {
+        await sql`
+          INSERT INTO tips (user_id, game_id, tip_team_id, status)
+          VALUES (${user.user_id}, ${gameId}, ${awayTeamId}, 'pending')`;
+      }
+
+      const tips = await sql`
+      SELECT * FROM tips WHERE game_id = ${gameId}`;
 
       for (const tip of tips.rows) {
         const isCorrect = tip.tip_team_id === winningTeamId;
@@ -657,6 +687,110 @@ export async function updateTips(
   }
 }
 
+export async function setUserTipsToAwayTeams(sport: string) {
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  if (!session.user?.id) {
+    return {
+      error: true,
+      message: "Unable to save tips.",
+    };
+  }
+
+  const userId = session.user.id;
+
+  // Step 1: Fetch completed games for the specified sport and season
+  const completedGames = await sql`
+    SELECT id, away_team_id, winning_team_id, round 
+    FROM games 
+    WHERE sport = ${sport} AND season = '2024' AND status = 'completed'`;
+
+  // Array to store promises for inserting tips
+  const tipInsertPromises = [];
+
+  // Step 2: Loop through each completed game and set the user's tip
+  for (const game of completedGames.rows) {
+    const {
+      id: gameId,
+      away_team_id: awayTeamId,
+      winning_team_id: winningTeamId,
+      round,
+    } = game;
+
+    // Determine if the tip is correct or incorrect
+    const tipStatus = awayTeamId === winningTeamId ? "correct" : "incorrect";
+
+    // Step 3: Insert user's tip for the away team
+    tipInsertPromises.push(
+      sql`
+        INSERT INTO tips (user_id, tip_team_id, game_id, status, created_at, updated_at) 
+        VALUES (${userId}, ${awayTeamId}, ${gameId}, ${tipStatus}, NOW(), NOW())`
+    );
+  }
+
+  // Step 4: Wait for all tip insertions to complete
+  await Promise.all(tipInsertPromises);
+
+  // Step 5: Update user's scores only after all tips have been graded
+  // Update user's score for each round
+  const rounds = [...new Set(completedGames.rows.map((game) => game.round))];
+  for (const round of rounds) {
+    await updateUserScores(userId, sport, round);
+  }
+
+  // Step 6: Update user's overall score
+  await updateOverallScore(userId, sport);
+}
+
+// Helper function to update user's score for a specific round
+export async function updateUserScores(
+  userId: string,
+  sport: string,
+  round: string
+) {
+  // Calculate the correct tips for the user in this round
+  const result = await sql`
+    SELECT COUNT(*) 
+    FROM tips 
+    JOIN games ON tips.game_id = games.id
+    WHERE tips.user_id = ${userId} 
+      AND games.sport = ${sport}
+      AND games.season = '2024'
+      AND games.round = ${round}
+      AND tips.status = 'correct'`;
+
+  const correctTips = parseInt(result.rows[0].count, 10) || 0;
+
+  // Insert or update the score for the round
+  await sql`
+    INSERT INTO scores (user_id, sport, season, round, score, created_at, updated_at) 
+    VALUES (${userId}, ${sport}, '2024', ${round}, ${correctTips}, NOW(), NOW())
+    ON CONFLICT (user_id, sport, season, round) 
+    DO UPDATE SET score = ${correctTips}, updated_at = NOW()`;
+}
+
+// Helper function to update user's overall score
+async function updateOverallScore(userId: string, sport: string) {
+  // Calculate the total correct tips for the user across all rounds
+  const result = await sql`
+    SELECT COUNT(*) 
+    FROM tips 
+    JOIN games ON tips.game_id = games.id
+    WHERE tips.user_id = ${userId} 
+      AND games.sport = ${sport}
+      AND games.season = '2024'
+      AND tips.status = 'correct'`;
+
+  const overallCorrectTips = parseInt(result.rows[0].count, 10) || 0;
+
+  await sql`
+    INSERT INTO scores (user_id, sport, season, round, score, created_at, updated_at) 
+    VALUES (${userId}, ${sport}, '2024', 'overall', ${overallCorrectTips}, NOW(), NOW())
+    ON CONFLICT (user_id, sport, season, round) 
+    DO UPDATE SET score = ${overallCorrectTips}, updated_at = NOW()`;
+}
+
 export async function updateGameStatuses() {
   try {
     await sql`
@@ -738,6 +872,17 @@ export async function updateUserCompetitions(competitionId: string) {
       VALUES (${session.user.id}, ${competitionId})
     `;
     console.log("User registered successfully.");
+
+    const competitionDetails = await sql`
+      SELECT name FROM competitions 
+      WHERE id = ${competitionId}
+    `;
+    if (competitionDetails.rows.length > 0) {
+      const { name } = competitionDetails.rows[0];
+      await setUserTipsToAwayTeams(name);
+    } else {
+      console.error("Competition details not found.");
+    }
     redirect("/dashboard/tipping");
   } catch (error) {
     console.error("Error registering for competition:", error);

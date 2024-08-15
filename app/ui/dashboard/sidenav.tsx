@@ -18,12 +18,16 @@ export default async function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
       <div className="block md:hidden">
-        <AppBar position="fixed" className="bg-primary z-50">
+        <AppBar
+          position="fixed"
+          className="z-50"
+          style={{ backgroundColor: "hsl(var(--primary))" }}
+        >
           <Toolbar className="flex justify-between">
             <div className="w-32 text-white">
               <SiteLogo />
             </div>
-            <IconButton aria-label="user menu" color="primary">
+            <IconButton aria-label="user menu" color="inherit">
               <AvatarDrawer alias={alias} name={name} image={image} />
             </IconButton>
           </Toolbar>

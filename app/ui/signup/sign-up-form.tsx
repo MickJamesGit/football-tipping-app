@@ -11,13 +11,14 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import Loader from "./../../ui/dashboard/loader"; // Import your Loader component
 
 type SignUpProps = {};
 
 export const SignUpForm = ({}: SignUpProps) => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const {
@@ -35,10 +36,11 @@ export const SignUpForm = ({}: SignUpProps) => {
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
-    setSuccess("");
+    setIsLoading(true);
 
     startTransition(() => {
       signup(values).then((data) => {
+        setIsLoading(false);
         if (data.success) {
           router.push("/signup/check-email");
         } else {
@@ -49,67 +51,79 @@ export const SignUpForm = ({}: SignUpProps) => {
   };
 
   return (
-    <form className=" flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-1">
-        <Label htmlFor="name">Full Name</Label>
-        <Input
-          id="name"
-          type="text"
-          placeholder="John Doe"
-          {...register("name")}
+    <div className="relative">
+      {isLoading && <Loader />} {/* Full-screen Loader */}
+      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <div className="space-y-1">
+          <Label htmlFor="name">Full Name</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            {...register("name")}
+            disabled={isPending}
+          />
+        </div>
+        <ErrorMessage
+          errors={errors}
+          name="name"
+          render={({ message }) => (
+            <p className="text-red-500 text-sm text-left w-full mt-1">
+              {message}
+            </p>
+          )}
         />
-      </div>
-      <ErrorMessage
-        errors={errors}
-        name="name"
-        render={({ message }) => (
-          <p className="text-red-500 text-sm text-left w-full mt-1">
-            {message}
-          </p>
-        )}
-      />
-      <div className="space-y-1 mt-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="m@example.com"
-          {...register("email")}
+        <div className="space-y-1 mt-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            {...register("email")}
+            disabled={isPending}
+          />
+        </div>
+        <ErrorMessage
+          errors={errors}
+          name="email"
+          render={({ message }) => (
+            <p className="text-red-500 text-sm text-left w-full mt-1">
+              {message}
+            </p>
+          )}
         />
-      </div>
-      <ErrorMessage
-        errors={errors}
-        name="email"
-        render={({ message }) => (
-          <p className="text-red-500 text-sm text-left w-full mt-1">
-            {message}
-          </p>
+        <div className="space-y-1 mt-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            {...register("password")}
+            disabled={isPending}
+          />
+        </div>
+        <ErrorMessage
+          errors={errors}
+          name="password"
+          render={({ message }) => (
+            <p className="text-red-500 text-sm text-left w-full mt-1">
+              {message}
+            </p>
+          )}
+        />
+        {error && (
+          <p className="text-red-500 text-sm text-left w-full">{error}</p>
         )}
-      />
-      <div className="space-y-1 mt-2">
-        <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" {...register("password")} />
-      </div>
-      <ErrorMessage
-        errors={errors}
-        name="password"
-        render={({ message }) => (
-          <p className="text-red-500 text-sm text-left w-full mt-1">
-            {message}
-          </p>
-        )}
-      />
-      {error && (
-        <p className="text-red-500 text-sm text-left w-full">{error}</p>
-      )}
-      {success && (
-        <p className="text-green-500 text-sm text-left w-full">{success}</p>
-      )}
-      <div className="flex">
-        <Button type="submit" color="primary" className="w-full mt-4">
-          Sign up
-        </Button>
-      </div>
-    </form>
+        <div className="flex">
+          <Button
+            type="submit"
+            color="primary"
+            className="w-full mt-4"
+            disabled={isPending}
+          >
+            {isPending ? "Submitting..." : "Sign up"}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };

@@ -187,7 +187,7 @@ export async function fetchLeaderboard(
         u.id AS id,
         u.alias AS alias,
         s.score AS total_points,
-        ps.score AS previous_round_points
+        COALESCE(ps.score, 0) AS previous_round_points
       FROM
         scores s
       JOIN
@@ -199,13 +199,21 @@ export async function fetchLeaderboard(
         s.season = ${season} AND
         s.round = 'overall'
       ORDER BY
-        total_points DESC
+        s.score DESC, u.id
     `;
 
-    // Step 2: Assign rankings to the full dataset
-    const rankedData = allData.rows.map((entry, index) => ({
+    // Step 2: Remove duplicates based on unique user, sport, season, and round
+    const uniqueData = allData.rows.reduce((acc, current) => {
+      const key = `${current.id}-${sport}-${season}-overall`;
+      if (!acc[key]) {
+        acc[key] = current;
+      }
+      return acc;
+    }, {});
+
+    // Convert object back to an array
+    const rankedData = Object.values(uniqueData).map((entry, index) => ({
       ...entry,
-      previous_round_points: entry.previous_round_points || 0,
       ranking: index + 1,
     }));
 

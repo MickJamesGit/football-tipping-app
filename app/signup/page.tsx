@@ -25,16 +25,17 @@ export default function Page() {
           </div>
           <div className="space-y-4">
             <SignUpForm />
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  OR
-                </span>
+            <div className="relative z-0 flex flex-col items-center">
+              {/* Divider */}
+              <div className="w-full border-t mt-6"></div>
+
+              {/* Additional Element */}
+              <div className="text-muted-foreground text-xs uppercase mt-3">
+                {/* You can customize this text or replace it with another component */}
+                OR
               </div>
             </div>
+
             <div className="grid grid-cols-1 gap-3">
               <form action={facebookAuthenticate}>
                 <Button
