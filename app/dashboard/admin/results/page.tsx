@@ -1,6 +1,7 @@
 // /app/lib/data.ts
-import { getActiveNoResultGames } from "@/app/lib/data";
-import ScoresForm from "./../../../ui/dashboard/results-form";
+
+import { getActiveNoResultGames } from "@/lib/games";
+import ScoresForm from "../../../../components/dashboard/admin/results/results-form";
 
 export default async function Page() {
   const unresultedGames = await getActiveNoResultGames();

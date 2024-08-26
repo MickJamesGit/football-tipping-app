@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import SiteLogo from "@/app/ui/site-logo";
 import { Metadata } from "next";
+import SiteLogo from "@/components/site-logo";
 
 export const metadata: Metadata = {
   title: "FootyTips",

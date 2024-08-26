@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./auth";
-import { getUserAlias } from "./app/lib/data";
+import { getUserAliasByUserId } from "./lib/user";
 
 export async function middleware(request: NextRequest) {
   const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
       const userId = session.user.id;
 
       try {
-        const userAlias = await getUserAlias(userId);
+        const userAlias = await getUserAliasByUserId(userId);
         const userHasAlias = !!userAlias;
 
         if (!userHasAlias) {

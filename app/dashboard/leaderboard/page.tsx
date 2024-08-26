@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { LeaderBoardTableSkeleton } from "@/app/ui/dashboard/skeletons";
-import LeaderboardLayout from "@/app/ui/dashboard/leaderboard-layout";
+import LeaderboardLayout from "@/components/dashboard/leaderboard/leaderboard-layout";
+import { LeaderBoardTableSkeleton } from "@/components/skeletons";
 
 export const metadata: Metadata = {
   title: "Leaderboard",

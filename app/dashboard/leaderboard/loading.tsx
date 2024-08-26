@@ -1,4 +1,4 @@
-import { LeaderBoardTableSkeleton } from "@/app/ui/dashboard/skeletons";
+import { LeaderBoardTableSkeleton } from "@/components/skeletons";
 
 export default function Loading() {
   return <LeaderBoardTableSkeleton />;

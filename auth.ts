@@ -1,15 +1,15 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import PostgresAdapter from "@auth/pg-adapter";
-import { Pool } from "@neondatabase/serverless";
 import FacebookProvider from "next-auth/providers/facebook";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { getUserByEmail, getUserById } from "./app/lib/data";
-import { LoginSchema } from "./app/lib/schemas";
+import { LoginSchema } from "./lib/schemas";
 import { randomUUID } from "crypto";
-import { createSession } from "./app/lib/actions";
 import { encode } from "next-auth/jwt";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { getUserByEmail } from "./lib/user";
+import prisma from "./prisma";
+import { createSession } from "./lib/auth";
 
 declare module "next-auth" {
   interface User {
@@ -17,10 +17,8 @@ declare module "next-auth" {
   }
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-
 export const authOptions: NextAuthConfig = {
-  adapter: PostgresAdapter(pool),
+  adapter: PrismaAdapter(prisma),
   debug: true,
   providers: [
     GoogleProvider({
@@ -48,7 +46,7 @@ export const authOptions: NextAuthConfig = {
     }),
   ],
   session: {
-    strategy: "database", // Explicitly set the strategy to "database"
+    strategy: "database",
   },
   jwt: {
     maxAge: 60 * 60 * 24 * 30,
@@ -72,17 +70,21 @@ export const authOptions: NextAuthConfig = {
       return true;
     },
     async session({ session, user }) {
-      const result = await pool.query("SELECT alias FROM users WHERE id = $1", [
-        user.id,
-      ]);
-      const dbUser = result.rows[0] || {};
+      const result = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+        select: {
+          alias: true,
+        },
+      });
 
       session.user = {
         ...session.user,
         id: user.id,
         name: user.name,
         image: user.image,
-        username: dbUser.alias || "",
+        username: result?.alias ?? "",
       };
 
       return session;

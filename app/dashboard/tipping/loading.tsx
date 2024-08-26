@@ -1,4 +1,4 @@
-import { SportsCompetitionLayoutSkeleton } from "@/app/ui/dashboard/skeletons";
+import { SportsCompetitionLayoutSkeleton } from "@/components/skeletons";
 
 export default function Loading() {
   return <SportsCompetitionLayoutSkeleton />;

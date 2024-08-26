@@ -1,12 +1,11 @@
-import "@/app/ui/global.css";
-import { inter } from "@/app/ui/fonts";
+import "@/styles/global.css";
 import { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/toaster";
+import { inter } from "@/public/fonts/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -25,10 +24,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         {" "}
-        <SessionProvider>
-          <Toaster />
-          {children}
-        </SessionProvider>
+        <Toaster />
+        {children}
       </body>
     </html>
   );

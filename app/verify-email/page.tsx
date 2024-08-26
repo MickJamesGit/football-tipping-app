@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import { VerificationForm } from "../ui/signup/verification-form";
+import { VerificationForm } from "@/components/verify-email/verification-form";
+import AuthLayout from "@/components/auth-layout";
 export const metadata: Metadata = {
   title: "Verify Email",
   description: "Verify account email.",
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <VerificationForm />;
+  return (
+    <AuthLayout>
+      <VerificationForm />
+    </AuthLayout>
+  );
 }

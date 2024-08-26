@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SiteLogo from "./ui/site-logo";
+import SiteLogo from "../components/site-logo";
 import { AppBar, Toolbar } from "@mui/material";
 
 export default function NotFound() {

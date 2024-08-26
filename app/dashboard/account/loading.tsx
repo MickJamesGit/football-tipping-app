@@ -1,4 +1,4 @@
-import { AccountLayoutSkeleton } from "@/app/ui/dashboard/skeletons";
+import { AccountLayoutSkeleton } from "@/components/skeletons";
 
 export default function Loading() {
   return <AccountLayoutSkeleton />;

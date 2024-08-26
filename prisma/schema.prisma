@@ -1,0 +1,232 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// These need snake_case to work with authjs
+model Account {
+  userId             String  @db.Uuid
+  type               String
+  provider           String
+  providerAccountId  String  
+  refresh_token      String? @db.Text @map("refreshToken")
+  access_token       String? @db.Text @map("accessToken")
+  expires_at         Int? @map("expiresAt")
+  token_type         String? @map("tokenType")
+  scope              String?
+  id_token           String? @db.Text @map("idToken")
+  session_state      String? @map("sessionState")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Competition {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  startDate  DateTime @db.Date
+  endDate    DateTime @db.Date
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime @default(now()) @db.Timestamptz(3)
+userCompetitions UserCompetition[] 
+
+  @@index([startDate])
+  @@index([endDate])
+  @@map("competitions")
+}
+
+
+model Game {
+  id                     String   @id @default(uuid()) @db.Uuid
+  sport                  String   
+  round                  String
+  homeTeamId             String   @db.Uuid
+  awayTeamId           String   @db.Uuid
+  venue                  String   
+  createdAt             DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime @default(now()) @db.Timestamptz(3)
+  datetime               DateTime @db.Timestamptz(3)
+  season                 String 
+  winningTeamId        String?  @db.Uuid
+  status                 GameStatus  @default(SCHEDULED)
+  homeTeamScore        Int?
+  awayTeamScore        Int?
+
+  homeTeam              Team    @relation("games_home_team_idToteams", fields: [homeTeamId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  awayTeam              Team    @relation("games_away_team_idToteams", fields: [awayTeamId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  winningTeam           Team?   @relation("games_winning_team_idToteams", fields: [winningTeamId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tips                   Tip[]
+
+  @@unique([sport, season, round, homeTeamId, awayTeamId], map: "unique_game")
+  @@index([datetime])
+  @@map("games")
+}
+
+enum GameStatus {
+  SCHEDULED
+  INPROGRESS
+  COMPLETE
+}
+
+
+model PasswordResetToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  email      String   
+  token      String   @db.Text
+  expiresAt DateTime @db.Timestamptz(3)
+
+  @@unique([token])
+  @@index([email])
+  @@map("password_reset_tokens")
+}
+
+model Round {
+  id           String   @id @default(uuid()) @db.Uuid
+  sport        String   
+  round        String
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  season       String  
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @default(now()) @db.Timestamptz(3)
+
+  @@unique([sport, season, round], map: "unique_round")
+  @@index([sport, season])
+   @@map("rounds")
+}
+
+model Score {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  sport      String   
+  season     String   
+  round      String   
+  score      Int
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @db.Timestamptz(3)
+
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, round, season, sport], map: "user_round_season_sport_unique")
+  @@index([userId, sport, season, round])
+  @@map("scores")
+}
+
+
+model Session {
+  userId       String   @db.Uuid
+  expires    DateTime @db.Timestamptz(3)
+  sessionToken String    @unique @db.Text
+
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([sessionToken])
+  @@map("sessions")
+}
+
+model Team {
+  id                  String   @id @default(uuid()) @db.Uuid
+  name                String   @unique(map: "unique_team_name")
+  sport               String   
+  ranking             Int?
+  createdAt          DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime @default(now()) @db.Timestamptz(3)
+  
+  gamesWon           Game[]  @relation("games_winning_team_idToteams")
+  gamesAway          Game[]  @relation("games_away_team_idToteams")
+  gamesHome          Game[]  @relation("games_home_team_idToteams")
+  tips                Tip[]
+  
+  @@index([name])
+  @@index([sport])
+  @@map("teams")
+}
+
+model Tip {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  teamId     String    @db.Uuid
+  gameId     String    @db.Uuid
+  createdAt  DateTime  @default(now()) @db.Timestamp(3)
+  updatedAt  DateTime  @default(now()) @db.Timestamp(3)
+  status      TipStatus @default(PENDING)
+  
+  games       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  teams       Team     @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId])
+  @@index([teamId])
+  @@index([gameId])
+  @@index([userId, gameId])
+  @@map("tips")
+}
+
+enum TipStatus {
+  PENDING
+  CORRECT
+  INCORRECT
+}
+
+model UserCompetition {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId        String    @db.Uuid
+  competitionId String    @db.Uuid
+  signupDate    DateTime @default(now()) @db.Timestamp(3)
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  competition    Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([competitionId])
+  @@unique([userId, competitionId])
+  @@map("user_competitions")
+}
+
+model User {
+  id                        String    @id @default(uuid()) @db.Uuid
+  name                      String    
+  email                     String    @unique(map: "unique_email")
+  password                  String?
+  alias                     String?   
+  createdAt                 DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt                 DateTime @default(now()) @db.Timestamptz(3)
+  emailVerified             DateTime? @db.Timestamptz(3)
+  image                     String?
+  receiveTippingReminders   Boolean @default(false)
+  receiveTippingResults     Boolean @default(false)
+  scores                    Score[]
+  tips                      Tip[]
+  @@map("users")
+
+  competitions     UserCompetition[] 
+  accounts      Account[]
+  sessions      Session[]
+}
+
+//need identifier instead of id for authjs
+model VerificationToken {
+  identifier      String   @id @default(uuid()) @db.Uuid  @map("id")
+  email   String   
+  token   String   @unique @db.Text
+  expires DateTime @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([expires])
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}

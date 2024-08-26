@@ -1,9 +1,7 @@
 import { Suspense } from "react";
 
 import { Metadata } from "next";
-import { TippingTableSkeleton } from "@/app/ui/dashboard/skeletons";
 import { redirect } from "next/navigation";
-import TippingTableLayout from "@/app/ui/dashboard/tipping-table-layout";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,7 +9,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@/components/breadcrumb";
+import { TippingTableSkeleton } from "@/components/skeletons";
+import TippingTableLayout from "@/components/dashboard/tipping/tips/tipping-table-layout";
 
 export const metadata: Metadata = {
   title: "Tips",
