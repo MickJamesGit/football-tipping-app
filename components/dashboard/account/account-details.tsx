@@ -166,7 +166,7 @@ export default function AccountDetails({ user }: { user: AccountDetails }) {
                       Round Results
                     </Label>
                     <p className="text-sm text-muted-foreground">
-                      Receive each round's tipping results to your email
+                      Receive each round&#39;s tipping results to your email
                     </p>
                   </div>
                 </div>

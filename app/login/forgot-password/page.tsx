@@ -32,7 +32,7 @@ export default function Page() {
       </div>
       <div className="text-center text-sm mt-6">
         <p>
-          Don't have an account?{" "}
+          Don&#39;t have an account?{" "}
           <Link href="/signup" className="underline underline-offset-4">
             Sign up now
           </Link>

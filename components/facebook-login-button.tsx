@@ -2,6 +2,7 @@
 
 import { Button } from "./button";
 import { facebookAuthenticate } from "@/lib/auth";
+import Image from "next/image";
 
 const FacebookLoginButton: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const FacebookLoginButton: React.FC = () => {
         variant="outline"
         className="w-full bg-[#1877F2] text-white flex items-center justify-center space-x-2 py-2"
       >
-        <img
+        <Image
           src="/images/facebook-logo.png"
           alt="Facebook"
           className="h-5 w-5"

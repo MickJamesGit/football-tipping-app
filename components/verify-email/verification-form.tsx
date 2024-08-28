@@ -37,7 +37,7 @@ export const VerificationForm = ({}: VerificationFormProps) => {
       .catch(() => {
         setError("Something went wrong!");
       });
-  }, [token, success, error]);
+  }, [token, success, error, router]);
 
   useEffect(() => {
     onSubmit();

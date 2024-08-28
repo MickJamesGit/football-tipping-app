@@ -91,7 +91,7 @@ export default function TippingTable({
         style: { zIndex: 500 },
       });
     }
-  }, [state]);
+  }, [state, toast]);
 
   const handleTeamClick = (
     gameId: string,

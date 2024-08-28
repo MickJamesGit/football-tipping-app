@@ -29,7 +29,7 @@ export default function NotFound() {
           404
         </h1>
         <p className="mt-4 text-2xl text-muted-foreground">
-          Out of bounds! The content you're looking for is not here.
+          Out of bounds! The content you&#39;re looking for is not here.
         </p>
         <div className="mt-6">
           <Link

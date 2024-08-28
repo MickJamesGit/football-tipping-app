@@ -52,7 +52,7 @@ export default function ResultsForm({ unresultedGames }: ResultsFormProps) {
         router.refresh();
       }
     }
-  }, [state]);
+  }, [state, router, toast]);
 
   return (
     <form action={formAction}>
