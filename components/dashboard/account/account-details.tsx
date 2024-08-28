@@ -90,7 +90,7 @@ export default function AccountDetails({ user }: { user: AccountDetails }) {
             <AvatarFallback className="bg-emerald-500 text-white ">
               {(user.alias || "User")
                 .split(" ")
-                .map((word) => word[0])
+                .map((word: string) => word[0])
                 .slice(0, 2)
                 .join("")
                 .toUpperCase()}

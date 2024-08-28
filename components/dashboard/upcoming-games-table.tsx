@@ -10,7 +10,7 @@ type GamesListProps = {
 };
 
 const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
-  const gamesByDate = games.reduce(
+  const gamesByDate = games.reduce<Record<string, UpcomingGame[]>>(
     (acc, game) => {
       const gameDate = format(new Date(game.datetime), "EEEE, d MMMM yyyy");
       if (!acc[gameDate]) {
@@ -19,7 +19,7 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
       acc[gameDate].push(game);
       return acc;
     },
-    {} as Record<string, typeof games>
+    {}
   );
 
   return (

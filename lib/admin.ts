@@ -73,7 +73,7 @@ export async function saveGameResults(
 
   for (const result of results) {
     try {
-      await prisma.$transaction(async (prisma) => {
+      await prisma.$transaction(async (prisma: any) => {
         const {
           gameId,
           homeScore,
@@ -131,7 +131,7 @@ export async function saveGameResults(
           where: { gameId: gameId },
         });
 
-        const usersWithTips = tips.map((tip) => tip.userId);
+        const usersWithTips = tips.map((tip: any) => tip.userId);
 
         const usersInCompetition = await prisma.userCompetition.findMany({
           where: { competitionId: competitionId },
@@ -139,7 +139,7 @@ export async function saveGameResults(
         });
 
         const usersWithoutTips = usersInCompetition.filter(
-          (user) => !usersWithTips.includes(user.userId)
+          (user: any) => !usersWithTips.includes(user.userId)
         );
 
         for (const user of usersWithoutTips) {
