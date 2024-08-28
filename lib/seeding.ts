@@ -1,10 +1,10 @@
 "use server";
 
 import prisma from "@/prisma";
-import { competitions } from "@/seed/competitions/data";
-import { games } from "@/seed/games/data";
-import { rounds } from "@/seed/rounds/data";
-import { teams } from "@/seed/teams/data";
+import { competitions } from "@/seed/data/competitions";
+import { games } from "@/seed/data/games";
+import { rounds } from "@/seed/data/rounds";
+import { teams } from "@/seed/data/teams";
 
 //Seeds the entire database. Will ignore if things are already set, so it can be run multiple times.
 export async function seedDatabase() {

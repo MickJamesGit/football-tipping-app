@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { NewPasswordForm } from "@/components/login/new-password/new-password-form";
 import AuthLayout from "@/components/auth-layout";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "New Password",
@@ -14,7 +15,9 @@ export default function Page() {
     <AuthLayout>
       <div className="space-y-4">
         <div className="space-y-2 text-center">
-          <NewPasswordForm />
+          <Suspense>
+            <NewPasswordForm />
+          </Suspense>{" "}
           <div className="mt-2">
             <Link
               href="/login"

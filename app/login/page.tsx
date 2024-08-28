@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import FacebookLoginButton from "@/components/facebook-login-button";
 import GoogleLoginButton from "@/components/google-login-button";
 import AuthLayout from "@/components/auth-layout";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -15,7 +16,9 @@ export default function Page() {
   return (
     <AuthLayout>
       <h1 className="text-3xl font-bold text-center">Welcome Back</h1>
-      <LoginForm />
+      <Suspense>
+        <LoginForm />
+      </Suspense>
       <div className="text-center text-sm">
         <Link
           href="/login/forgot-password"
