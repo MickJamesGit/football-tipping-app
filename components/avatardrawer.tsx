@@ -66,7 +66,7 @@ const AvatarDrawer: React.FC<AvatarDrawerProps> = ({
       >
         <Avatar className="h-[100px] w-[100px] rounded-full">
           {image && <AvatarImage src={image} />}
-          <AvatarFallback className="bg-gray-400 text-white flex items-center justify-center h-full w-full text-2xl">
+          <AvatarFallback className="bg-emerald-500 text-white flex items-center justify-center h-full w-full text-2xl">
             {alias
               .split(" ")
               .map((word) => word[0])

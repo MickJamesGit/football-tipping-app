@@ -35,7 +35,7 @@ export const SportsRegisterCard: React.FC<SportsRegisterCardProps> = ({
     competition.id
   );
   return (
-    <Card className="w-full max-w-md rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="w-full max-w-md px-7 rounded-lg transition-shadow duration-300">
       <CardHeader>
         <div className="space-y-1">
           <CardTitle>{competition.name}</CardTitle>

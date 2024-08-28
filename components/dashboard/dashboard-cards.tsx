@@ -3,6 +3,7 @@ import { SportsResultsCard } from "./sports-results-card";
 import { SportsRegisterCard } from "./tipping/sports-register-card";
 import { getOverallSummaryRanking } from "@/lib/rankings";
 import { getLastRoundScores } from "@/lib/scores";
+import SportsCarousel from "./sports-carousel";
 
 interface DashboardCardsProps {
   registeredSports: string[];
@@ -15,12 +16,6 @@ interface DashboardCardsProps {
   }[];
 }
 
-const getGridCols = (length: number | null) => {
-  if (length === 1) return "grid-cols-1";
-  if (length === 2) return "grid-cols-1 lg:grid-cols-2";
-  return "grid-cols-1 lg:grid-cols-3";
-};
-
 async function DashboardCards({
   registeredSports,
   unregisteredSports,
@@ -30,27 +25,29 @@ async function DashboardCards({
     getOverallSummaryRanking(registeredSports),
   ]);
 
-  const gridColsClass = getGridCols(overallRankings.length);
+  const allItems = [
+    ...registeredSports.map((sport, index) =>
+      sport ? (
+        <SportsResultsCard
+          key={`sport-${index}`}
+          sport={sport}
+          round={lastRoundScores[index]}
+          total={overallRankings[index]}
+        />
+      ) : null
+    ),
+    ...unregisteredSports.map((competition) => (
+      <SportsRegisterCard
+        key={`competition-${competition.id}`}
+        competition={competition}
+      />
+    )),
+  ];
 
   return (
     <div className="flex justify-center p-4 pt-6">
-      <div
-        className={`grid gap-6 w-full ${gridColsClass} justify-items-center`}
-      >
-        {registeredSports.map((sport, index) =>
-          sport ? (
-            <SportsResultsCard
-              key={index}
-              sport={sport}
-              round={lastRoundScores[index]}
-              total={overallRankings[index]}
-            />
-          ) : null
-        )}
-        {unregisteredSports.map((competition) => (
-          <SportsRegisterCard key={competition.id} competition={competition} />
-        ))}
-      </div>
+      {/* Use SportsCarousel component */}
+      <SportsCarousel items={allItems} />
     </div>
   );
 }

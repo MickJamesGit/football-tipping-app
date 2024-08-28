@@ -39,44 +39,50 @@ export const SportsResultsCard: React.FC<SportsResultsCardProps> = ({
   total,
 }) => {
   return (
-    <Card className="w-full max-w-md rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader>
-        <div className="space-y-1">
-          <CardTitle>{sport} results</CardTitle>
-        </div>
-      </CardHeader>
-      <CardContent className="grid gap-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BellIcon className="w-5 h-5 text-muted-foreground" />
-            <span className="text-muted-foreground">
-              Round {round.roundNumber} Score: {round.score}/{round.totalGames}
-            </span>
+    <>
+      <Card className="w-full max-w-md px-7 rounded-lg  transition-shadow duration-300">
+        <CardHeader>
+          <div className="space-y-1">
+            <CardTitle>{sport} results</CardTitle>
           </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <TrophyIcon className="w-5 h-5 text-muted-foreground" />
-            <span className="text-muted-foreground">
-              Total Points: {total.score}
-            </span>
+        </CardHeader>
+        <CardContent className="grid gap-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BellIcon className="w-5 h-5 text-muted-foreground" />
+              <span className="text-muted-foreground">
+                Round {round.roundNumber} Score: {round.score}/
+                {round.totalGames}
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <ListOrderedIcon className="w-5 h-5 text-muted-foreground" />
-            <span className="text-muted-foreground">
-              {getOrdinalSuffix(total.ranking)} of {total.totalUsers}
-            </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <TrophyIcon className="w-5 h-5 text-muted-foreground" />
+              <span className="text-muted-foreground">
+                Total Points: {total.score}
+              </span>
+            </div>
           </div>
-          <Link href={`/dashboard/leaderboard?sport=${sport}&page=1`}>
-            <Button className="bg-blue-500 text-white hover:bg-blue-700 text-xs md:text-sm px-4 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <ListOrderedIcon
+                className="w-5
+             h-5 text-muted-foreground"
+              />
+              <span className="text-muted-foreground">
+                {getOrdinalSuffix(total.ranking)} of {total.totalUsers}
+              </span>
+            </div>
+            {/* <Link href={`/dashboard/leaderboard?sport=${sport}&page=1`}>
+            <Button className="bg-blue-500 text-white hover:bg-blue-700 text-xs md:text-sm  px-4 py-0">
               View leaderboard
             </Button>
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+          </Link> */}
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

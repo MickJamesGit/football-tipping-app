@@ -32,6 +32,11 @@ export default async function Page() {
         <UserHeading userSports={registeredCompetitions} />
       </Suspense>
       <Suspense fallback={<DashboardCardsSkeleton />}>
+        <h2 className="mt-6 text-xl md:text-2xl text-center">
+          {registeredCompetitions.length > 0
+            ? "Tipping results"
+            : "Sports competitions"}
+        </h2>
         <DashboardCards
           registeredSports={registeredCompetitions}
           unregisteredSports={unregisteredCompetitions}

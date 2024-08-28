@@ -5,12 +5,13 @@ export default function SiteLogo() {
   return (
     <div className={`${lusitana.className} flex flex-row leading-none`}>
       <FaTrophy
-        className="mr-2 text-white"
+        className="mr-1 text-yellow-400"
         style={{ fontSize: "32px", minWidth: "30px", minHeight: "30px" }}
       />
+
       <p className="text-[32px] font-bold flex items-baseline">
         <span className="text-white">Footy</span>
-        <span className="text-yellow-500">tip</span>
+        <span className="text-yellow-400">tipping</span>
         <span className="text-white text-xs">.com.au</span>
       </p>
     </div>

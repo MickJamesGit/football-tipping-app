@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "./button";
 import { facebookAuthenticate } from "@/lib/auth";
 

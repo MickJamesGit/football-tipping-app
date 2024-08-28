@@ -87,7 +87,7 @@ export default function AccountDetails({ user }: { user: AccountDetails }) {
         <div className="flex items-center gap-4 mb-8">
           <Avatar className="h-16 w-16 rounded-full">
             {user.image && <AvatarImage src={user.image} />}
-            <AvatarFallback className="bg-gray-400 text-white ">
+            <AvatarFallback className="bg-emerald-500 text-white ">
               {(user.alias || "User")
                 .split(" ")
                 .map((word) => word[0])

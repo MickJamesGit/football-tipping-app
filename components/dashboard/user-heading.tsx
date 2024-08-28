@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
+import { getRandomColorClass } from "@/utils/utils";
 
 export async function UserHeading({
   userSports = [],
@@ -13,18 +14,22 @@ export async function UserHeading({
   const sportsList = userSports.length > 0 ? userSports.join(" | ") : "none";
 
   return (
-    <div className="w-full bg-gray-50 p-4 rounded-lg flex items-center">
-      <Avatar className="rounded-full  w-16 h-16">
-        <AvatarImage src={session.user.image || ""} />
-        <AvatarFallback className="bg-gray-400 text-white flex items-center justify-center h-full w-full text-2xl">
-          {session.user.username
-            .split(" ")
-            .map((word) => word[0])
-            .slice(0, 2)
-            .join("")
-            .toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+    <div className="w-full bg-gray-50 p-4 pr-4 rounded-full flex items-center h-16">
+      <div className="flex items-center -ml-4">
+        <Avatar className="rounded-full w-[68px] h-[68px]">
+          <AvatarImage src={session.user.image || ""} />
+          <AvatarFallback
+            className={`bg-emerald-500  text-white flex items-center justify-center h-full w-full text-2xl`}
+          >
+            {session.user.username
+              .split(" ")
+              .map((word) => word[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      </div>
       <div className="ml-4">
         <h1 className="text-2xl text-left font-bold">
           {session.user.username}

@@ -60,3 +60,15 @@ export const fromDate = (
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function getRandomColorClass() {
+  const colorClasses = [
+    "bg-orange-300",
+    "bg-amber-300",
+    "bg-sky-400",
+    "bg-emerald-500",
+  ];
+
+  const randomIndex = Math.floor(Math.random() * colorClasses.length);
+  return colorClasses[randomIndex];
+}
