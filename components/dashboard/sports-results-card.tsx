@@ -40,7 +40,7 @@ export const SportsResultsCard: React.FC<SportsResultsCardProps> = ({
 }) => {
   return (
     <>
-      <Card className="w-full max-w-md px-7 rounded-lg  transition-shadow duration-300">
+      <Card className="w-full max-w-md border-none shadow-none">
         <CardHeader>
           <div className="space-y-1">
             <CardTitle>{sport} results</CardTitle>
