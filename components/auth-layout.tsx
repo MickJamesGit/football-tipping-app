@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       </div>
 
       {/* Children Section - Centered on larger screens */}
-      <div className="flex flex-col items-center justify-center flex-grow  lg:py-0 lg:flex lg:items-center lg:justify-center lg:col-start-1">
+      <div className="flex flex-col items-center justify-start mt-5 flex-grow  lg:py-0 lg:flex lg:items-center lg:justify-center lg:col-start-1">
         <div className="mx-auto w-[350px] space-y-6">
           <div className="space-y-2">{children}</div>
         </div>
