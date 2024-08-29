@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       </div>
 
       {/* Children Section - Centered on larger screens */}
-      <div className="flex flex-col items-center justify-start mt-5 flex-grow  lg:py-0 lg:flex lg:items-center lg:justify-center lg:col-start-1">
+      <div className="flex flex-col items-center justify-start mt-5 flex-grow lg:py-0 lg:flex lg:items-center lg:justify-center lg:col-start-1 mb-5">
         <div className="mx-auto w-[350px] space-y-6">
           <div className="space-y-2">{children}</div>
         </div>
@@ -30,7 +30,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       </div>
 
       {/* Footer Section - Visible only on smaller screens */}
-      <div className="w-full bg-primary py-4 lg:hidden">
+      <div className="mt-auto w-full bg-primary py-6 lg:hidden">
         {/* Empty footer to maintain the space */}
       </div>
     </div>
