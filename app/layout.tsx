@@ -6,6 +6,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { Toaster } from "@/components/toaster";
 import { inter } from "@/public/fonts/fonts";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -26,6 +27,7 @@ export default function RootLayout({
         {" "}
         <Toaster />
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );

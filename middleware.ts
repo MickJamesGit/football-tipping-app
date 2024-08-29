@@ -2,10 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./auth";
 import { getUserAliasByUserId } from "./lib/user";
 
-export const config = {
-  runtime: "nodejs",
-};
-
 export async function middleware(request: NextRequest) {
   const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
   const isOnLogin = request.nextUrl.pathname.startsWith("/login");
