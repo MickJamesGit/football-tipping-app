@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
-import { getRandomColorClass } from "@/utils/utils";
+import { getRandomColorClass } from "@/lib/utils";
 
 export async function UserHeading({
   userSports = [],
