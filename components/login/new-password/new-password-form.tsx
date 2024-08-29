@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Loader from "@/components/dashboard/loader";
+import { Eye, EyeOff } from "lucide-react";
 
 type NewPasswordFormProps = {};
 
@@ -21,7 +22,11 @@ export const NewPasswordForm = ({}: NewPasswordFormProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   const {
     register,
     handleSubmit,
@@ -56,7 +61,25 @@ export const NewPasswordForm = ({}: NewPasswordFormProps) => {
         Enter your new password
       </p>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <Input {...register("password")} id="password" type="password" />
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            {...register("password")}
+            className="border rounded-md p-2 pr-10 w-full"
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+          >
+            {showPassword ? (
+              <EyeOff className="w-5 h-5 text-gray-500" />
+            ) : (
+              <Eye className="w-5 h-5 text-gray-500" />
+            )}
+          </button>
+        </div>
         <ErrorMessage
           errors={errors}
           name="password"

@@ -11,6 +11,7 @@ import { Input } from "@/components/input";
 import { ErrorMessage } from "@hookform/error-message";
 import { Label } from "@/components/label";
 import Loader from "@/components/dashboard/loader";
+import { EyeOff, Eye } from "lucide-react";
 
 type Props = {};
 
@@ -20,6 +21,11 @@ export const LoginForm = ({}: Props) => {
   const callbackUrl = searchParams.get("callbackUrl");
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const {
     register,
@@ -77,12 +83,27 @@ export const LoginForm = ({}: Props) => {
           <Label htmlFor="Password" className="text-sm font-medium text-left">
             Password
           </Label>
-          <Input
-            id="Password"
-            type="password"
-            {...register("password")}
-            className="border rounded-md p-2"
-          />
+          <div className="relative">
+            {" "}
+            {/* Ensure the container is relative */}
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              {...register("password")}
+              className="border rounded-md p-2 pr-10 w-full"
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            >
+              {showPassword ? (
+                <EyeOff className="w-5 h-5 text-gray-500" />
+              ) : (
+                <Eye className="w-5 h-5 text-gray-500" />
+              )}
+            </button>
+          </div>
           <ErrorMessage
             errors={errors}
             name="password"
