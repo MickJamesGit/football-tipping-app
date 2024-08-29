@@ -16,6 +16,9 @@ export default function Page() {
   return (
     <AuthLayout>
       <h1 className="text-3xl font-bold text-center">Welcome Back</h1>
+      <p className="text-muted-foreground text-center">
+        Login with your email and password
+      </p>
       <Suspense>
         <LoginForm />
       </Suspense>

@@ -14,7 +14,8 @@ const FacebookLoginButton: React.FC = () => {
         <Image
           src="/images/facebook-logo.png"
           alt="Facebook"
-          className="h-5 w-5"
+          width={20}
+          height={20}
         />
         <span>Continue with Facebook</span>
       </Button>

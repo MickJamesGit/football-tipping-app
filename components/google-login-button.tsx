@@ -12,7 +12,12 @@ const GoogleLoginButton: React.FC = () => {
         type="submit"
         className="w-full bg-white border-gray-300 text-gray-900 flex items-center justify-center space-x-2 py-2"
       >
-        <Image src="images/google-logo.png" alt="Google" className="h-5 w-5" />
+        <Image
+          src="/images/google-logo.png"
+          width={20}
+          height={20}
+          alt="Google"
+        />
         <span>Continue with Google</span>
       </Button>
     </form>

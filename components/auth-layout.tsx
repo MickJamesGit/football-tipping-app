@@ -7,25 +7,31 @@ interface AuthLayoutProps {
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
-    <div className="lg:grid lg:grid-cols-2 min-h-screen">
-      <div className="flex items-center justify-center py-12">
-        <div className="mx-auto w-[350px] space-y-6">
-          <div className="space-y-2">
-            <div className="block lg:hidden bg-primary py-8 rounded-lg pl-5">
-              <SiteLogo />
-            </div>
-            {children}
-          </div>
+    <div className="min-h-screen flex flex-col lg:grid lg:grid-cols-2">
+      {/* Header Section - Visible only on smaller screens */}
+      <div className="w-full bg-primary py-6 flex justify-center lg:hidden">
+        <div className="w-[350px] flex items-center justify-center">
+          <SiteLogo />
         </div>
       </div>
-      <div className="hidden bg-background bg-primary lg:block">
-        <Link
-          href="/"
-          className="flex items-center justify-center h-full"
-          prefetch={false}
-        >
+
+      {/* Children Section - Centered on larger screens */}
+      <div className="flex flex-col items-center justify-center flex-grow py-8 lg:py-0 lg:flex lg:items-center lg:justify-center lg:col-start-1">
+        <div className="mx-auto w-[350px] space-y-6">
+          <div className="space-y-2">{children}</div>
+        </div>
+      </div>
+
+      {/* Right Side Section with Logo and Background - Visible only on larger screens */}
+      <div className="hidden lg:flex bg-primary items-center justify-center lg:col-start-2">
+        <div className="w-[350px] flex items-center justify-center">
           <SiteLogo />
-        </Link>
+        </div>
+      </div>
+
+      {/* Footer Section - Visible only on smaller screens */}
+      <div className="w-full bg-primary py-4 lg:hidden">
+        {/* Empty footer to maintain the space */}
       </div>
     </div>
   );
