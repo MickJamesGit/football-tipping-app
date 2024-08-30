@@ -67,111 +67,111 @@ export default function AccountDetails({ user }: { user: AccountDetails }) {
   return (
     <>
       {error && <p className="text-red-500 text-sm text-left">{error}</p>}{" "}
-      <div className="container mx-auto py-4 border-gray-300 pb-4 mb-6 bg-slate-50 px-4 md:px-6">
-        <div className="border-b border-gray-300 pb-4 mb-6 bg-slate-50 ">
+      <div className="container mx-auto py-4 pb-4 mb-6 bg-slate-50 rounded-lg px-4 md:px-6">
+        <div className="pb-4">
           {" "}
-          {/* Soft border for separation */}
+          {/* Removed border-b */}
           <h1 className="text-3xl font-bold tracking-tight md:text-3xl">
-            {" "}
-            {/* Moderate font size increase */}
             My Account
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {" "}
-            {/* Smaller font size for a subtle description */}
             Update your username or adjust your communication preferences.
           </p>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-6">
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col justify-between rounded-lg max-w-2xl space-y-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base font-medium">
-                          Username
-                        </FormLabel>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div>
-                  <h2 className="text-lg font-medium mb-2">
-                    Communication Preferences
-                  </h2>
+        <div className="bg-white p-6 rounded-lg mb-6 shadow-sm">
+          {" "}
+          {/* Added a new div with white background to create the gap */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="grid gap-6">
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-between rounded-lg max-w-2xl space-y-4">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base font-medium">
+                            Username
+                          </FormLabel>
+                          <FormDescription>
+                            This is your public display name.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div>
+                    <h2 className="text-lg font-medium mb-2">
+                      Communication Preferences
+                    </h2>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="receiveTippingReminders"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between max-w-2xl rounded-lg border bg-white p-4">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-sm">
+                            Tipping Reminders
+                          </FormLabel>
+                          <FormDescription>
+                            Receive email reminders to submit your tips before
+                            each round.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="receiveTippingResults"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between max-w-2xl rounded-lg bg-white border p-4">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-sm">
+                            Tipping Results
+                          </FormLabel>
+                          <FormDescription>
+                            Get the latest round results delivered straight to
+                            your email.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <FormField
-                  control={form.control}
-                  name="receiveTippingReminders"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between max-w-2xl rounded-lg border bg-white p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-sm">
-                          Tipping Reminders
-                        </FormLabel>
-                        <FormDescription>
-                          Receive email reminders to submit your tips before
-                          each round.
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="receiveTippingResults"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between max-w-2xl rounded-lg  bg-white border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-sm">
-                          Tipping Results
-                        </FormLabel>
-                        <FormDescription>
-                          Get the latest round results delivered straight to
-                          your email.
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
               </div>
-            </div>
-            <div className="flex justify-end mt-6">
-              <Button
-                type="submit"
-                className="ml-auto"
-                aria-disabled={pending}
-                disabled={pending}
-              >
-                {pending ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-          </form>
-        </Form>
+              <div className="flex justify-end mt-6">
+                <Button
+                  type="submit"
+                  className="ml-auto"
+                  aria-disabled={pending}
+                  disabled={pending}
+                >
+                  {pending ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
     </>
   );
