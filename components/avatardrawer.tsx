@@ -77,7 +77,7 @@ const AvatarDrawer: React.FC<AvatarDrawerProps> = ({
         </Avatar>
 
         <Typography variant="h6" sx={{ marginTop: 1 }}>
-          {name}
+          {alias}
         </Typography>
       </Box>
       <Divider />

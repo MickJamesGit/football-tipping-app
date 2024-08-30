@@ -68,17 +68,10 @@ export default function AccountDetails({ user }: { user: AccountDetails }) {
     <>
       {error && <p className="text-red-500 text-sm text-left">{error}</p>}{" "}
       <div className="container mx-auto py-4 pb-4 mb-6 bg-slate-50 rounded-lg px-4 md:px-6">
-        <div className="pb-4">
-          {" "}
-          {/* Removed border-b */}
-          <h1 className="text-3xl font-bold tracking-tight md:text-3xl">
-            My Account
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Update your username or adjust your communication preferences.
-          </p>
-        </div>
-
+        <PageHeading
+          title="My Account"
+          description="Update your username or adjust your communication preferences."
+        />
         <div className="bg-white p-6 rounded-lg mb-6 shadow-sm">
           {" "}
           {/* Added a new div with white background to create the gap */}

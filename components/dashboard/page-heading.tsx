@@ -1,7 +1,15 @@
-export default function PageHeading({ title }: { title: string }) {
+export default function PageHeading({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
   return (
-    <h1 className="bg-primary py-4 px-6 font-bold tracking-tight rounded-lg text-3xl text-primary-foreground">
-      {title}
-    </h1>
+    <div className="pb-2">
+      {" "}
+      <h1 className="text-3xl font-bold tracking-tight md:text-3xl">{title}</h1>
+      <p className="text-sm text-muted-foreground mt-1">{description}</p>
+    </div>
   );
 }

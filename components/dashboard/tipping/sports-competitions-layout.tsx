@@ -33,20 +33,15 @@ export async function SportsCompetitionsLayout() {
   );
 
   return (
-    <div className="w-full space-y-4">
+    <div className="container mx-auto py-4 pb-4 mb-6 bg-slate-50 rounded-lg px-4 md:px-6">
       {registeredCompetitions.length > 0 && (
         <>
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight md:text-3xl">
-              My sports
-            </h1>
-            <p className="text-base text-muted-foreground">
-              {" "}
-              Submit your tips for upcoming rounds.
-            </p>
-          </div>
+          <PageHeading
+            title="My Sports"
+            description="Select a sport to submit your tips for the upcoming games."
+          />
           <Separator className="my-4" />
-          <div className="flex flex-wrap gap-4 mt-6 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
             {registeredCompetitionsSummary.map((data) => (
               <SubmitTipsCard
                 key={data.name}
@@ -61,8 +56,11 @@ export async function SportsCompetitionsLayout() {
       )}
       {registeredCompetitions.length === 0 && (
         <>
-          <PageHeading title="Join a competition" />
-          <div className="flex flex-wrap gap-4 mt-6 mb-6 justify-center">
+          <PageHeading
+            title="Join a competition"
+            description="Register to tip for one of the sports below."
+          />
+          <div className="flex flex-wrap gap-4  justify-center">
             {unRegisteredCompetitions.map((competition) => (
               <SportsRegisterCard
                 key={competition.id}
@@ -75,8 +73,11 @@ export async function SportsCompetitionsLayout() {
       {registeredCompetitions.length > 0 &&
         unRegisteredCompetitions.length > 0 && (
           <>
-            <PageHeading title="Other sports" />
-            <div className="flex flex-wrap gap-4 mt-6 mb-6 justify-center">
+            <PageHeading
+              title="Other Sports"
+              description="Register to tip for one of the sports below."
+            />
+            <div className="flex flex-wrap gap-4 justify-center">
               {unRegisteredCompetitions.map((competition) => (
                 <SportsRegisterCard
                   key={competition.id}

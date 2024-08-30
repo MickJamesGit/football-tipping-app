@@ -21,6 +21,7 @@ import {
 import { useDebouncedCallback } from "use-debounce";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { LeaderboardEntry } from "@/types/definitions";
+import PageHeading from "../page-heading";
 
 export default function LeaderboardTable({
   sportsList,
@@ -78,13 +79,12 @@ export default function LeaderboardTable({
   }, [search, rankings]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="bg-primary py-4 px-6 rounded-lg">
-        <h1 className="text-2xl font-bold text-primary-foreground">
-          Leaderboard
-        </h1>
-      </div>
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4 container mx-auto py-4 pb-4 mb-6 bg-slate-50 rounded-lg px-4 md:px-6">
+      <PageHeading
+        title="Leaderboard"
+        description={`Overall rankings for the 2024 ${sport} tipping competition.`}
+      />
+      <div className="flex items-center justify-between gap-2">
         <Input
           placeholder="Search by username..."
           value={search}
@@ -92,10 +92,10 @@ export default function LeaderboardTable({
             setSearch(e.target.value);
             handleSearch(e.target.value);
           }}
-          className="max-w-[40%]"
+          className="w-full lg:max-w-[50%]"
         />
         <Select value={selectedSport} onValueChange={handleSportChange}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[40%] md:w-[150px]">
             <SelectValue placeholder="Filter by sport" />
           </SelectTrigger>
           <SelectContent>
@@ -109,10 +109,10 @@ export default function LeaderboardTable({
           </SelectContent>
         </Select>
       </div>
-      <Table>
+      <Table className="bg-white rounded-lg">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[80px]">Rank</TableHead>
+            <TableHead className="">Rank</TableHead>
             <TableHead>Username</TableHead>
             <TableHead className="text-right">Round {previousRound}</TableHead>
             <TableHead className="text-right">Total Score</TableHead>
