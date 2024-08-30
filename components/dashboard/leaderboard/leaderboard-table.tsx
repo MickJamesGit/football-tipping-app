@@ -132,20 +132,25 @@ export default function LeaderboardTable({
                   {ranking.ranking <= 3 ? (
                     <div className="flex items-center gap-1">
                       <MedalIcon
-                        className={`w-4 h-4 fill-${
+                        className={`w-4 h-4 ${
                           ranking.ranking === 1
-                            ? "[#FFD700]"
+                            ? "fill-[#FFD700]"
                             : ranking.ranking === 2
-                              ? "[#C0C0C0]"
-                              : "[#CD7F32]"
+                              ? "fill-[#C0C0C0]"
+                              : "fill-[#CD7F32]"
                         }`}
                       />
-                      {ranking.alias}
+                      <span className="block sm:hidden">{ranking.alias}</span>
+                      <span className="hidden sm:block">{ranking.alias}</span>
                     </div>
                   ) : (
-                    ranking.alias
+                    <>
+                      <span className="block sm:hidden">{ranking.alias}</span>
+                      <span className="hidden sm:block">{ranking.alias}</span>
+                    </>
                   )}
                 </TableCell>
+
                 <TableCell className="w-[25%] p-1 text-right">
                   {ranking.previous_round_points}
                 </TableCell>

@@ -12,6 +12,7 @@ import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Loader from "@/components/dashboard/loader";
 import { Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/components/use-toast";
 
 type NewPasswordFormProps = {};
 
@@ -23,7 +24,7 @@ export const NewPasswordForm = ({}: NewPasswordFormProps) => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { toast } = useToast();
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
@@ -45,7 +46,14 @@ export const NewPasswordForm = ({}: NewPasswordFormProps) => {
     startTransition(() => {
       newPassword(values, token).then((data) => {
         if (data.success) {
-          setSuccess(data?.success);
+          toast({
+            title: "Success",
+            duration: 3000,
+            description: "Your password has been updated.",
+            variant: "default",
+            className: "bg-green-500 text-white border-none",
+            style: { zIndex: 500 },
+          });
           router.push("/login");
         }
         setError(data?.error);
