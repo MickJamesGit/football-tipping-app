@@ -53,12 +53,12 @@ async function DashboardCards({
 
   return (
     <div className="flex justify-center p-4 ">
-      <Carousel className="w-full max-w-xs sm:max-w-lg">
+      <Carousel className="w-full sm:max-w-lg">
         <CarouselContent>
           {allItems.map((item, index) => (
             <CarouselItem key={index}>
               <div className="p-2">
-                <Card className="shadow-lg border rounded-lg">
+                <Card className="shadow-md border rounded-lg">
                   <CardContent>{item}</CardContent>
                 </Card>
               </div>

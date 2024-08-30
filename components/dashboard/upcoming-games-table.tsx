@@ -24,7 +24,9 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
 
   return (
     <>
-      <h2 className="mb-4 text-xl md:text-2xl text-center">Upcoming Games</h2>
+      <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-3xl text-center">
+        Upcoming Games
+      </h2>
       {/* Outer div for whole table */}
       <div className="flex flex-col max-w-4xl mx-auto">
         {Object.entries(gamesByDate).map(([date, gamesOnDate]) => (
