@@ -79,7 +79,7 @@ export default function LeaderboardTable({
   }, [search, rankings]);
 
   return (
-    <div className="flex flex-col gap-4 container mx-auto py-4 pb-4 mb-6 bg-slate-50 rounded-lg px-4 md:px-6">
+    <div className="flex flex-col gap-2 container mx-auto py-4 px-4 md:px-6 bg-slate-50 rounded-lg">
       <PageHeading
         title="Leaderboard"
         description={`Overall rankings for the 2024 ${sport} tipping competition.`}
@@ -109,50 +109,54 @@ export default function LeaderboardTable({
           </SelectContent>
         </Select>
       </div>
-      <Table className="bg-white rounded-lg">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="">Rank</TableHead>
-            <TableHead>Username</TableHead>
-            <TableHead className="text-right">Round {previousRound}</TableHead>
-            <TableHead className="text-right">Total Score</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {leaderboard.map((ranking) => (
-            <TableRow key={ranking.id}>
-              <TableCell className="font-medium">{ranking.ranking}</TableCell>
-              <TableCell>
-                {ranking.ranking === 1 && (
-                  <div className="flex items-center gap-2">
-                    <MedalIcon className="w-5 h-5 fill-[#FFD700]" />
-                    {ranking.alias}
-                  </div>
-                )}
-                {ranking.ranking === 2 && (
-                  <div className="flex items-center gap-2">
-                    <MedalIcon className="w-5 h-5 fill-[#C0C0C0]" />
-                    {ranking.alias}
-                  </div>
-                )}
-                {ranking.ranking === 3 && (
-                  <div className="flex items-center gap-2">
-                    <MedalIcon className="w-5 h-5 fill-[#CD7F32]" />
-                    {ranking.alias}
-                  </div>
-                )}
-                {ranking.ranking > 3 && ranking.alias}
-              </TableCell>
-              <TableCell className="text-right">
-                {ranking.previous_round_points}
-              </TableCell>
-              <TableCell className="text-right">
-                {ranking.total_points}
-              </TableCell>
+      <div className="p-2 bg-white rounded-lg border">
+        <Table className="bg-white py-2 text-xs sm:text-sm">
+          <TableHeader className="">
+            <TableRow>
+              <TableHead className="w-[10%] p-1 text-left">Rank</TableHead>
+              <TableHead className="w-[40%] p-1 text-left">Username</TableHead>
+              <TableHead className="w-[25%] p-1 text-right">
+                R{previousRound}
+              </TableHead>
+              <TableHead className="w-[25%] p-1 text-right">Total</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <tr className="h-2"></tr>
+          <TableBody className="">
+            {leaderboard.map((ranking) => (
+              <TableRow key={ranking.id} className="text-xs md:text-sm ">
+                <TableCell className="w-[10%] p-1 text-left font-medium">
+                  {ranking.ranking}
+                </TableCell>
+                <TableCell className="w-[40%] p-1 text-left">
+                  {ranking.ranking <= 3 ? (
+                    <div className="flex items-center gap-1">
+                      <MedalIcon
+                        className={`w-4 h-4 fill-${
+                          ranking.ranking === 1
+                            ? "[#FFD700]"
+                            : ranking.ranking === 2
+                              ? "[#C0C0C0]"
+                              : "[#CD7F32]"
+                        }`}
+                      />
+                      {ranking.alias}
+                    </div>
+                  ) : (
+                    ranking.alias
+                  )}
+                </TableCell>
+                <TableCell className="w-[25%] p-1 text-right">
+                  {ranking.previous_round_points}
+                </TableCell>
+                <TableCell className="w-[25%] p-1 text-right">
+                  {ranking.total_points}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
