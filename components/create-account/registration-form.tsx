@@ -1,6 +1,6 @@
 "use client";
 
-import React, { SyntheticEvent, useActionState, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { Button } from "@/components/button";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -10,6 +10,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Loader from "../dashboard/loader";
 import { setAccountDetails } from "@/lib/user";
+import { useFormState } from "react-dom";
 
 interface RegistrationFormProps {
   activeSports: string[];
@@ -22,7 +23,7 @@ const initialState = {
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
   activeSports,
 }) => {
-  const [state, formAction, pending] = useActionState(
+  const [state, formAction, pending] = useFormState(
     setAccountDetails,
     initialState
   );

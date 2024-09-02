@@ -2,11 +2,11 @@ import Link from "next/link";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
-import { AppBar, IconButton, Toolbar } from "@mui/material";
-import AvatarDrawer from "../avatardrawer";
+import { AppBar, Toolbar } from "@mui/material";
 import { getUserDetails } from "@/lib/user";
 import SiteLogo from "../site-logo";
 import NavLinks from "./nav-links";
+import UserAccountSheet from "./account/user-account-sheet";
 
 export default async function SideNav() {
   const session = await auth();
@@ -14,6 +14,10 @@ export default async function SideNav() {
     return redirect("/login");
   }
   const user = await getUserDetails();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
@@ -27,13 +31,7 @@ export default async function SideNav() {
             <div className="w-32 text-white">
               <SiteLogo />
             </div>
-            <IconButton aria-label="user menu" color="inherit">
-              <AvatarDrawer
-                alias={user?.alias ?? "User"}
-                name={user?.name}
-                image={user?.image}
-              />
-            </IconButton>
+            <UserAccountSheet user={user} />
           </Toolbar>
         </AppBar>
       </div>
@@ -64,9 +62,46 @@ export default async function SideNav() {
           </form>
         </div>
       </div>
+
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-md z-50">
         <NavLinks />
       </div>
     </div>
   );
 }
+
+const UserAccountIcon = () => {
+  return (
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ cursor: "pointer" }} // Correctly typed style object
+    >
+      <circle
+        cx="16"
+        cy="16"
+        r="15"
+        stroke="white"
+        strokeWidth="2"
+        fill="none"
+      />
+      <circle
+        cx="16"
+        cy="12"
+        r="4"
+        stroke="white"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        d="M8 25C8 20.5 12 18 16 18C20 18 24 20.5 24 25"
+        stroke="white"
+        strokeWidth="2"
+        fill="none"
+      />
+    </svg>
+  );
+};
