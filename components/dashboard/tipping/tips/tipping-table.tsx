@@ -20,9 +20,9 @@ import {
 } from "@/components/table";
 import React, { useState, useEffect, useRef } from "react";
 import { updateTips } from "@/lib/tips";
-import { useActionState } from "react";
 import { GameWithTeamNames, teamColors, Tips } from "@/types/definitions";
 import { useToast } from "@/components/use-toast";
+import { useFormState } from "react-dom";
 
 type SelectedTeams = {
   [game: string]: string;
@@ -58,7 +58,7 @@ export default function TippingTable({
   const [unselectedGames, setUnselectedGames] = useState<string[]>([]);
   const messageRef = useRef<HTMLDivElement | null>(null);
   const initialState: States = { message: "", error: false };
-  const [state, formAction] = useActionState(updateTips, initialState);
+  const [state, formAction] = useFormState(updateTips, initialState);
   const [open, setOpen] = useState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
   const { toast } = useToast();

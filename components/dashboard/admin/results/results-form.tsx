@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/use-toast";
 import { useRouter } from "next/navigation";
 import { saveGameResults } from "@/lib/admin";
 import { GameWithTeamNames } from "@/types/definitions";
+import { useFormState } from "react-dom";
 
 interface ResultsFormProps {
   unresultedGames: GameWithTeamNames[];
@@ -20,7 +21,7 @@ export default function ResultsForm({ unresultedGames }: ResultsFormProps) {
     [key: string]: { homeScore: string; awayScore: string };
   }>({});
   const initialState: States = { message: "", error: false };
-  const [state, formAction] = useActionState(saveGameResults, initialState);
+  const [state, formAction] = useFormState(saveGameResults, initialState);
   const { toast } = useToast();
   const router = useRouter();
 
