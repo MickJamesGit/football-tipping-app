@@ -60,6 +60,7 @@ export default function NavLinks() {
             {mobileLinks.map((link) => {
               return (
                 <BottomNavigationAction
+                  key={link.name}
                   LinkComponent={Link}
                   href={link.href}
                   label={link.name}
