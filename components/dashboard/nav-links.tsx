@@ -4,9 +4,34 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import React from "react";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HomeIcon from "@mui/icons-material/Home";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+
+const mobileLinks = [
+  { name: "Home", href: "/dashboard", icon: <HomeIcon /> },
+  {
+    name: "Tipping",
+    href: "/dashboard/tipping",
+    icon: <CheckCircleOutlineIcon />,
+  },
+  // {
+  //   name: "Competitions",
+  //   href: "/dashboard/competitions",
+  //   icon: <EmojiEventsIcon />,
+  // },
+  {
+    name: "Leaderboard",
+    href: "/dashboard/leaderboard",
+    icon: <LeaderboardIcon />,
+  },
+];
 
 const links = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Home", href: "/dashboard", icon: HomeDashboardIcon },
   {
     name: "Tipping",
     href: "/dashboard/tipping",
@@ -18,41 +43,31 @@ const links = [
 
 export default function NavLinks() {
   const pathname = usePathname();
+  const [value, setValue] = React.useState(0);
 
   return (
     <>
       {/* Mobile view */}
       <div className="block md:hidden">
         <div className="fixed bottom-0 left-0 w-full bg-background border-t shadow-lg">
-          <nav className="flex justify-around py-3">
-            {links
-              .filter((link) => link.name !== "Account")
-              .map((link) => {
-                const LinkIcon = link.icon;
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={clsx(
-                      "flex flex-col items-center gap-1 text-muted-foreground transition-colors",
-                      {
-                        "text-foreground": isActive,
-                        "hover:text-foreground": !isActive,
-                      }
-                    )}
-                    prefetch={false}
-                  >
-                    <LinkIcon
-                      className={clsx("w-6 h-6", {
-                        "text-primary": isActive,
-                      })}
-                    />
-                    <span className="text-xs font-medium">{link.name}</span>
-                  </Link>
-                );
-              })}
-          </nav>
+          <BottomNavigation
+            showLabels
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+          >
+            {mobileLinks.map((link) => {
+              return (
+                <BottomNavigationAction
+                  LinkComponent={Link}
+                  href={link.href}
+                  label={link.name}
+                  icon={link.icon}
+                />
+              );
+            })}
+          </BottomNavigation>
         </div>
       </div>
 
@@ -108,7 +123,7 @@ function CircleCheckIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
+function HomeDashboardIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
