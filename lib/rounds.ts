@@ -14,7 +14,7 @@ export async function getAllRoundsAndCurrent(
             sport: sport,
             season: "2024",
           },
-          orderBy: { round: "asc" },
+          orderBy: { startDate: "asc" },
           select: {
             round: true,
           },

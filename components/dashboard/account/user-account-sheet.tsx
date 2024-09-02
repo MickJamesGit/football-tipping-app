@@ -60,9 +60,9 @@ const UserAccountSheet: React.FC<UserAccountSheetProps> = ({ user }) => {
             <Separator className="my-4 bg-gray-300 h-px" />
 
             <div className="flex flex-col gap-2">
-              <Link href="/dashboard/account" prefetch={false}>
-                <SheetClose>
-                  <div className="flex items-center text-base w-full font-semibold text-gray-800 px-2 py-2 rounded-md hover:bg-gray-100 cursor-pointer flex-1">
+              <SheetClose>
+                <Link href="/dashboard/account" prefetch={false}>
+                  <div className="flex bg-slate-50 items-center text-base w-full  text-gray-800 px-2 py-2 rounded-md hover:bg-gray-100 cursor-pointer flex-1">
                     <svg
                       className="h-6 w-6 mr-3 text-gray-600"
                       fill="currentColor"
@@ -76,11 +76,12 @@ const UserAccountSheet: React.FC<UserAccountSheetProps> = ({ user }) => {
                       Account Details
                     </Label>
                   </div>
-                </SheetClose>
-              </Link>
+                </Link>
+              </SheetClose>
+
               <Link href="/dashboard/account" prefetch={false}>
                 <SheetClose>
-                  <div className="flex items-center text-base w-full font-semibold text-gray-800 px-2 py-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                  <div className="flex items-center bg-slate-50  text-base w-full text-gray-800 px-2 py-2 rounded-md hover:bg-gray-100 cursor-pointer">
                     <svg
                       className="h-6 w-6 mr-3 text-gray-600"
                       fill="currentColor"

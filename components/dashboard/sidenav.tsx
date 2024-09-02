@@ -27,11 +27,13 @@ export default async function SideNav() {
           className="z-50"
           style={{ backgroundColor: "hsl(var(--primary))" }}
         >
-          <Toolbar className="flex justify-between">
-            <div className="w-32 text-white">
+          <Toolbar className="flex justify-between items-center">
+            <div className="w-32 text-white flex items-center">
               <SiteLogo />
             </div>
-            <UserAccountSheet user={user} />
+            <div className="flex items-center mt-2">
+              <UserAccountSheet user={user} />
+            </div>
           </Toolbar>
         </AppBar>
       </div>

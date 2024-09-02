@@ -12,6 +12,7 @@ import {
 } from "@/components/breadcrumb";
 import { TippingTableSkeleton } from "@/components/skeletons";
 import TippingTableLayout from "@/components/dashboard/tipping/tips/tipping-table-layout";
+import PageHeading from "@/components/dashboard/page-heading";
 
 export const metadata: Metadata = {
   title: "Tips",
@@ -32,19 +33,6 @@ export default async function Page({
 
   return (
     <div className="w-full space-y-8">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard/tipping">
-              Sports Competitions
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Tips</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
       <Suspense fallback={<TippingTableSkeleton />}>
         <TippingTableLayout sport={sport} round={round} />
       </Suspense>
