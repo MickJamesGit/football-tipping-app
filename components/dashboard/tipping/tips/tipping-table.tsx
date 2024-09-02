@@ -312,7 +312,7 @@ export default function TippingTable({
                     }
                   >
                     <TableCell
-                      className={`text-xs h-16 lg:text-base ${
+                      className={`p-2 text-xs h-16 lg:text-base ${
                         selectedTeams[game.id] === game.homeTeamId
                           ? getTipStatusStyles(
                               tips.find(
@@ -350,7 +350,7 @@ export default function TippingTable({
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-center text-xs h-16 lg:text-base">
+                    <TableCell className="p-2 text-center text-xs h-16 lg:text-base">
                       {isLive && (
                         <div className="flex items-center justify-center mb-1">
                           <div className="w-4 h-4 rounded-full bg-green-500 animate-pulse mr-2"></div>
@@ -366,7 +366,7 @@ export default function TippingTable({
                     </TableCell>
 
                     <TableCell
-                      className={`text-xs h-16 lg:text-base ${
+                      className={`text-xs p-2 h-16 lg:text-base ${
                         selectedTeams[game.id] === game.awayTeamId
                           ? getTipStatusStyles(
                               tips.find(
