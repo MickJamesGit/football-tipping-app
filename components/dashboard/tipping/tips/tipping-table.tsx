@@ -205,10 +205,11 @@ export default function TippingTable({
             <Button
               variant="outline"
               size="icon"
-              className="text-sm font-medium bg-primary text-primary-foreground/80"
+              className="text-sm font-medium bg-primary text-primary-foreground/80 hover:text-current hover:bg-primary sm:hover:bg-white
+              sm:hover:text-black"
               onClick={goToPreviousRound}
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4 " />
             </Button>
           )}
 
@@ -246,10 +247,11 @@ export default function TippingTable({
               <Button
                 variant="outline"
                 size="icon"
-                className="text-sm font-medium bg-primary text-primary-foreground/80 "
+                className="text-sm font-medium bg-primary text-primary-foreground/80 hover:text-current hover:text-white hover:bg-primary sm:hover:bg-white
+              sm:hover:text-black"
                 onClick={goToNextRound}
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-4 w-4 " />
               </Button>
             )}
         </div>
