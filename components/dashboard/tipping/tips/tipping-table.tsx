@@ -180,7 +180,7 @@ export default function TippingTable({
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="text-sm font-medium border bg-primary  text-primary-foreground/80"
+              className="text-sm font-medium border bg-primary  text-primary-foreground/80 focus:outline-none"
             >
               {selectedSport} <ChevronDownIcon className="h-6 w-5" />
             </Button>
@@ -218,7 +218,7 @@ export default function TippingTable({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="text-sm font-medium border bg-primary text-primary-foreground/80 "
+                  className="text-sm font-medium border bg-primary text-primary-foreground/80 focus:outline-none"
                 >
                   Round {selectedRound} <ChevronDownIcon className="h-6 w-5" />
                 </Button>
