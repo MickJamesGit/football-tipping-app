@@ -88,7 +88,7 @@ export default function TippingTable({
   useEffect(() => {
     if (state.message) {
       toast({
-        title: state.error ? "Error" : "Success",
+        title: state.error ? "Error" : "Tips Saved",
         duration: 3000,
         description: state.message,
         variant: state.error ? "destructive" : null,

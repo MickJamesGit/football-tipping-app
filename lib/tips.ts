@@ -149,7 +149,7 @@ export async function updateTips(
         });
       }
     }
-    return { error: false, message: "Tips saved. Good luck!" };
+    return { error: false, message: "Good luck!" };
   } catch (error) {
     console.error("Database Error:", error);
     return {
