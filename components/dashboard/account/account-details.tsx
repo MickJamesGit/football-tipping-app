@@ -23,7 +23,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -72,7 +71,7 @@ export default function AccountDetails({ user }: { user: AccountDetails }) {
           title="My Account"
           description="Update your username or adjust your communication preferences."
         />
-        <div className="bg-white p-6 rounded-lg mb-6 shadow-sm">
+        <div className="bg-white p-3 rounded-lg shadow-sm">
           {" "}
           {/* Added a new div with white background to create the gap */}
           <Form {...form}>

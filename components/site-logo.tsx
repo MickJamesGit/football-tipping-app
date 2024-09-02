@@ -11,8 +11,7 @@ export default function SiteLogo() {
 
       <p className="text-[32px] font-bold flex items-baseline">
         <span className="text-white">Footy</span>
-        <span className="text-yellow-400">tipping</span>
-        <span className="text-white text-xs">.com.au</span>
+        <span className="text-yellow-400">Tippers</span>
       </p>
     </div>
   );
