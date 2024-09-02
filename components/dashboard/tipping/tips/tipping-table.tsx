@@ -8,6 +8,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/dropdown-menu";
 import { Button } from "@/components/button";
 import {
@@ -64,6 +66,7 @@ export default function TippingTable({
   const currentSportRounds = sportsRounds.find(
     (sportRound) => sportRound.sport === sport
   );
+  const [position, setPosition] = React.useState("bottom");
 
   useEffect(() => {
     // Check if all games are either 'completed' or 'inprogress'
@@ -224,19 +227,28 @@ export default function TippingTable({
                   Round {selectedRound} <ChevronDownIcon className="h-6 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent
+                align="end"
+                className="max-h-80 overflow-y-auto"
+              >
                 <DropdownMenuLabel>Select Round</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {sportsRounds
-                  .find((sportRound) => sportRound.sport === selectedSport)
-                  ?.rounds.map((round) => (
-                    <DropdownMenuItem
-                      key={round}
-                      onClick={() => handleRoundChange(round)}
-                    >
-                      Round {round}
-                    </DropdownMenuItem>
-                  ))}
+                <DropdownMenuRadioGroup
+                  value={position}
+                  onValueChange={setPosition}
+                >
+                  {sportsRounds
+                    .find((sportRound) => sportRound.sport === selectedSport)
+                    ?.rounds.map((round) => (
+                      <DropdownMenuRadioItem
+                        value={round}
+                        key={round}
+                        onClick={() => handleRoundChange(round)}
+                      >
+                        Round {round}
+                      </DropdownMenuRadioItem>
+                    ))}
+                </DropdownMenuRadioGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
