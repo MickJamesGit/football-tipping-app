@@ -124,21 +124,11 @@ export default function TippingTable({
   };
 
   const renderTeamName = (teamName: string) => {
-    const words = teamName.split(" ");
-    const lastWord = words[words.length - 1];
-
-    return (
-      <>
-        <div className="block sm:hidden">{lastWord}</div>
-        <div className="hidden sm:block">
-          {words.map((word, index) => (
-            <div key={index} className="block">
-              {word}
-            </div>
-          ))}
-        </div>
-      </>
-    );
+    return teamName.split(" ").map((word, index) => (
+      <div key={index} className="block">
+        {word}
+      </div>
+    ));
   };
 
   const currentRoundIndex = currentSportRounds
@@ -185,7 +175,7 @@ export default function TippingTable({
 
   return (
     <div className="border rounded-lg overflow-hidden relative">
-      <div className="bg-primary text-primary-foreground px-3 py-4 flex justify-between">
+      <div className="bg-primary text-primary-foreground px-2 py-2 flex justify-between">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -265,7 +255,7 @@ export default function TippingTable({
         </div>
       </div>
       <form action={formAction}>
-        <div className="overflow-x-auto">
+        <div className="">
           <Table className="min-w-full">
             <TableHeader>
               <TableRow>
