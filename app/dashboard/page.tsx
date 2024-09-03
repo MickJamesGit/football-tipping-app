@@ -37,10 +37,7 @@ export default async function Page() {
             ? "Tipping results"
             : "Sports competitions"}
         </h2>
-        <DashboardCards
-          registeredSports={registeredCompetitions}
-          unregisteredSports={unregisteredCompetitions}
-        />
+        <DashboardCards registeredSports={registeredCompetitions} />
       </Suspense>
       <div className="mt-2 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<UpcomingGamesSkeleton />}>
