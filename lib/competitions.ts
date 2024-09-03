@@ -4,6 +4,7 @@ import prisma from "@/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setUserTipsToAwayTeams } from "./tips";
+import { revalidatePath } from "next/cache";
 
 export async function getActiveCompetitions(): Promise<string[]> {
   const todaysDate = new Date();
@@ -177,7 +178,7 @@ export async function updateUserCompetitions(competitionId: string) {
       console.error("Competition details not found.");
     }
 
-    return redirect("/dashboard/tipping");
+    return revalidatePath("/dashboard/tipping");
   } catch (error) {
     console.error("Error registering for competition:", error);
     throw error;

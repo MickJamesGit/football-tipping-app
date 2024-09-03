@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { updateUserCompetitions } from "@/lib/competitions";
 import { Button } from "@/components/button";
 import {
@@ -10,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/card";
 import { format } from "date-fns";
+import { useToast } from "@/components/use-toast";
 
 type SportsRegisterCardProps = {
   competition: {
@@ -24,16 +26,40 @@ type SportsRegisterCardProps = {
 export const SportsRegisterCard: React.FC<SportsRegisterCardProps> = ({
   competition,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { toast } = useToast();
+
   const startDate = new Date(competition.startDate);
   const endDate = new Date(competition.endDate);
 
   const formattedStartDate = format(startDate, "MMM yyyy");
   const formattedEndDate = format(endDate, "MMM yyyy");
 
-  const updateUserCompetitionsWithId = updateUserCompetitions.bind(
-    null,
-    competition.id
-  );
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      await updateUserCompetitions(competition.id);
+      toast({
+        title: "Registration Successful",
+        duration: 3000,
+        description: "You have successfully registered for the competition.",
+
+        variant: "default",
+        className: "bg-green-500 text-white border-none",
+        style: { zIndex: 500 },
+      });
+    } catch (error) {
+      setErrorMessage("Failed to register. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Card className="w-full max-w-lg rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
@@ -62,12 +88,16 @@ export const SportsRegisterCard: React.FC<SportsRegisterCardProps> = ({
           </div>
         </div>
         <div className="flex justify-end">
-          <form action={updateUserCompetitionsWithId}>
-            <Button className="bg-blue-500 text-white hover:bg-blue-700">
-              Register
+          <form onSubmit={handleRegister}>
+            <Button
+              className="bg-blue-500 text-white hover:bg-blue-700"
+              disabled={isLoading}
+            >
+              {isLoading ? "Registering..." : "Register"}
             </Button>
           </form>
         </div>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       </CardContent>
     </Card>
   );
