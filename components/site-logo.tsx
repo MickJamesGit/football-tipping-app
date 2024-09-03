@@ -3,7 +3,9 @@ import { FaTrophy } from "react-icons/fa";
 
 export default function SiteLogo() {
   return (
-    <div className={`${lusitana.className} flex flex-row leading-none`}>
+    <div
+      className={`${lusitana.className} tracking-tight flex flex-row leading-none`}
+    >
       <FaTrophy
         className="mr-1 text-yellow-400"
         style={{ fontSize: "32px", minWidth: "30px", minHeight: "30px" }}

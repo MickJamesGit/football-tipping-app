@@ -39,11 +39,20 @@ export const CountdownTimer: React.FC<CountdownProps> = ({ targetDate }) => {
     return timeLeft;
   }
 
+  function formatTime(value: number): string {
+    return value.toString().padStart(2, "0");
+  }
+
   return (
     <>
-      {timeLeft.days > 0 && <>{timeLeft.days}d </>}
-      {timeLeft.hours > 0 && <>{timeLeft.hours}h </>}
-      {timeLeft.minutes}m {timeLeft.seconds}s
+      {timeLeft.days > 1 ? (
+        <>in {timeLeft.days} days</> // Show days if more than 1 day left
+      ) : (
+        <>
+          {formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:
+          {formatTime(timeLeft.seconds)}
+        </>
+      )}
     </>
   );
 };

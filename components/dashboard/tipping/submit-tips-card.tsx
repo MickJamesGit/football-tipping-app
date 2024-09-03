@@ -10,6 +10,7 @@ import {
 } from "@/components/card";
 import Link from "next/link";
 import { CountdownTimer } from "../../countdown-timer";
+import { format } from "date-fns";
 
 type SubmitTipCardProps = {
   sport: string;
@@ -31,18 +32,18 @@ export const SubmitTipsCard: React.FC<SubmitTipCardProps> = ({
   return (
     <Card className="w-full max-w-md rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
-        <div className="space-y-1">
+        <div className="space-y-1 ">
           <CardTitle>{sport}</CardTitle>
           <CardDescription>
             Submit your tips for the next round of the 2024 {sport} competition.
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="grid gap-2">
+      <CardContent className="grid gap-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TrophyIcon className="w-5 h-5 text-muted-foreground" />
-            <span className="text-muted-foreground">
+            <span className="text-muted-foreground tracking-tight">
               Round {previousRoundSummary.roundNumber} score:{" "}
               {previousRoundSummary.score}/{previousRoundSummary.totalGames}
             </span>
@@ -51,7 +52,7 @@ export const SubmitTipsCard: React.FC<SubmitTipCardProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CalendarIcon className="w-5 h-5 text-muted-foreground" />
-            <span className="text-muted-foreground">
+            <span className="text-muted-foreground tracking-tight">
               Next Game: <CountdownTimer targetDate={new Date(nextGameDate)} />
             </span>
           </div>

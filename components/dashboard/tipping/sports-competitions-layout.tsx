@@ -38,7 +38,7 @@ export async function SportsCompetitionsLayout() {
         <>
           <PageHeading
             title="My Sports"
-            description="Select a sport to submit your tips for the upcoming games."
+            description="Select a sport to submit your tips for upcoming games."
           />
           <Separator className="my-4" />
           <div className="flex flex-wrap gap-4 justify-center">

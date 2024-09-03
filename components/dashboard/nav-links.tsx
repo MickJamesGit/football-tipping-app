@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HomeIcon from "@mui/icons-material/Home";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 
 const mobileLinks = [
@@ -18,11 +17,6 @@ const mobileLinks = [
     href: "/dashboard/tipping",
     icon: <CheckCircleOutlineIcon />,
   },
-  // {
-  //   name: "Competitions",
-  //   href: "/dashboard/competitions",
-  //   icon: <EmojiEventsIcon />,
-  // },
   {
     name: "Leaderboard",
     href: "/dashboard/leaderboard",
@@ -43,7 +37,22 @@ const links = [
 
 export default function NavLinks() {
   const pathname = usePathname();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(-1);
+
+  useEffect(() => {
+    const currentPathIndex = mobileLinks.findIndex((link) => {
+      if (link.href === "/dashboard/tipping") {
+        // Match exactly "/dashboard/tipping" or any subpath like "/dashboard/tipping/..."
+        return (
+          pathname === link.href || pathname.startsWith("/dashboard/tipping/")
+        );
+      }
+      // Handle other links normally
+      return pathname === link.href;
+    });
+
+    setValue(currentPathIndex !== -1 ? currentPathIndex : -1);
+  }, [pathname]);
 
   return (
     <>
@@ -57,17 +66,15 @@ export default function NavLinks() {
               setValue(newValue);
             }}
           >
-            {mobileLinks.map((link) => {
-              return (
-                <BottomNavigationAction
-                  key={link.name}
-                  LinkComponent={Link}
-                  href={link.href}
-                  label={link.name}
-                  icon={link.icon}
-                />
-              );
-            })}
+            {mobileLinks.map((link, index) => (
+              <BottomNavigationAction
+                key={link.name}
+                component={Link}
+                href={link.href}
+                label={link.name}
+                icon={link.icon}
+              />
+            ))}
           </BottomNavigation>
         </div>
       </div>
