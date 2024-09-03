@@ -38,7 +38,7 @@ export async function SportsCompetitionsLayout() {
         <>
           <PageHeading
             title="My Sports"
-            description="Select a sport to submit your tips for upcoming games."
+            description="Choose a sport to submit your tips for the upcoming games."
           />
           <Separator className="my-4" />
           <div className="flex flex-wrap gap-4 justify-center">
@@ -59,7 +59,7 @@ export async function SportsCompetitionsLayout() {
           <div className="pt-6">
             <PageHeading
               title="Other Sports"
-              description="Register to tip for one of the sports below."
+              description="Register to start tipping for any of the sports listed below."
             />
             <Separator className="my-4" />
             <div className="flex flex-wrap gap-4 justify-center">
