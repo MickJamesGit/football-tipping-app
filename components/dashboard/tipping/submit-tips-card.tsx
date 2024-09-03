@@ -39,7 +39,7 @@ export const SubmitTipsCard: React.FC<SubmitTipCardProps> = ({
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="grid gap-1">
+      <CardContent className="grid gap-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TrophyIcon className="w-5 h-5 text-muted-foreground" />
@@ -56,6 +56,8 @@ export const SubmitTipsCard: React.FC<SubmitTipCardProps> = ({
               Next Game: <CountdownTimer targetDate={new Date(nextGameDate)} />
             </span>
           </div>
+        </div>
+        <div className="flex items-center justify-end">
           <Link
             href={`/dashboard/tipping/tips?sport=${sport}&round=${nextGameRound}`}
           >
