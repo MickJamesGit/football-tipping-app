@@ -35,7 +35,7 @@ export const SportsRegisterCard: React.FC<SportsRegisterCardProps> = ({
     competition.id
   );
   return (
-    <Card className="w-full max-w-md px-7 rounded-lg transition-shadow duration-300">
+    <Card className="w-full max-w-lg rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
         <div className="space-y-1">
           <CardTitle>{competition.name}</CardTitle>
@@ -60,6 +60,8 @@ export const SportsRegisterCard: React.FC<SportsRegisterCardProps> = ({
               {formattedStartDate} - {formattedEndDate}
             </span>
           </div>
+        </div>
+        <div className="flex justify-end">
           <form action={updateUserCompetitionsWithId}>
             <Button className="bg-blue-500 text-white hover:bg-blue-700">
               Register

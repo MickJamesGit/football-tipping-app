@@ -30,7 +30,7 @@ export const SubmitTipsCard: React.FC<SubmitTipCardProps> = ({
   nextGameRound,
 }) => {
   return (
-    <Card className="w-full max-w-md rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="w-full max-w-lg rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
         <div className="space-y-1 ">
           <CardTitle>{sport}</CardTitle>

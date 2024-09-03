@@ -72,6 +72,18 @@ export const accountDetailsSchema = z.object({
   receiveTippingReminders: z.boolean(),
 });
 
+export const accountRegistrationDetailsSchema = z.object({
+  username: z
+    .string()
+    .min(5, { message: "Username must be at least 5 characters long" })
+    .max(25, { message: "Username must be less than 25 characters" }),
+  receiveTippingResults: z.boolean(),
+  receiveTippingReminders: z.boolean(),
+  sports: z.array(z.string()).refine((value) => value.some((sport) => sport), {
+    message: "You have to select at least one sport.",
+  }),
+});
+
 export const usernameSchema = z.string().min(5).max(25);
 
 export const preferencesSchema = z.boolean();

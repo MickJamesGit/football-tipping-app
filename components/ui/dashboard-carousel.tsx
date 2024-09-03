@@ -16,14 +16,12 @@ type DashboardCarouselProps = {
 };
 
 export function DashboardCarousel({ sportsResults }: DashboardCarouselProps) {
-  const [api, setApi] = React.useState<CarouselApi>();
+  const [api, setApi] = React.useState<CarouselApi | null>(null);
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
 
     setCount(api.scrollSnapList().length);
 
@@ -40,37 +38,48 @@ export function DashboardCarousel({ sportsResults }: DashboardCarouselProps) {
   }, [api]);
 
   return (
-    <div className="max-w-xl mx-auto">
-      <Carousel setApi={setApi} className="sm:max-w-lg">
+    <div className="w-full max-w-xl ">
+      <Carousel setApi={setApi} className="">
         <CarouselContent>
           {sportsResults.map((item, index) => (
-            <CarouselItem key={index}>
-              <div className="p-2">
-                <Card className="shadow-md border rounded-lg">
-                  <CardContent>{item}</CardContent>
-                </Card>
-              </div>
+            <CarouselItem
+              key={index}
+              className={`p-2 ${sportsResults.length === 1 ? "w-full" : ""}`}
+              style={{
+                width: sportsResults.length === 1 ? "100vw" : "auto",
+                transform: sportsResults.length === 1 ? "translateX(0)" : "",
+              }}
+            >
+              <Card className="shadow-md border rounded-lg w-full">
+                <CardContent>{item}</CardContent>
+              </Card>
             </CarouselItem>
           ))}
         </CarouselContent>
-        {/* Button naviation on large screens*/}
-        <CarouselPrevious className="hidden lg:flex" />
-        <CarouselNext className="hidden lg:flex" />
+
+        {sportsResults.length > 1 && (
+          <>
+            <CarouselPrevious className="hidden lg:flex" />
+            <CarouselNext className="hidden lg:flex" />
+          </>
+        )}
       </Carousel>
 
       {/* Dots Navigation */}
-      <div className="flex justify-center mt-4">
-        {Array.from({ length: count }, (_, index) => (
-          <button
-            key={index}
-            className={`w-3 h-3 mx-1 rounded-full ${
-              index === current ? "bg-blue-500" : "bg-gray-300"
-            }`}
-            onClick={() => api && api.scrollTo(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {sportsResults.length > 1 && (
+        <div className="flex justify-center mt-4">
+          {Array.from({ length: count }, (_, index) => (
+            <button
+              key={index}
+              className={`w-3 h-3 mx-1 rounded-full ${
+                index === current ? "bg-blue-500" : "bg-gray-300"
+              }`}
+              onClick={() => api && api.scrollTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

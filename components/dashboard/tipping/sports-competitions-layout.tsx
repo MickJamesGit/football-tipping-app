@@ -54,29 +54,14 @@ export async function SportsCompetitionsLayout() {
           </div>
         </>
       )}
-      {registeredCompetitions.length === 0 && (
+      {unRegisteredCompetitions.length > 0 && (
         <>
-          <PageHeading
-            title="Join a competition"
-            description="Register to tip for one of the sports below."
-          />
-          <div className="flex flex-wrap gap-4  justify-center">
-            {unRegisteredCompetitions.map((competition) => (
-              <SportsRegisterCard
-                key={competition.id}
-                competition={competition}
-              />
-            ))}
-          </div>
-        </>
-      )}
-      {registeredCompetitions.length > 0 &&
-        unRegisteredCompetitions.length > 0 && (
-          <>
+          <div className="pt-6">
             <PageHeading
               title="Other Sports"
               description="Register to tip for one of the sports below."
             />
+            <Separator className="my-4" />
             <div className="flex flex-wrap gap-4 justify-center">
               {unRegisteredCompetitions.map((competition) => (
                 <SportsRegisterCard
@@ -85,8 +70,9 @@ export async function SportsCompetitionsLayout() {
                 />
               ))}
             </div>
-          </>
-        )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

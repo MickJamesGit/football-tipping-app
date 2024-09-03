@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { AccountDetails } from "../types/definitions";
 import {
   accountDetailsSchema,
+  accountRegistrationDetailsSchema,
   preferencesSchema,
   usernameSchema,
 } from "./schemas";
@@ -98,10 +99,7 @@ export async function getUserAliasByUserId(
 }
 
 export async function setAccountDetails(
-  prevState: {
-    message: string;
-  },
-  formData: FormData
+  values: z.infer<typeof accountRegistrationDetailsSchema>
 ) {
   const session = await auth();
   if (!session) redirect("/login");
@@ -114,28 +112,27 @@ export async function setAccountDetails(
 
   const userId = session.user.id;
 
-  const alias = formData.get("alias");
-  const userNameValidation = usernameSchema.safeParse(alias);
+  const validatedFields = accountRegistrationDetailsSchema.safeParse(values);
 
-  if (!userNameValidation.success) {
-    return {
-      message: "Username must be between 5 and 25 characters.",
-    };
+  if (!validatedFields.success) {
+    return { message: "Invalid data submitted." };
   }
 
-  const selectedSports = JSON.parse(
-    formData.get("selectedSports") as string
-  ) as string[];
-  const username = userNameValidation.data;
+  const { username, receiveTippingReminders, receiveTippingResults, sports } =
+    validatedFields.data;
 
   try {
     await prisma.$transaction(async (prisma) => {
       await prisma.user.update({
         where: { id: userId },
-        data: { alias: username },
+        data: {
+          alias: username,
+          receiveTippingReminders: receiveTippingReminders,
+          receiveTippingResults: receiveTippingResults,
+        },
       });
 
-      for (const sport of selectedSports) {
+      for (const sport of sports) {
         const competition = await prisma.competition.findFirst({
           where: { name: sport },
           select: { id: true },
@@ -180,7 +177,7 @@ export async function updateAccountDetails(
 
   const { username, receiveTippingReminders, receiveTippingResults } =
     validatedFields.data;
-  console.log(username, receiveTippingReminders, receiveTippingResults);
+
   try {
     await prisma.user.update({
       where: { id: session.user.id },

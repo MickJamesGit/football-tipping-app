@@ -162,7 +162,7 @@ const CarouselContent = React.forwardRef<
         ref={ref}
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          orientation === "horizontal" ? "" : "-mt-4 flex-col",
           className
         )}
         {...props}
@@ -178,16 +178,25 @@ const CarouselItem = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { orientation } = useCarousel();
 
+  // Check if there is only one item in the carousel
+  const isSingleItem = useCarousel().api?.scrollSnapList().length === 1;
+
   return (
     <div
       ref={ref}
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
+        "min-w-0 shrink-0 grow-0 basis-full", // Default class for flex item
+        isSingleItem ? "w-screen max-w-none flex justify-center" : "", // Adjusted for full viewport width
+        orientation === "horizontal" ? "pl-4" : "pt-4", // Remove left padding for horizontal
         className
       )}
+      style={
+        isSingleItem
+          ? { minWidth: "100vw", marginLeft: "", transform: "translateX(0)" }
+          : {}
+      } // Ensure no margin left and align to start
       {...props}
     />
   );
