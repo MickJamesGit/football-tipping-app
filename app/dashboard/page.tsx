@@ -42,7 +42,7 @@ export default async function Page() {
           unregisteredSports={unregisteredCompetitions}
         />
       </Suspense>
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+      <div className="mt-2 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<UpcomingGamesSkeleton />}>
           {registeredCompetitions.length > 0 && (
             <div className="col-span-1 md:col-span-4 lg:col-span-8">

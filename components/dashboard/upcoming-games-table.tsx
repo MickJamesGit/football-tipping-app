@@ -94,9 +94,12 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
 
                       <div className="text-xs md:text-sm">
                         <div className="flex flex-col items-center justify-center gap-1">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap max-w-full">
                             <StadiumIcon className="w-5 h-5" />
-                            <span className="font-medium">{game.venue}</span>
+                            <span className="break-words max-w-full">
+                              {game.venue}
+                            </span>{" "}
+                            {/* Wrapped text */}
                           </div>
                           <div className="flex items-center gap-2">
                             <ClockIcon className="w-5 h-5 " />

@@ -40,13 +40,13 @@ export const SportsResultsCard: React.FC<SportsResultsCardProps> = ({
 }) => {
   return (
     <>
-      <Card className="w-full max-w-md border-none shadow-none">
+      <Card className="w-full border-none shadow-none">
         <CardHeader>
-          <div className="space-y-1">
-            <CardTitle>{sport} results</CardTitle>
-          </div>
+          <CardTitle className="font-bold tracking-tight">{sport}</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-2">
+        <CardContent className="grid gap-2 relative">
+          {" "}
+          {/* Add relative positioning here */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <BellIcon className="w-5 h-5 text-muted-foreground" />
@@ -66,20 +66,21 @@ export const SportsResultsCard: React.FC<SportsResultsCardProps> = ({
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ListOrderedIcon
-                className="w-5
-             h-5 text-muted-foreground"
-              />
+              <ListOrderedIcon className="w-5 h-5 text-muted-foreground" />
               <span className="text-muted-foreground">
                 {getOrdinalSuffix(total.ranking)} of {total.totalUsers}
               </span>
             </div>
-            {/* <Link href={`/dashboard/leaderboard?sport=${sport}&page=1`}>
-            <Button className="bg-blue-500 text-white hover:bg-blue-700 text-xs md:text-sm  px-4 py-0">
+          </div>
+          {/* Set the position to absolute and place it in the bottom right */}
+          <Link
+            href={`/dashboard/leaderboard?sport=${sport}&page=1`}
+            className="absolute bottom-1 right-1"
+          >
+            <Button className="bg-blue-500 text-white text-xs hover:bg-blue-700 md:text-sm px-2 py-0">
               View leaderboard
             </Button>
-          </Link> */}
-          </div>
+          </Link>
         </CardContent>
       </Card>
     </>

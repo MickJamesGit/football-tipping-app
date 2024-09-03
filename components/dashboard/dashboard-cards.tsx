@@ -11,6 +11,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Card, CardContent } from "@mui/material";
+import { DashboardCarousel } from "../ui/dashboard-carousel";
 
 interface DashboardCardsProps {
   registeredSports: string[];
@@ -52,22 +53,8 @@ async function DashboardCards({
   ];
 
   return (
-    <div className="flex justify-center p-4 ">
-      <Carousel className="w-full sm:max-w-lg">
-        <CarouselContent>
-          {allItems.map((item, index) => (
-            <CarouselItem key={index}>
-              <div className="p-2">
-                <Card className="shadow-md border rounded-lg">
-                  <CardContent>{item}</CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white" />
-        <CarouselNext className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white" />
-      </Carousel>
+    <div className="flex justify-center p-2">
+      <DashboardCarousel sportsResults={allItems} />
     </div>
   );
 }
