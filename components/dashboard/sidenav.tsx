@@ -24,7 +24,7 @@ export default async function SideNav() {
       <div className="block md:hidden">
         <AppBar
           position="fixed"
-          className="z-50"
+          className="z-[50]"
           style={{ backgroundColor: "hsl(var(--primary))" }}
         >
           <Toolbar className="flex justify-between items-center">

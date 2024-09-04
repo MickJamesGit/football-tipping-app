@@ -29,7 +29,7 @@ const UserAccountSheet: React.FC<UserAccountSheetProps> = ({ user }) => {
   };
 
   return (
-    <div className="z-500">
+    <div className="z-[600]">
       <Sheet>
         <SheetTrigger>
           <UserAccountIcon />
