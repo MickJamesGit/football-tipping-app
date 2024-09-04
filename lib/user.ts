@@ -8,11 +8,8 @@ import { AccountDetails } from "../types/definitions";
 import {
   accountDetailsSchema,
   accountRegistrationDetailsSchema,
-  preferencesSchema,
-  usernameSchema,
 } from "./schemas";
 import { revalidatePath } from "next/cache";
-import { States } from "@/components/dashboard/admin/results/results-form";
 import { z } from "zod";
 
 export async function getUserByEmail(email: string): Promise<User | null> {

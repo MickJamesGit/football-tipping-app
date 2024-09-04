@@ -19,6 +19,7 @@ import {
 } from "@/lib/token";
 import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/mail";
 import { auth, signIn } from "@/auth";
+import { AuthError } from "next-auth";
 
 export async function getPasswordResetTokenByToken(
   token: string
@@ -87,16 +88,21 @@ export async function getVerificationTokenByEmail(
 export async function googleAuthenticate() {
   try {
     const session = await auth();
-    console.log("Session:", session);
     if (session) {
       redirect("/dashboard");
     } else {
-      console.log("No session found, signing in...");
       await signIn("google", { redirectTo: "/dashboard" });
     }
   } catch (error) {
-    console.error("Error authenticating with Google:");
-    throw new Error("Failed to authenticate.");
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
   }
 }
 
@@ -109,8 +115,15 @@ export async function facebookAuthenticate() {
       await signIn("facebook", { redirectTo: "/dashboard" });
     }
   } catch (error) {
-    console.error("Error authenticating with facebook:", error);
-    throw new Error("Failed to authenticate.");
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
   }
 }
 
