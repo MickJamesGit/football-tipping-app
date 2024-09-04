@@ -154,7 +154,7 @@ export async function setAccountDetails(
       message: "Error: Unable to set account details.",
     };
   }
-  redirect("/dashboard");
+  redirect("/dashboard?initialLogin=true");
 }
 
 export async function updateAccountDetails(

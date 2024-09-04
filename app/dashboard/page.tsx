@@ -13,6 +13,7 @@ import {
   UserHeadingSkeleton,
 } from "@/components/skeletons";
 import { UpcomingGamesLayout } from "@/components/dashboard/upcoming-games-layout";
+import WelcomeDialog from "@/components/dashboard/initial-login-welcome-dialog";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -20,14 +21,21 @@ export const metadata: Metadata = {
   keywords: "overview, tipping, results, upcoming, games, dashboard",
 };
 
-export default async function Page() {
-  const [registeredCompetitions, unregisteredCompetitions] = await Promise.all([
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    initialLogin?: boolean;
+  };
+}) {
+  const [registeredCompetitions] = await Promise.all([
     getUserRegisteredCompetitions(),
     getUserUnregisteredCompetitions(),
   ]);
 
   return (
     <main>
+      <WelcomeDialog initialLogin={searchParams?.initialLogin} />
       <Suspense fallback={<UserHeadingSkeleton />}>
         <UserHeading userSports={registeredCompetitions} />
       </Suspense>
