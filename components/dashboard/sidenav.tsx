@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { auth, signOut } from "@/auth";
@@ -9,13 +11,10 @@ import NavLinks from "./nav-links";
 import UserAccountSheet from "./account/user-account-sheet";
 import { AccountDetails } from "@/types/definitions";
 import { signOutAction } from "@/app/actions/auth-actions";
+import { useDashboardUser } from "@/app/providers/dashboard-provider";
 
-export default function SideNav({
-  user,
-}: {
-  user: AccountDetails
-}) {
-
+export default function SideNav() {
+  const user = useDashboardUser();
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
       <div className="block md:hidden">
@@ -29,7 +28,7 @@ export default function SideNav({
               <SiteLogo />
             </div>
             <div className="flex items-center mt-2">
-              <UserAccountSheet user={user} />
+              <UserAccountSheet/>
             </div>
           </Toolbar>
         </AppBar>
