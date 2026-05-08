@@ -14,6 +14,9 @@ import {
 } from "@/components/skeletons";
 import { UpcomingGamesLayout } from "@/components/dashboard/upcoming-games-layout";
 import WelcomeDialog from "@/components/dashboard/initial-login-welcome-dialog";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { getUserAliasByUserId } from "@/lib/user";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -24,10 +27,14 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    initialLogin?: boolean;
-  };
+  searchParams: Promise<{
+    initialLogin?: string;
+  }>;
 }) {
+  const params = await searchParams;
+
+  const initialLogin = params.initialLogin === "true";
+
   const [registeredCompetitions] = await Promise.all([
     getUserRegisteredCompetitions(),
     getUserUnregisteredCompetitions(),
@@ -35,7 +42,7 @@ export default async function Page({
 
   return (
     <main>
-      <WelcomeDialog initialLogin={searchParams?.initialLogin} />
+      <WelcomeDialog initialLogin={initialLogin} />
       <Suspense fallback={<UserHeadingSkeleton />}>
         <UserHeading userSports={registeredCompetitions} />
       </Suspense>

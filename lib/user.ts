@@ -42,37 +42,22 @@ export async function getUserById(id: string): Promise<User | null> {
   }
 }
 
-export async function getUserDetails(): Promise<AccountDetails> {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+export async function getUserDetails(userId: string): Promise<AccountDetails> {
+  const user = await prisma.user.findFirst({
+    where: { id: userId },
+    select: {
+      name: true,
+      alias: true,
+      email: true,
+      image: true,
+      receiveTippingReminders: true,
+      receiveTippingResults: true,
+    },
+  });
 
-  try {
-    const user = await prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-      select: {
-        name: true,
-        alias: true,
-        email: true,
-        image: true,
-        receiveTippingReminders: true,
-        receiveTippingResults: true,
-      },
-    });
+  if (!user) return redirect("/login");
 
-    if (!user) {
-      return redirect("/login");
-    }
-
-    return user;
-  } catch (error) {
-    console.error("Error fetching user details:", error);
-    throw error;
-  }
+  return user;
 }
 
 export async function getUserAliasByUserId(

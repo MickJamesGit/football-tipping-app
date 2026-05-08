@@ -1,14 +1,28 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import SideNav from "@/components/dashboard/sidenav";
-export const experimental_ppr = true;
+import { getUserDetails } from "@/lib/user";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
+  const user = await getUserDetails(session.user.id);
+
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
       <div className="w-full flex-none md:w-64">
-        <SideNav />
+        <SideNav user={user} />
       </div>
-      <div className="flex-grow p-4 pb-16 md:overflow-y-auto md:p-6  mt-8 ">
-        {" "}
+
+      <div className="flex-grow p-4 pb-16 md:overflow-y-auto md:p-6 mt-8">
         {children}
       </div>
     </div>

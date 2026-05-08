@@ -121,7 +121,6 @@ export default function LeaderboardTable({
               <TableHead className="w-[25%] p-1 text-right">Total</TableHead>
             </TableRow>
           </TableHeader>
-          <tr className="h-2"></tr>
           <TableBody className="">
             {leaderboard.map((ranking) => (
               <TableRow key={ranking.id} className="text-xs md:text-sm ">
