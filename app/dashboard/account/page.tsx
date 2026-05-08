@@ -1,4 +1,4 @@
-import AccountDataFetcher from "@/components/dashboard/account/account-data-fetcher";
+import AccountDetails from "@/components/dashboard/account/account-details";
 import { AccountLayoutSkeleton } from "@/components/skeletons";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="w-full space-y-8">
       <Suspense fallback={<AccountLayoutSkeleton />}>
-        <AccountDataFetcher />
+        <AccountDetails />
       </Suspense>
     </div>
   );

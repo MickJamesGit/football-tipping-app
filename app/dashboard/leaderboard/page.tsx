@@ -12,16 +12,18 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams?: Promise<{
     sport?: string;
-    page?: number;
+    page?: string;
     query?: string;
-  };
+  }>;
 }) {
-  const query = searchParams?.query || "";
-  const page = Number(searchParams?.page) || 1;
-  const sport = searchParams?.sport || "AFL";
+  const params = await searchParams;
 
+  const query = params?.query || "";
+  const page = Number(params?.page) || 1;
+  const sport = params?.sport || "AFL";
+  
   return (
     <div className="w-full space-y-8">
       <Suspense fallback={<LeaderBoardTableSkeleton />}>

@@ -1,41 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./auth";
-import { getUserAliasByUserId } from "./lib/user";
 
-export async function middleware(request: NextRequest) {
-  const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
-  const isOnLogin = request.nextUrl.pathname.startsWith("/login");
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
 
-  if (isOnDashboard) {
-    const session = await auth();
-    if (!session) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
 
-    if (session?.user?.id) {
-      const userId = session.user.id;
+  const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard");
+  const isOnLogin = req.nextUrl.pathname.startsWith("/login");
+  const isOnCreateAccount = req.nextUrl.pathname.startsWith("/create-account");
 
-      try {
-        const userAlias = await getUserAliasByUserId(userId);
-        const userHasAlias = !!userAlias;
-
-        if (!userHasAlias) {
-          return NextResponse.redirect(new URL("/create-account", request.url));
-        }
-        return NextResponse.next();
-      } catch (error) {
-        console.error("Error fetching user alias:", error);
-        throw error;
-      }
-    }
+  // Not logged in → block dashboard
+  if (isOnDashboard && !isLoggedIn) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (isOnLogin) {
-    const session = await auth();
-    if (session) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
+  // Logged in → block login page
+  if (isOnLogin && isLoggedIn) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
+  // Always allow other routes through middleware
   return NextResponse.next();
-}
+});
+
+export const config = {
+  matcher: ["/dashboard/:path*", "/login", "/create-account"],
+};

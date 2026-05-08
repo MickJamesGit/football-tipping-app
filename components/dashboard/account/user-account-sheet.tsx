@@ -18,12 +18,13 @@ import { Separator } from "@/components/ui/separator";
 import { type AccountDetails } from "@/types/definitions";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { useDashboardUser } from "@/app/providers/dashboard-provider";
 
-interface UserAccountSheetProps {
-  user: AccountDetails;
-}
 
-const UserAccountSheet: React.FC<UserAccountSheetProps> = ({ user }) => {
+
+const UserAccountSheet = () => {
+  const user = useDashboardUser();
+  
   const handleSignOut = async () => {
     await signOut();
   };
@@ -46,7 +47,7 @@ const UserAccountSheet: React.FC<UserAccountSheetProps> = ({ user }) => {
                     <AvatarFallback className="bg-emerald-500 text-white flex items-center justify-center h-full w-full text-2xl">
                       {user.alias
                         .split(" ")
-                        .map((word) => word[0])
+                        .map((word: any[]) => word[0])
                         .slice(0, 2)
                         .join("")
                         .toUpperCase()}

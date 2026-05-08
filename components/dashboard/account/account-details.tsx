@@ -23,12 +23,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
+import { useDashboardUser } from "@/app/providers/dashboard-provider";
 
 export const metadata: Metadata = {
   title: "Account",
 };
 
-export default function AccountDetails({ user }: { user: AccountDetails }) {
+export default function AccountDetails() {
+  const user = useDashboardUser();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
 

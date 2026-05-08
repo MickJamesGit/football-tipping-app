@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { auth, signOut } from "@/auth";
@@ -7,18 +9,12 @@ import { getUserDetails } from "@/lib/user";
 import SiteLogo from "../site-logo";
 import NavLinks from "./nav-links";
 import UserAccountSheet from "./account/user-account-sheet";
+import { AccountDetails } from "@/types/definitions";
+import { signOutAction } from "@/app/actions/auth-actions";
+import { useDashboardUser } from "@/app/providers/dashboard-provider";
 
-export default async function SideNav() {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const user = await getUserDetails();
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
+export default function SideNav() {
+  const user = useDashboardUser();
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 overflow-visible">
       <div className="block md:hidden">
@@ -32,7 +28,7 @@ export default async function SideNav() {
               <SiteLogo />
             </div>
             <div className="flex items-center mt-2">
-              <UserAccountSheet user={user} />
+              <UserAccountSheet/>
             </div>
           </Toolbar>
         </AppBar>
@@ -51,13 +47,8 @@ export default async function SideNav() {
         </div>
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <div className="hidden md:block">
-          <form
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-primary hover:text-white md:flex-none md:justify-start md:p-2 md:px-3">
+          <form action={signOutAction}>
+            <button type="submit" className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-primary hover:text-white md:flex-none md:justify-start md:p-2 md:px-3">
               <PowerIcon className="w-6" />
               <div className="hidden md:block">Sign Out</div>
             </button>

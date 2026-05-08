@@ -23,14 +23,20 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams?: Promise<{
     round?: string;
     sport?: string;
-  };
+  }>;
 }) {
-  const sport = searchParams?.sport || redirect("/dashboard/tipping");
-  const round = searchParams?.round || redirect("/dashboard/tipping");
+  const params = await searchParams;
 
+  const sport = params?.sport;
+  const round = params?.round;
+
+  if (!sport || !round) {
+    redirect("/dashboard/tipping");
+  }
+  
   return (
     <div className="w-full space-y-8">
       <Suspense fallback={<TippingTableSkeleton />}>
