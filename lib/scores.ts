@@ -85,7 +85,7 @@ export async function updateUserScores(
       status: "CORRECT",
       games: {
         sport: sport,
-        season: "2024",
+        season: "2026",
         round: round,
       },
     },
@@ -97,7 +97,7 @@ export async function updateUserScores(
       userId_round_season_sport: {
         userId: userId,
         sport: sport,
-        season: "2024",
+        season: "2026",
         round: round,
       },
     },
@@ -108,7 +108,7 @@ export async function updateUserScores(
     create: {
       userId: userId,
       sport: sport,
-      season: "2024",
+      season: "2026",
       round: round,
       score: correctTipsCount,
       createdAt: new Date(),
@@ -125,7 +125,7 @@ export async function updateOverallScore(userId: string, sport: string) {
       status: "CORRECT",
       games: {
         sport: sport,
-        season: "2024",
+        season: "2026",
       },
     },
   });
@@ -136,7 +136,7 @@ export async function updateOverallScore(userId: string, sport: string) {
       userId_round_season_sport: {
         userId: userId,
         sport: sport,
-        season: "2024",
+        season: "2026",
         round: "overall",
       },
     },
@@ -147,7 +147,7 @@ export async function updateOverallScore(userId: string, sport: string) {
     create: {
       userId: userId,
       sport: sport,
-      season: "2024",
+      season: "2026",
       round: "overall",
       score: overallCorrectTipsCount,
       createdAt: new Date(),

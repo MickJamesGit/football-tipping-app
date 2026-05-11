@@ -35,7 +35,7 @@ export const SubmitTipsCard: React.FC<SubmitTipCardProps> = ({
         <div className="space-y-1 ">
           <CardTitle>{sport}</CardTitle>
           <CardDescription>
-            Submit your tips for the next round of the 2024 {sport} competition.
+            Submit your tips for the next round of the 2026 {sport} competition.
           </CardDescription>
         </div>
       </CardHeader>

@@ -66,7 +66,7 @@ export const SportsRegisterCard: React.FC<SportsRegisterCardProps> = ({
         <div className="space-y-1">
           <CardTitle>{competition.name}</CardTitle>
           <CardDescription>
-            Join the {competition.name} tipping competition for the 2024 season.
+            Join the {competition.name} tipping competition for the 2026 season.
           </CardDescription>
         </div>
       </CardHeader>

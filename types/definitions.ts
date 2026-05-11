@@ -176,15 +176,15 @@ export const teamColors: TeamColors = {
     primary: "#003087", // Blue
     secondary: "#C8102E", // Red
   },
-  "Parramatta Eels": {
+  "Paramatta Eels": {
     primary: "#FFD700", // Yellow (Gold)
     secondary: "#002B5C", // Dark Blue
   },
-  "St. George Illawarra Dragons": {
+  "St George Illawarra Dragons": {
     primary: "#FFFFFF", // White
     secondary: "#D50C1A", // Red
   },
-  "Canterbury-Bankstown Bulldogs": {
+  "Canterbury Bulldogs": {
     primary: "#00539F", // Blue
     secondary: "#FFFFFF", // White
   },
@@ -220,7 +220,7 @@ export const teamColors: TeamColors = {
     primary: "#D30016", // Red
     secondary: "#FDBB30", // Yellow (Gold)
   },
-  "Greater Western Sydney Giants": {
+  "GWS Giants": {
     primary: "#F37022", // Orange
     secondary: "#4B4F54", // Charcoal
   },

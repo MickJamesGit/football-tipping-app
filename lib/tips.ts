@@ -176,7 +176,7 @@ export async function setUserTipsToAwayTeams(sport: string) {
   const completedGames = await prisma.game.findMany({
     where: {
       sport: sport,
-      season: "2024",
+      season: "2026",
       status: "COMPLETE",
     },
     select: {
