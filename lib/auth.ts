@@ -85,44 +85,52 @@ export async function getVerificationTokenByEmail(
   }
 }
 
-export async function googleAuthenticate() {
+export async function googleAuthenticate(_: FormData): Promise<void> {
   try {
     const session = await auth();
+
     if (session) {
       redirect("/dashboard");
-    } else {
-      await signIn("google", { redirectTo: "/dashboard" });
     }
+
+    await signIn("facebook", {
+      redirectTo: "/dashboard",
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          throw new Error("Invalid credentials.");
         default:
-          return "Something went wrong.";
+          throw new Error("Something went wrong.");
       }
     }
+
     throw error;
   }
 }
 
-export async function facebookAuthenticate() {
+export async function facebookAuthenticate(_: FormData): Promise<void> {
   try {
     const session = await auth();
+
     if (session) {
       redirect("/dashboard");
-    } else {
-      await signIn("facebook", { redirectTo: "/dashboard" });
     }
+
+    await signIn("facebook", {
+      redirectTo: "/dashboard",
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          throw new Error("Invalid credentials.");
         default:
-          return "Something went wrong.";
+          throw new Error("Something went wrong.");
       }
     }
+
     throw error;
   }
 }

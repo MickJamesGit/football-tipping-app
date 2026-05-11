@@ -65,7 +65,6 @@ export async function getLastRoundScores(sports: string[]): Promise<
       })
     );
 
-    console.log(results);
     return results;
   } catch (err) {
     console.error("Database Error:", err);
