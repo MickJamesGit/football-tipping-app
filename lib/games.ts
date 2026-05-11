@@ -191,7 +191,6 @@ export async function getNextGameDatesBySports(
       })
     );
 
-    console.log(results);
     return results;
   } catch (err) {
     console.error("Database Error:", err);

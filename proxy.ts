@@ -9,7 +9,7 @@ export default auth((req) => {
   const isOnLogin = req.nextUrl.pathname.startsWith("/login");
   const isOnCreateAccount = req.nextUrl.pathname.startsWith("/create-account");
 
-  // Not logged in → block dashboard
+  // Not logged in → blockS dashboard
   if (isOnDashboard && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
