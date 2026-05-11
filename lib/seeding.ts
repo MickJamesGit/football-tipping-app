@@ -43,17 +43,20 @@ export async function seedDatabase() {
 
 async function seedCompetitions() {
   for (const competition of competitions) {
-    await prisma.competition.upsert({
-      where: {
-        name: competition.name,
-      },
-      update: {},
-      create: {
-        name: competition.name,
-        startDate: competition.startDate,
-        endDate: competition.endDate,
-      },
-    });
+await prisma.competition.upsert({
+  where: {
+    name: competition.name,
+  },
+  update: {
+    startDate: competition.startDate,
+    endDate: competition.endDate,
+  },
+  create: {
+    name: competition.name,
+    startDate: competition.startDate,
+    endDate: competition.endDate,
+  },
+});
   }
 }
 
