@@ -22,7 +22,7 @@ export default async function LeaderboardLayout({
 
   const rankings: LeaderboardEntry[] = await getLeaderboard(
     sport,
-    "2024",
+    "2026",
     previousRound,
     page,
     query

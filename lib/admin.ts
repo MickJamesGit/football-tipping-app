@@ -168,7 +168,7 @@ export async function saveGameResults(
           });
 
           if (isCorrect) {
-            const season = "2024";
+            const season = "2026";
             const scoreIncrement = 1;
 
             await prisma.score.upsert({

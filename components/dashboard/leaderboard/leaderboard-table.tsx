@@ -82,7 +82,7 @@ export default function LeaderboardTable({
     <div className="flex flex-col gap-2 container mx-auto py-4 px-4 md:px-6 bg-slate-50 rounded-lg">
       <PageHeading
         title="Leaderboard"
-        description={`Overall rankings for the 2024 ${sport} tipping competition.`}
+        description={`Overall rankings for the 2026 ${sport} tipping competition.`}
       />
       <div className="flex items-center justify-between gap-2">
         <Input

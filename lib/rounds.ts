@@ -12,7 +12,7 @@ export async function getAllRoundsAndCurrent(
         const rounds = await prisma.round.findMany({
           where: {
             sport: sport,
-            season: "2024",
+            season: "2026",
           },
           orderBy: { startDate: "asc" },
           select: {
@@ -53,7 +53,7 @@ export async function getCurrentRoundForSport(
         endDate: {
           gte: today,
         },
-        season: "2024",
+        season: "2026",
       },
       orderBy: { round: "asc" },
       select: {
