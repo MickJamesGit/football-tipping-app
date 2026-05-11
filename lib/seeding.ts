@@ -47,7 +47,10 @@ async function seedCompetitions() {
       where: {
         name: competition.name,
       },
-      update: {},
+        update: {
+    startDate: competition.startDate,
+    endDate: competition.endDate,
+  },
       create: {
         name: competition.name,
         startDate: competition.startDate,
