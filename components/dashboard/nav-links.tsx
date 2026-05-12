@@ -6,7 +6,7 @@ import clsx from "clsx";
 import React, { useEffect } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import HomeIcon from "@mui/icons-material/Home";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 
@@ -15,7 +15,7 @@ const mobileLinks = [
   {
     name: "Tipping",
     href: "/dashboard/tipping",
-    icon: <CheckCircleOutlineIcon />,
+    icon: <CheckCircleOutlinedIcon />,
   },
   {
     name: "Leaderboard",

@@ -21,7 +21,8 @@ export default function AccountMenu({
       open={open}
       onClose={onClose}
       onClick={onClose}
-      PaperProps={{
+      slotProps={{
+           paper: {
         elevation: 0,
         sx: {
           overflow: "visible",
@@ -46,7 +47,7 @@ export default function AccountMenu({
             transform: "translateY(-50%) rotate(45deg)",
             zIndex: 0,
           },
-        },
+        }},
       }}
       transformOrigin={{ horizontal: "right", vertical: "bottom" }}
       anchorOrigin={{ horizontal: "right", vertical: "top" }}
