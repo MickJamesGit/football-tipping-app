@@ -33,7 +33,7 @@ const WelcomeDialog: React.FC<{ initialLogin?: boolean }> = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Welcome to FootyTippers!</DialogTitle>
+          <DialogTitle>Welcome to SportsTippers!</DialogTitle>
           <DialogDescription>
             <br />
             Head to the tipping menu to submit your tips for the sports

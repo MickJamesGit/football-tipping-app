@@ -13,7 +13,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   // Access the template file from the public directory
   const htmlTemplatePath = path.join(
     process.cwd(),
-    "public/emails/send-verification-email.html"
+    "public/emails/send-verification-email.html",
   );
   const htmlBody = fs.readFileSync(htmlTemplatePath, "utf8");
 
@@ -38,7 +38,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   // Access the template file from the public directory
   const htmlTemplatePath = path.join(
     process.cwd(),
-    "public/emails/password-reset-email.html"
+    "public/emails/password-reset-email.html",
   );
   const htmlBody = fs.readFileSync(htmlTemplatePath, "utf8");
 

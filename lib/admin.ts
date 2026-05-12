@@ -6,7 +6,7 @@ import prisma from "@/prisma";
 
 export async function saveGameResults(
   state: States,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error: boolean; message: string }> {
   const session = await auth();
   if (!session || !session.user || !session.user.id) {
@@ -104,7 +104,7 @@ export async function saveGameResults(
 
         if (parsedHomeScore === 0 && parsedAwayScore === 0) {
           console.log(
-            `Skipping game ID: ${gameId} due to invalid or missing scores.`
+            `Skipping game ID: ${gameId} due to invalid or missing scores.`,
           );
           return;
         }
@@ -139,7 +139,7 @@ export async function saveGameResults(
         });
 
         const usersWithoutTips = usersInCompetition.filter(
-          (user: any) => !usersWithTips.includes(user.userId)
+          (user: any) => !usersWithTips.includes(user.userId),
         );
 
         for (const user of usersWithoutTips) {

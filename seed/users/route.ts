@@ -29,7 +29,7 @@ async function seedUsers() {
         VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.alias})
         ON CONFLICT (email) DO NOTHING;
       `;
-      })
+      }),
     );
 
     console.log(`Seeded ${insertedUsers.length} users`);

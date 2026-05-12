@@ -29,7 +29,7 @@ export async function SportsCompetitionsLayout() {
         nextGameDate: nextGameDates[index]?.nextGameDate || "No upcoming games",
         nextGameRound: nextGameDates[index]?.nextGameRound || "N/A",
       };
-    }
+    },
   );
 
   return (

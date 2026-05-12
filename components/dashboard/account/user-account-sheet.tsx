@@ -20,11 +20,9 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useDashboardUser } from "@/app/providers/dashboard-provider";
 
-
-
 const UserAccountSheet = () => {
   const user = useDashboardUser();
-  
+
   const handleSignOut = async () => {
     await signOut();
   };

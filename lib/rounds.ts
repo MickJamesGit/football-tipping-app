@@ -4,7 +4,7 @@ import prisma from "@/prisma";
 import { Round } from "@prisma/client";
 
 export async function getAllRoundsAndCurrent(
-  sports: string[]
+  sports: string[],
 ): Promise<{ sport: string; rounds: string[]; currentRound: string | null }[]> {
   try {
     const results = await Promise.all(
@@ -27,7 +27,7 @@ export async function getAllRoundsAndCurrent(
           rounds: rounds.map((r) => r.round),
           currentRound: currentRound ? currentRound : null,
         };
-      })
+      }),
     );
 
     return results;
@@ -39,7 +39,7 @@ export async function getAllRoundsAndCurrent(
 }
 
 export async function getCurrentRoundForSport(
-  sport: string
+  sport: string,
 ): Promise<string | null> {
   try {
     const today = new Date();
@@ -96,7 +96,7 @@ export async function getPreviousRound(sport: string): Promise<Round["round"]> {
   } catch (err) {
     console.error("Database Error:", err);
     console.error(
-      `Failed to fetch previous rounds for sport: ${sport}, date: ${todaysDate}`
+      `Failed to fetch previous rounds for sport: ${sport}, date: ${todaysDate}`,
     );
     throw new Error("Failed to fetch previous round.");
   }

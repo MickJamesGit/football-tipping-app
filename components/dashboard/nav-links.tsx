@@ -93,7 +93,7 @@ export default function NavLinks() {
                 {
                   "bg-primary text-white": isActive,
                   "bg-gray-50 hover:bg-primary hover:text-white": !isActive,
-                }
+                },
               )}
             >
               <LinkIcon

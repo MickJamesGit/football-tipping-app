@@ -77,7 +77,7 @@ export async function getOverallSummaryRanking(sports: string[]): Promise<
           ranking: ranking || 0,
           totalUsers: totalUsers || 0,
         };
-      })
+      }),
     );
 
     return results;
@@ -90,7 +90,7 @@ export async function getOverallSummaryRanking(sports: string[]): Promise<
 async function getPreviousRoundScores(
   sport: string,
   season: string,
-  previousRound: string
+  previousRound: string,
 ) {
   return await prisma.score.findMany({
     where: {
@@ -110,7 +110,7 @@ export async function getLeaderboard(
   season: string,
   previousRound: string,
   currentPage: number,
-  query: string
+  query: string,
 ): Promise<LeaderboardEntry[]> {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -147,7 +147,7 @@ export async function getLeaderboard(
     const previousRoundScores = await getPreviousRoundScores(
       sport,
       season,
-      previousRound
+      previousRound,
     );
 
     // Combine data and remove duplicates
@@ -156,7 +156,7 @@ export async function getLeaderboard(
         const key = `${current.user.id}-${sport}-${season}-overall`;
         if (!acc[key]) {
           const previousRoundScore = previousRoundScores.find(
-            (score) => score.userId === current.user.id
+            (score) => score.userId === current.user.id,
           );
 
           acc[key] = {
@@ -169,7 +169,7 @@ export async function getLeaderboard(
         }
         return acc;
       },
-      {} as { [key: string]: LeaderboardEntry }
+      {} as { [key: string]: LeaderboardEntry },
     );
 
     // Convert object back to an array and assign rankings
@@ -193,7 +193,7 @@ export async function getLeaderboard(
   } catch (err) {
     console.error("Database Error:", err);
     console.error(
-      `Failed to fetch leaderboard for sport: ${sport}, season: ${season}, previous round: ${previousRound}`
+      `Failed to fetch leaderboard for sport: ${sport}, season: ${season}, previous round: ${previousRound}`,
     );
     throw new Error("Failed to fetch leaderboard.");
   }

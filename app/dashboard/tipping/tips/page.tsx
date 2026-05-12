@@ -36,7 +36,7 @@ export default async function Page({
   if (!sport || !round) {
     redirect("/dashboard/tipping");
   }
-  
+
   return (
     <div className="w-full space-y-8">
       <Suspense fallback={<TippingTableSkeleton />}>

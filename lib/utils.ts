@@ -52,7 +52,7 @@ export const generateSessionToken = () => {
 
 export const fromDate = (
   timeInSeconds: number,
-  baseDate: number = Date.now()
+  baseDate: number = Date.now(),
 ): Date => {
   return new Date(baseDate + timeInSeconds * 1000);
 };

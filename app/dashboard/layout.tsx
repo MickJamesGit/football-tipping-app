@@ -16,17 +16,17 @@ export default async function Layout({
   }
 
   const user = await getUserDetails(session.user.id);
- 
+
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
       <DashboardProvider user={user}>
-      <div className="w-full flex-none md:w-64">
-        <SideNav/>
-      </div>
+        <div className="w-full flex-none md:w-64">
+          <SideNav />
+        </div>
 
-      <div className="flex-grow p-4 pb-16 md:overflow-y-auto md:p-6 mt-8">
-        {children}
-      </div>
+        <div className="flex-grow p-4 pb-16 md:overflow-y-auto md:p-6 mt-8">
+          {children}
+        </div>
       </DashboardProvider>
     </div>
   );

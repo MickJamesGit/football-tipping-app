@@ -28,7 +28,7 @@ export default function SideNav() {
               <SiteLogo />
             </div>
             <div className="flex items-center mt-2">
-              <UserAccountSheet/>
+              <UserAccountSheet />
             </div>
           </Toolbar>
         </AppBar>
@@ -48,7 +48,10 @@ export default function SideNav() {
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <div className="hidden md:block">
           <form action={signOutAction}>
-            <button type="submit" className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-primary hover:text-white md:flex-none md:justify-start md:p-2 md:px-3">
+            <button
+              type="submit"
+              className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-primary hover:text-white md:flex-none md:justify-start md:p-2 md:px-3"
+            >
               <PowerIcon className="w-6" />
               <div className="hidden md:block">Sign Out</div>
             </button>

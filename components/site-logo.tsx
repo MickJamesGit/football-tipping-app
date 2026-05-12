@@ -12,7 +12,7 @@ export default function SiteLogo() {
       />
 
       <p className="text-[32px] font-bold flex items-baseline">
-        <span className="text-white">Footy</span>
+        <span className="text-white">Sports</span>
         <span className="text-yellow-400">Tippers</span>
       </p>
     </div>
