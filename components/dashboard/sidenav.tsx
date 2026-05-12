@@ -20,8 +20,9 @@ export default function SideNav() {
       <div className="block md:hidden">
         <AppBar
           position="fixed"
+          elevation={0}
           className="z-[50]"
-          style={{ backgroundColor: "hsl(var(--primary))" }}
+          sx={{ backgroundColor: "var(--color-primary)" }}
         >
           <Toolbar className="flex justify-between items-center">
             <div className="w-32 text-white flex items-center">
