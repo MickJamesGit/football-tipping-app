@@ -53,6 +53,11 @@ Automatically deployed to Vercel on branch merging.
 
 ## Screenshots
 
+Login:
 ![Login](/public/screenshots/login.png)
+
+Dashboard - Mobile:
 ![Mobile](/public/screenshots/mobile.png)
+
+Tipping - Desktop:
 ![Desktop](/public/screenshots/desktop.png)
