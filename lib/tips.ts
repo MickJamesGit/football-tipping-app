@@ -10,7 +10,7 @@ import { States } from "@/components/dashboard/admin/results/results-form";
 
 export async function getTipsBySportRound(
   sport: string,
-  round: string
+  round: string,
 ): Promise<Tips[]> {
   const session = await auth();
   if (!session || !session.user || !session.user.id) {
@@ -66,7 +66,7 @@ function extractTipsFromFormData(formData: FormData) {
 
 export async function updateTips(
   state: States,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error: boolean; message: string }> {
   const session = await auth();
   if (!session) redirect("/login");
@@ -121,7 +121,7 @@ export async function updateTips(
 
     // Create a map of existing tips for quick lookup
     const existingTipsMap = new Map(
-      existingTips.map((tip) => [tip.gameId, tip.teamId])
+      existingTips.map((tip) => [tip.gameId, tip.teamId]),
     );
 
     for (const tip of tips) {
@@ -213,7 +213,7 @@ export async function setUserTipsToAwayTeams(sport: string) {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-      })
+      }),
     );
   }
 
@@ -236,7 +236,7 @@ export async function setUserTipsToAwayTeams(sport: string) {
 export async function setNewUserTips(
   userId: string,
   sport: string,
-  season: string
+  season: string,
 ) {
   try {
     // Start a transaction
@@ -288,7 +288,7 @@ export async function setNewUserTips(
 }
 
 export async function getTipsByGames(
-  gameIds: string[]
+  gameIds: string[],
 ): Promise<{ gameId: string; teamName: string }[]> {
   const session = await auth();
   if (!session || !session.user || !session.user.id) {

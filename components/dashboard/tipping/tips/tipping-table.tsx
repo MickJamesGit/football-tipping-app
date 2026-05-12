@@ -64,14 +64,14 @@ export default function TippingTable({
   const [showSaveButton, setShowSaveButton] = useState(false);
   const { toast } = useToast();
   const currentSportRounds = sportsRounds.find(
-    (sportRound) => sportRound.sport === sport
+    (sportRound) => sportRound.sport === sport,
   );
   const [position, setPosition] = React.useState("bottom");
 
   useEffect(() => {
     // Check if all games are either 'completed' or 'inprogress'
     const allGamesCompletedOrInProgress = games.every(
-      (game) => game.status === "COMPLETE" || game.status === "INPROGRESS"
+      (game) => game.status === "COMPLETE" || game.status === "INPROGRESS",
     );
     setShowSaveButton(!allGamesCompletedOrInProgress);
   }, [games, tips]);
@@ -101,7 +101,7 @@ export default function TippingTable({
   const handleTeamClick = (
     gameId: string,
     team_id: string,
-    gameStatus: string
+    gameStatus: string,
   ) => {
     if (gameStatus === "inprogress" || gameStatus === "completed") return;
 
@@ -111,7 +111,7 @@ export default function TippingTable({
     }));
 
     setUnselectedGames((prevUnselectedGames) =>
-      prevUnselectedGames.filter((id) => id !== gameId)
+      prevUnselectedGames.filter((id) => id !== gameId),
     );
   };
 
@@ -332,8 +332,8 @@ export default function TippingTable({
                               tips.find(
                                 (tip) =>
                                   tip.gameId === game.id &&
-                                  tip.teamId === game.homeTeamId
-                              )?.status
+                                  tip.teamId === game.homeTeamId,
+                              )?.status,
                             )
                           : !isDisabled
                             ? "hover:bg-gray-100 cursor-pointer"
@@ -348,7 +348,7 @@ export default function TippingTable({
                         handleTeamClick(
                           game.id,
                           game.homeTeamId,
-                          game.status ?? "SCHEDULED"
+                          game.status ?? "SCHEDULED",
                         )
                       }
                     >
@@ -386,8 +386,8 @@ export default function TippingTable({
                               tips.find(
                                 (tip) =>
                                   tip.gameId === game.id &&
-                                  tip.teamId === game.awayTeamId
-                              )?.status
+                                  tip.teamId === game.awayTeamId,
+                              )?.status,
                             )
                           : !isDisabled
                             ? "hover:bg-gray-100 cursor-pointer"
@@ -402,7 +402,7 @@ export default function TippingTable({
                         handleTeamClick(
                           game.id,
                           game.awayTeamId,
-                          game.status ?? "SCHEDULED"
+                          game.status ?? "SCHEDULED",
                         )
                       }
                     >

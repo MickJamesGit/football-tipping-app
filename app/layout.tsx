@@ -10,10 +10,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | FootyTips Dashboard",
-    default: "FootyTips Dashboard",
+    template: "%s | SportsTippers Dashboard",
+    default: "SportsTippers Dashboard",
   },
-  description: "The official FootyTips website.",
+  description: "The official SportsTippers website.",
 };
 
 export default function RootLayout({

@@ -19,7 +19,7 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
       acc[gameDate].push(game);
       return acc;
     },
-    {}
+    {},
   );
 
   return (

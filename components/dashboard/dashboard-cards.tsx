@@ -22,7 +22,7 @@ async function DashboardCards({ registeredSports }: DashboardCardsProps) {
         round={lastRoundScores[index]}
         total={overallRankings[index]}
       />
-    ) : null
+    ) : null,
   );
 
   return (

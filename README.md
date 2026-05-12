@@ -5,25 +5,25 @@
 A fully functional sports tipping platform that allows users to join tipping competitions and select the teams they predict will win each game. Real-time leaderboards keep competition engaging and encourage friendly rivalry among participants.
 
 **Features**
-  
--  Username-based sign up and authentication
--  Facebook and Google OAuth login/sign up
--  Password reset and email verification workflows
--  Optional email notifications for tipping reminders and results
--  Weekly tipping with automated result grading
--  Game countdown timers with lockout once matches begin
--  Live leaderboards for each competition
--  Admin tools for managing and grading game results
+
+- Username-based sign up and authentication
+- Facebook and Google OAuth login/sign up
+- Password reset and email verification workflows
+- Optional email notifications for tipping reminders and results
+- Weekly tipping with automated result grading
+- Game countdown timers with lockout once matches begin
+- Live leaderboards for each competition
+- Admin tools for managing and grading game results
 
 **Technology**
 
--  Next.js v16
--  NextAuth.js authentication
--  Vercel hosting and deployment
--  PostgreSQL database (Neon)
--  Tailwind CSS for styling
--  Resend for transactional emails
--  React Hook Form with Zod for form validation
+- Next.js v16
+- NextAuth.js authentication
+- Vercel hosting and deployment
+- PostgreSQL database (Neon)
+- Tailwind CSS for styling
+- Resend for transactional emails
+- React Hook Form with Zod for form validation
 
 ## Entity diagram
 

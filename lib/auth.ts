@@ -22,7 +22,7 @@ import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
 export async function getPasswordResetTokenByToken(
-  token: string
+  token: string,
 ): Promise<PasswordResetToken | null> {
   try {
     const resetToken = await prisma.passwordResetToken.findFirst({
@@ -38,7 +38,7 @@ export async function getPasswordResetTokenByToken(
 }
 
 export async function getVerificationTokenByToken(
-  token: string
+  token: string,
 ): Promise<VerificationToken | null> {
   try {
     const verificationToken = await prisma.verificationToken.findFirst({
@@ -54,7 +54,7 @@ export async function getVerificationTokenByToken(
 }
 
 export async function getPasswordResetTokenByEmail(
-  email: string
+  email: string,
 ): Promise<PasswordResetToken | null> {
   try {
     const resetToken = await prisma.passwordResetToken.findFirst({
@@ -70,7 +70,7 @@ export async function getPasswordResetTokenByEmail(
 }
 
 export async function getVerificationTokenByEmail(
-  email: string
+  email: string,
 ): Promise<VerificationToken | null> {
   try {
     const verificationToken = await prisma.verificationToken.findFirst({
@@ -147,7 +147,7 @@ export async function deleteVerificationToken(token: string): Promise<boolean> {
 }
 
 export async function deletePasswordResetToken(
-  token: string
+  token: string,
 ): Promise<boolean> {
   try {
     const result = await prisma.passwordResetToken.delete({
@@ -190,7 +190,7 @@ export const verifyEmail = async (token: string) => {
 export async function createPasswordResetToken(
   email: string,
   token: string,
-  expiresAt: Date
+  expiresAt: Date,
 ): Promise<PasswordResetToken> {
   try {
     const passwordResetToken = await prisma.passwordResetToken.create({
@@ -210,7 +210,7 @@ export async function createPasswordResetToken(
 export async function createVerificationToken(
   email: string,
   token: string,
-  expires: Date
+  expires: Date,
 ): Promise<VerificationToken> {
   try {
     const verificationToken = await prisma.verificationToken.create({
@@ -243,7 +243,7 @@ export async function updatePassword(userId: string, hashedPassword: string) {
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null
+  callbackUrl?: string | null,
 ) => {
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -289,7 +289,7 @@ export const login = async (
 export async function createSession(
   userId: string,
   sessionToken: string,
-  expires: Date
+  expires: Date,
 ): Promise<Session | null> {
   try {
     const session = await prisma.session.create({
@@ -308,7 +308,7 @@ export async function createSession(
 
 export const newPassword = async (
   values: z.infer<typeof NewPasswordSchema>,
-  token: string | null
+  token: string | null,
 ) => {
   if (!token) {
     return { error: "An error has occurred." };
@@ -377,7 +377,7 @@ export const resetPassword = async (values: z.infer<typeof ResetSchema>) => {
 
     await sendPasswordResetEmail(
       passwordResetToken.email,
-      passwordResetToken.token
+      passwordResetToken.token,
     );
 
     return {
@@ -432,7 +432,7 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
 
       await sendVerificationEmail(
         verificationToken.email,
-        verificationToken.token
+        verificationToken.token,
       );
     });
 

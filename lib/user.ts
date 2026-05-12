@@ -61,7 +61,7 @@ export async function getUserDetails(userId: string): Promise<AccountDetails> {
 }
 
 export async function getUserAliasByUserId(
-  userId: string
+  userId: string,
 ): Promise<string | null> {
   try {
     const user = await prisma.user.findUnique({
@@ -81,7 +81,7 @@ export async function getUserAliasByUserId(
 }
 
 export async function setAccountDetails(
-  values: z.infer<typeof accountRegistrationDetailsSchema>
+  values: z.infer<typeof accountRegistrationDetailsSchema>,
 ) {
   const session = await auth();
   if (!session) redirect("/login");
@@ -140,7 +140,7 @@ export async function setAccountDetails(
 }
 
 export async function updateAccountDetails(
-  values: z.infer<typeof accountDetailsSchema>
+  values: z.infer<typeof accountDetailsSchema>,
 ) {
   const session = await auth();
   if (!session) redirect("/login");

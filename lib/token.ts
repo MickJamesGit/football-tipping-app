@@ -41,7 +41,7 @@ export const generatePasswordResetToken = async (email: string) => {
     const passwordResetToken = await createPasswordResetToken(
       email,
       token,
-      expires
+      expires,
     );
 
     return passwordResetToken;

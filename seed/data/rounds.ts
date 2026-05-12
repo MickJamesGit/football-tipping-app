@@ -357,5 +357,5 @@ export const rounds: RoundSeed[] = [
     round: "24",
     startDate: new Date("2026-08-17"),
     endDate: new Date("2026-08-23"),
-  }
+  },
 ];

@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import SiteLogo from "@/components/site-logo";
 
 export const metadata: Metadata = {
-  title: "FootyTips",
-  description: "Create an account or log in to start tipping footy.",
-  keywords: "create, account, tipping, sport, signup, tips, login, footy",
+  title: "SportsTippers",
+  description: "Create an account or log in to start tipping sports.",
+  keywords: "create, account, tipping, sport, signup, tips, login, sports",
 };
 
 export default function Page() {
@@ -18,7 +18,7 @@ export default function Page() {
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
           <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to FootyTips!</strong> Show off your football
+            <strong>Welcome to SportsTippers!</strong> Show off your football
             expertise, challenge your mates, and claim your place as a champion.
           </p>
           <div className="flex space-x-4">

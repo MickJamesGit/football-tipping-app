@@ -47,10 +47,10 @@ async function seedCompetitions() {
       where: {
         name: competition.name,
       },
-        update: {
-    startDate: competition.startDate,
-    endDate: competition.endDate,
-  },
+      update: {
+        startDate: competition.startDate,
+        endDate: competition.endDate,
+      },
       create: {
         name: competition.name,
         startDate: competition.startDate,
@@ -109,7 +109,7 @@ async function seedGames() {
 
     if (!homeTeam || !awayTeam) {
       console.error(
-        `Team not found: ${game.homeTeamName} or ${game.awayTeamName}`
+        `Team not found: ${game.homeTeamName} or ${game.awayTeamName}`,
       );
       continue; // Skip this game if either team is not found
     }

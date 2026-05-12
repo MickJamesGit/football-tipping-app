@@ -4743,4 +4743,4 @@ export const games: StrippedGames[] = [
     winningTeamId: null,
     status: "SCHEDULED",
   },
-]
+];

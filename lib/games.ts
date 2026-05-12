@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 export async function getGames(
   sport: string,
-  round: string
+  round: string,
 ): Promise<GameWithTeamNames[] | null> {
   try {
     const games = await prisma.game.findMany({
@@ -49,7 +49,7 @@ export async function getGames(
 }
 
 export async function getUpcomingGames(
-  sports: string[]
+  sports: string[],
 ): Promise<GameWithRankings[] | null> {
   try {
     const games = await prisma.game.findMany({
@@ -86,7 +86,7 @@ export async function getUpcomingGames(
         homeTeamRanking: game.homeTeam.ranking,
         awayTeamName: game.awayTeam.name,
         awayTeamRanking: game.awayTeam.ranking,
-      })
+      }),
     );
 
     return gamesWithTeamNamesRankings;
@@ -151,7 +151,7 @@ export async function getActiveNoResultGames(): Promise<
 }
 
 export async function getNextGameDatesBySports(
-  sports: string[]
+  sports: string[],
 ): Promise<{ sport: string; nextGameDate: string; nextGameRound: string }[]> {
   const todaysDate = new Date();
 
@@ -188,7 +188,7 @@ export async function getNextGameDatesBySports(
           nextGameDate: start_date.toISOString(),
           nextGameRound: round,
         };
-      })
+      }),
     );
 
     return results;

@@ -59,7 +59,7 @@ export const tipSchema = z.object({
     z.object({
       gameId: z.string().min(1),
       tipTeamId: z.string().min(1),
-    })
+    }),
   ),
 });
 

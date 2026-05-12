@@ -25,7 +25,7 @@ export default async function LeaderboardLayout({
     "2026",
     previousRound,
     page,
-    query
+    query,
   );
 
   return (

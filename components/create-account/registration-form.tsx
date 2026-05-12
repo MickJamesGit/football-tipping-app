@@ -48,7 +48,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   });
 
   const onSubmit = (
-    values: z.infer<typeof accountRegistrationDetailsSchema>
+    values: z.infer<typeof accountRegistrationDetailsSchema>,
   ) => {
     setError("");
     startTransition(() => {
@@ -126,8 +126,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                                       ? field.onChange([...currentValue, sport])
                                       : field.onChange(
                                           currentValue.filter(
-                                            (value) => value !== sport
-                                          )
+                                            (value) => value !== sport,
+                                          ),
                                         );
                                   }}
                                 />

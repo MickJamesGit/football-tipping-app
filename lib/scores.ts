@@ -62,7 +62,7 @@ export async function getLastRoundScores(sports: string[]): Promise<
           score: scoreData?.score || 0,
           totalGames: totalGamesData || 0,
         };
-      })
+      }),
     );
 
     return results;
@@ -75,7 +75,7 @@ export async function getLastRoundScores(sports: string[]): Promise<
 export async function updateUserScores(
   userId: string,
   sport: string,
-  round: string
+  round: string,
 ) {
   // Calculate the correct tips for the user in this round
   const correctTipsCount = await prisma.tip.count({

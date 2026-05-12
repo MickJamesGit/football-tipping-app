@@ -28,7 +28,7 @@ export default function ResultsForm({ unresultedGames }: ResultsFormProps) {
   const handleScoreChange = (
     gameId: string,
     teamType: "homeScore" | "awayScore",
-    value: string
+    value: string,
   ) => {
     setScores((prevScores) => ({
       ...prevScores,
