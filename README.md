@@ -1,36 +1,28 @@
-# FootyTips
+## SportsTippers
 
-A web application for NRL and AFL tipping.
+**Description**
+A fully functionining sports tipping application that allows users to sign up for tipping competitions and pick teams they think will win each win. Live leaderboards for each competition create competition.
 
-## Uncompleted
+**Features**
 
-Users:
+- Username login/sign up authentication
+- Facebook and Google login/sign up authentication
+- Lost password and email verification
+- Opt-in emails for tipping results and reminders
+- Weekly tipping and grading of picks
+- Countdown to gametime and lockout once game has started
+- Live leaderboard for each competition
+- Admin functionality to grade game results
 
-- Setting user alias on first login
-- OAuth login via:
-  - Facebook
-  - Google
-  - Reddit
-  - X
-- Username and password sign up
-  - Reset password
+**Technology**
 
-Tips:
-
-- Lock tips out once gametime has started
-- Script/process to grade tips
-
-General:
-
-- Integrate Prisma
-
-## Ideas
-
-- Streak tipping
-- Margin tipping
-- Arrows to show ranking improvements from prior week
-- Show user ranking in leaderboard
-- Add competitions
+- NextJS v16 application
+- Next-auth authentication
+- Vercel hosting
+- Postgres DB on Neon
+- Tailwind CSS styling
+- Resend email integration
+- React hookform and zod libraries
 
 ## Entity diagram
 
@@ -41,8 +33,21 @@ https://lucid.app/lucidchart/75183805-251c-4880-965a-36e51793359d/edit?viewport_
 Making db schema changes:
 
 1. Update schema.prisma
-2. Set url = env("DIRECT_URL") in schema.prisma
-3. Npx prisma migrate dev --name <migration_name>
+2. Set directUrl = env("DIRECT_URL") in schema.prisma
+3. `npm prisma migrate dev --name <migration_name>`
 4. Check SQL statements are correct
-5. Set = env("DATABASE_URL") in schema.prisma
-6. Run npx prisma generate --no-engine
+5. Set url = env("DATABASE_URL") in schema.prisma
+6. Run npm prisma generate --no-engine
+
+**How to run**
+
+`npm install`
+`npm run dev` for dev | `npm run build` for prod
+
+**Deployment**
+
+Automatically deployed to Vercel on branch merging.
+
+---
+
+**Screenshots**
