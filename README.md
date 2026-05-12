@@ -25,11 +25,11 @@ A fully functional sports tipping platform that allows users to join tipping com
 - Resend for transactional emails
 - React Hook Form with Zod for form validation
 
-## Entity diagram
+**Entity diagram**
 
 https://lucid.app/lucidchart/75183805-251c-4880-965a-36e51793359d/edit?viewport_loc=-1826%2C-82%2C2709%2C1272%2C0_0&invitationId=inv_b483ffb9-4ed6-4e4b-87b9-fd2d0199a48c
 
-## Prisma
+**Prisma**
 
 Making db schema changes:
 
@@ -51,4 +51,8 @@ Automatically deployed to Vercel on branch merging.
 
 ---
 
-**Screenshots**
+## Screenshots
+
+![Login](/public/screenshots/login.png)
+![Mobile](/public/screenshots/mobile.png)
+![Desktop](/public/screenshots/desktop.png)
