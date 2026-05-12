@@ -93,7 +93,7 @@ export async function googleAuthenticate(_: FormData): Promise<void> {
       redirect("/dashboard");
     }
 
-    await signIn("facebook", {
+    await signIn("google", {
       redirectTo: "/dashboard",
     });
   } catch (error) {

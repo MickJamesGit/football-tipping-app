@@ -8,10 +8,10 @@ export default function SiteLogo() {
     >
       <FaTrophy
         className="mr-1 text-yellow-400"
-        style={{ fontSize: "32px", minWidth: "30px", minHeight: "30px" }}
+        style={{ fontSize: "30px", minWidth: "30px", minHeight: "30px" }}
       />
 
-      <p className="text-[32px] font-bold flex items-baseline">
+      <p className="text-[28px] font-bold flex items-baseline">
         <span className="text-white">Sports</span>
         <span className="text-yellow-400">Tippers</span>
       </p>
