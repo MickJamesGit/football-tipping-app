@@ -19,7 +19,7 @@ type SubmitTipCardProps = {
     score: number;
     totalGames: number;
   };
-  nextGameDate: string;
+  nextGameDate: Date | string;
   nextGameRound: string;
 };
 

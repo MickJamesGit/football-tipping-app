@@ -1,26 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { UpcomingGame, teamColors } from "@/types/definitions";
+import { teamColors } from "@/types/definitions";
 import { format } from "date-fns";
 import { Button } from "../action-button";
+import { GameResponse } from "@/lib/games/games.schema";
+
 
 type GamesListProps = {
-  games: UpcomingGame[];
+  games: GameResponse[];
 };
 
-const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
-  const gamesByDate = games.reduce<Record<string, UpcomingGame[]>>(
+const UpcomingGamesTable = ({ games }: GamesListProps) => {
+  const gamesByDate = games.reduce<Record<string, GameResponse[]>>(
     (acc, game) => {
       const gameDate = format(new Date(game.datetime), "EEEE, d MMMM yyyy");
+
       if (!acc[gameDate]) {
         acc[gameDate] = [];
       }
+
       acc[gameDate].push(game);
+
       return acc;
     },
     {},
   );
+
 
   return (
     <>
@@ -35,11 +41,11 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
             {/* Game components */}
             <div className="grid gap-4 mb-3">
               {gamesOnDate.map((game) => {
-                const homeTeamColors = teamColors[game.homeTeamName] || {
+                const homeTeamColors = teamColors[game.homeTeam.name] || {
                   primary: "#ccc",
                   secondary: "#ccc",
                 };
-                const awayTeamColors = teamColors[game.awayTeamName] || {
+                const awayTeamColors = teamColors[game.awayTeam.name] || {
                   primary: "#ccc",
                   secondary: "#ccc",
                 };
@@ -60,12 +66,12 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
                           <div className="w-6 h-6 text-muted-foreground" />
                         </div>
                         <div className="text-lg font-semibold">
-                          <span>{game.homeTeamName.split(" ").slice(-1)}</span>
+                          <span>{game.homeTeam.name.split(" ").slice(-1)}</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-lg font-semibold">
-                          <span>{game.awayTeamName.split(" ").slice(-1)}</span>
+                          <span>{game.awayTeam.name.split(" ").slice(-1)}</span>
                         </div>
                         <div
                           className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -81,11 +87,11 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
                     <div className="flex justify-around items-center mb-4">
                       <div className="text-center">
                         <div className="text-xs md:text-sm">
-                          {game.homeTeamRanking && (
+                          {game.homeTeam.ranking && (
                             <span className="font-medium text-2xl">
-                              {game.homeTeamRanking}
+                              {game.homeTeam.ranking}
                               <span className="text-xs align-top">
-                                {getOrdinalSuffix(game.homeTeamRanking)}
+                                {getOrdinalSuffix(game.homeTeam.ranking)}
                               </span>
                             </span>
                           )}
@@ -96,7 +102,7 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
                         <div className="flex flex-col items-center justify-center gap-1">
                           <div className="flex items-center gap-2 flex-wrap max-w-full">
                             <StadiumIcon className="w-5 h-5" />
-                            <span className="break-words max-w-full">
+                            <span className="wrap-break-words max-w-full">
                               {game.venue}
                             </span>{" "}
                             {/* Wrapped text */}
@@ -111,11 +117,11 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
                       <div className="text-center">
                         <div className="text-xs md:text-sm">
                           {/* Replace with your team ranking content */}
-                          {game.awayTeamRanking && (
+                          {game.awayTeam.ranking && (
                             <span className="font-medium text-2xl ordinal">
-                              {game.awayTeamRanking}
+                              {game.awayTeam.ranking}
                               <span className="text-xs align-top">
-                                {getOrdinalSuffix(game.awayTeamRanking)}
+                                {getOrdinalSuffix(game.awayTeam.ranking)}
                               </span>
                             </span>
                           )}
@@ -124,18 +130,18 @@ const UpcomingGamesTable: React.FC<GamesListProps> = ({ games }) => {
                     </div>
                     {/* User tip and button link */}
                     <div className="flex justify-between flex-row">
-                      <div className="text-sm font-medium md:text-md mt-4">
+                      {/*<div className="text-sm font-medium md:text-md mt-4">
                         {game.tippedTeam
                           ? `You've Tipped: ${game.tippedTeam.split(" ").pop()}`
                           : "No Tip Saved"}
-                      </div>
+                      </div>*/}
                       <Link
                         href={`/dashboard/tipping/tips?sport=${game.sport}&round=${game.round}`}
                         className="self-center"
                       >
                         <Button>
                           {" "}
-                          {game.tippedTeam ? "Update Tip" : "Submit Tip"}
+                          {"Submit Tip"}
                         </Button>
                       </Link>
                     </div>

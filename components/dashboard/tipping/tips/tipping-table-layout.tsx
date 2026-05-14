@@ -2,7 +2,7 @@ import TippingTable from "./tipping-table";
 import { getUserRegisteredCompetitions } from "@/lib/competitions";
 import { getAllRoundsAndCurrent } from "@/lib/rounds";
 import { getTipsBySportRound } from "@/lib/tips";
-import { getGames } from "@/lib/games";
+import { getGames } from "@/lib/games/games";
 import PageHeading from "../../page-heading";
 
 export default async function TippingTableLayout({
@@ -15,13 +15,16 @@ export default async function TippingTableLayout({
   const userCompetitions = await getUserRegisteredCompetitions();
 
   const [games, tips, sportsRounds] = await Promise.all([
-    getGames(sport, round),
+    getGames({
+    sport: [sport],
+    round: round,
+  }),
     getTipsBySportRound(sport, round),
     getAllRoundsAndCurrent(userCompetitions),
   ]);
 
-  if (!games || games.length === 0) {
-    return null;
+  if (games.length === 0) {
+    return <p>No games found</p>;
   }
 
   return (
