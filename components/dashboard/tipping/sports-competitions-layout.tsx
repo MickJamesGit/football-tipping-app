@@ -6,7 +6,7 @@ import {
   getUserUnregisteredCompetitions,
 } from "@/lib/competitions";
 import { getLastRoundScores } from "@/lib/scores";
-import { getNextGameDatesBySports } from "@/lib/games";
+import { getNextGamesBySports } from "@/lib/games/games";
 import PageHeading from "../page-heading";
 import { Separator } from "@radix-ui/react-select";
 
@@ -18,7 +18,7 @@ export async function SportsCompetitionsLayout() {
 
   const [lastRoundScores, nextGameDates] = await Promise.all([
     getLastRoundScores(registeredCompetitions),
-    getNextGameDatesBySports(registeredCompetitions),
+    getNextGamesBySports({sports: registeredCompetitions}),
   ]);
 
   const registeredCompetitionsSummary = registeredCompetitions.map(
@@ -26,8 +26,8 @@ export async function SportsCompetitionsLayout() {
       return {
         name: competitionName,
         lastRoundScore: lastRoundScores[index] || {},
-        nextGameDate: nextGameDates[index]?.nextGameDate || "No upcoming games",
-        nextGameRound: nextGameDates[index]?.nextGameRound || "N/A",
+        nextGameDate: nextGameDates[index]?.nextGame?.date || "No upcoming games",
+        nextGameRound: nextGameDates[index]?.nextGame?.round || "N/A",
       };
     },
   );

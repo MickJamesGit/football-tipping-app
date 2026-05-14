@@ -1,6 +1,7 @@
 import { StrippedGames } from "@/types/definitions";
+import { GameStatus } from "@prisma/client";
 
-export const games: StrippedGames[] = [
+export const games = [
   // ROUND 1
   {
     sport: "NRL",
@@ -11,7 +12,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-01T15:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -22,7 +23,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-01T13:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -33,7 +34,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-05T20:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -44,7 +45,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-06T19:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -55,7 +56,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-06T20:00:00+13:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -66,7 +67,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-07T17:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -77,7 +78,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-07T19:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -88,7 +89,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-08T15:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 2
@@ -101,7 +102,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-12T20:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -112,7 +113,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-13T20:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -123,7 +124,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-13T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -134,7 +135,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-14T15:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -145,7 +146,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-14T17:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -156,7 +157,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-14T19:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -167,7 +168,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-15T16:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -178,7 +179,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-15T18:15:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 3
@@ -191,7 +192,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-19T20:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -202,7 +203,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-20T20:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -213,7 +214,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-20T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -224,7 +225,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-21T15:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -235,7 +236,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-21T17:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -246,7 +247,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-21T19:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -257,7 +258,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-22T16:00:00+13:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -268,7 +269,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-22T18:15:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 4
@@ -281,7 +282,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-26T20:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -292,7 +293,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-27T20:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -303,7 +304,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-27T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -314,7 +315,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-28T15:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -325,7 +326,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-28T17:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -336,7 +337,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-28T19:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -347,7 +348,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-29T16:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -358,7 +359,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-29T18:15:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 5
@@ -371,7 +372,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-02T20:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -382,7 +383,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-03T20:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -393,7 +394,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-03T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -404,7 +405,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-04T15:00:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -415,7 +416,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-04T17:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -426,7 +427,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-04T19:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -437,7 +438,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-05T16:05:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -448,7 +449,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-05T18:15:00+13:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 6
   {
@@ -460,7 +461,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-09T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -471,7 +472,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-10T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -482,7 +483,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-10T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -493,7 +494,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-11T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -504,7 +505,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-11T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -515,7 +516,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-11T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -526,7 +527,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-12T16:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -537,7 +538,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-12T18:15:00+12:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 7
@@ -550,7 +551,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-16T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -561,7 +562,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-17T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -572,7 +573,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-17T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -583,7 +584,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-18T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -594,7 +595,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-18T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -605,7 +606,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-18T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -616,7 +617,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-19T16:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -627,7 +628,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-19T18:15:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 8
@@ -640,7 +641,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-23T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -651,7 +652,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-24T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -662,7 +663,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-24T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -673,7 +674,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-25T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -684,7 +685,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-25T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -695,7 +696,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-25T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -706,7 +707,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-26T16:05:00+12:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -717,7 +718,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-26T18:15:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 9
@@ -730,7 +731,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-30T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -741,7 +742,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-01T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -752,7 +753,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-01T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -763,7 +764,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -774,7 +775,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -785,7 +786,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -796,7 +797,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-03T16:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -807,7 +808,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-03T18:15:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 10
@@ -820,7 +821,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-07T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -831,7 +832,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-08T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -842,7 +843,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-08T19:50:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -853,7 +854,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -864,7 +865,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -875,7 +876,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -886,7 +887,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-10T16:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -897,7 +898,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-10T18:15:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 11
   {
@@ -909,7 +910,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-14T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -920,7 +921,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-15T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -931,7 +932,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -942,7 +943,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -953,7 +954,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-17T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -964,7 +965,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-17T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -975,7 +976,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-17T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -986,7 +987,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 12
@@ -999,7 +1000,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-21T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1010,7 +1011,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-22T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1021,7 +1022,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1032,7 +1033,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1043,7 +1044,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-24T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1054,7 +1055,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-24T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1065,7 +1066,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-24T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1076,7 +1077,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 13
@@ -1089,7 +1090,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-28T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1100,7 +1101,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-29T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1111,7 +1112,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1122,7 +1123,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1133,7 +1134,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-31T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1144,7 +1145,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-31T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1155,7 +1156,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-31T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1166,7 +1167,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 14
@@ -1179,7 +1180,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-04T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1190,7 +1191,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-05T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1201,7 +1202,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1212,7 +1213,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1223,7 +1224,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-07T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1234,7 +1235,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-07T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1245,7 +1246,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-07T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1256,7 +1257,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 15
@@ -1269,7 +1270,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-11T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1280,7 +1281,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-12T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1291,7 +1292,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1302,7 +1303,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1313,7 +1314,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-14T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1324,7 +1325,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-14T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1335,7 +1336,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-14T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1346,7 +1347,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 16
   {
@@ -1358,7 +1359,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-18T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1369,7 +1370,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-19T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1380,7 +1381,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1391,7 +1392,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1402,7 +1403,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-21T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1413,7 +1414,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-21T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1424,7 +1425,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-21T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1435,7 +1436,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T15:00:00+12:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 17
@@ -1448,7 +1449,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-25T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1459,7 +1460,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-26T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1470,7 +1471,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1481,7 +1482,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1492,7 +1493,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-28T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1503,7 +1504,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-28T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1514,7 +1515,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-28T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1525,7 +1526,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 18
@@ -1538,7 +1539,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-02T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1549,7 +1550,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-03T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1560,7 +1561,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1571,7 +1572,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1582,7 +1583,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-05T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1593,7 +1594,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-05T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1604,7 +1605,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-05T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1615,7 +1616,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 19
@@ -1628,7 +1629,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-09T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1639,7 +1640,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-10T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1650,7 +1651,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1661,7 +1662,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1672,7 +1673,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-12T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1683,7 +1684,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-12T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1694,7 +1695,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-12T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1705,7 +1706,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 20
@@ -1718,7 +1719,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-16T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1729,7 +1730,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-17T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1740,7 +1741,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1751,7 +1752,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1762,7 +1763,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-19T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1773,7 +1774,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-19T17:30:00+12:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1784,7 +1785,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-19T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1795,7 +1796,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 21
   {
@@ -1807,7 +1808,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-23T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1818,7 +1819,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-24T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1829,7 +1830,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1840,7 +1841,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1851,7 +1852,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-26T16:05:00+12:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1862,7 +1863,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-26T18:15:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1873,7 +1874,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1884,7 +1885,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T12:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 22
@@ -1897,7 +1898,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-30T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1908,7 +1909,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-31T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1919,7 +1920,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1930,7 +1931,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1941,7 +1942,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-02T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1952,7 +1953,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-02T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1963,7 +1964,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-02T19:35:00+12:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1974,7 +1975,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 23
@@ -1987,7 +1988,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-06T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -1998,7 +1999,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-07T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2009,7 +2010,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2020,7 +2021,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2031,7 +2032,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-09T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2042,7 +2043,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-09T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2053,7 +2054,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-09T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2064,7 +2065,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T12:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 24
@@ -2077,7 +2078,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-13T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2088,7 +2089,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-14T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2099,7 +2100,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2110,7 +2111,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2121,7 +2122,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-16T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2132,7 +2133,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-16T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2143,7 +2144,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-16T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2154,7 +2155,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 25
@@ -2167,7 +2168,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-20T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2178,7 +2179,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-21T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2189,7 +2190,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2200,7 +2201,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2211,7 +2212,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-23T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2222,7 +2223,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-23T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2233,7 +2234,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-23T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2244,7 +2245,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 26
   {
@@ -2256,7 +2257,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-27T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2267,7 +2268,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-28T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2278,7 +2279,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-29T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2289,7 +2290,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-29T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2300,7 +2301,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-30T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2311,7 +2312,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-30T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2322,7 +2323,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-30T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2333,7 +2334,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-29T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 27
@@ -2346,7 +2347,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-03T20:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2357,7 +2358,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-04T20:05:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2368,7 +2369,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-05T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2379,7 +2380,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-05T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2390,7 +2391,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-06T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2401,7 +2402,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-06T17:30:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2412,7 +2413,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-06T19:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "NRL",
@@ -2423,7 +2424,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-09-05T15:00:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 1
   {
@@ -2435,7 +2436,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-19T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2446,7 +2447,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-20T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2457,7 +2458,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-21T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2468,7 +2469,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-21T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2479,7 +2480,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-22T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2490,7 +2491,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-21T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2501,7 +2502,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-20T19:50:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2512,7 +2513,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-22T13:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2523,7 +2524,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-22T16:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 2
@@ -2536,7 +2537,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-26T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2547,7 +2548,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-27T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2558,7 +2559,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-28T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2569,7 +2570,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-28T19:25:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2580,7 +2581,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-29T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2591,7 +2592,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-29T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2602,7 +2603,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-28T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2613,7 +2614,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-29T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2624,7 +2625,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-03-29T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 3
@@ -2637,7 +2638,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-02T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2648,7 +2649,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-03T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2659,7 +2660,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-04T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2670,7 +2671,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-04T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2681,7 +2682,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-04T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2692,7 +2693,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-05T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2703,7 +2704,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-05T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2714,7 +2715,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-05T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2725,7 +2726,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-05T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 4
@@ -2738,7 +2739,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-09T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2749,7 +2750,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-10T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2760,7 +2761,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-11T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2771,7 +2772,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-11T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2782,7 +2783,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-12T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2793,7 +2794,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-12T15:20:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2804,7 +2805,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-12T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2815,7 +2816,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-12T18:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2826,7 +2827,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-11T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 5
@@ -2839,7 +2840,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-16T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2850,7 +2851,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-17T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2861,7 +2862,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-18T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2872,7 +2873,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-18T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2883,7 +2884,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-19T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2894,7 +2895,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-19T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2905,7 +2906,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-19T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2916,7 +2917,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-19T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2927,7 +2928,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-18T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 6
   {
@@ -2939,7 +2940,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-23T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2950,7 +2951,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-24T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2961,7 +2962,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-25T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2972,7 +2973,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-25T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2983,7 +2984,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-26T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -2994,7 +2995,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-26T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3005,7 +3006,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-26T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3016,7 +3017,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-25T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3027,7 +3028,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-24T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 7
@@ -3040,7 +3041,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-04-30T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3051,7 +3052,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-01T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3062,7 +3063,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3073,7 +3074,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T16:35:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3084,7 +3085,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-03T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3095,7 +3096,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-03T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3106,7 +3107,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-03T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3117,7 +3118,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T14:35:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3128,7 +3129,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-02T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 8
@@ -3141,7 +3142,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-07T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3152,7 +3153,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-08T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3163,7 +3164,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3174,7 +3175,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3185,7 +3186,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-10T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3196,7 +3197,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-10T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3207,7 +3208,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-10T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3218,7 +3219,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3229,7 +3230,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-09T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 9
@@ -3242,7 +3243,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-14T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3253,7 +3254,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-15T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3264,7 +3265,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3275,7 +3276,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3286,7 +3287,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-17T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3297,7 +3298,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-17T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3308,7 +3309,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-17T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3319,7 +3320,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3330,7 +3331,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-16T18:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 10
@@ -3343,7 +3344,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-21T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3354,7 +3355,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-22T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3365,7 +3366,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3376,7 +3377,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3387,7 +3388,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-24T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3398,7 +3399,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-24T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3409,7 +3410,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-24T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3420,7 +3421,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3431,7 +3432,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-23T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 11
   {
@@ -3443,7 +3444,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-28T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3454,7 +3455,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-29T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3465,7 +3466,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3476,7 +3477,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3487,7 +3488,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-31T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3498,7 +3499,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-31T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3509,7 +3510,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-31T15:20:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3520,7 +3521,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3531,7 +3532,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-05-30T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 12
@@ -3544,7 +3545,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-04T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3555,7 +3556,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-05T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3566,7 +3567,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3577,7 +3578,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3588,7 +3589,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-07T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3599,7 +3600,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-07T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3610,7 +3611,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-07T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3621,7 +3622,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3632,7 +3633,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-06T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 13
@@ -3645,7 +3646,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-11T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3656,7 +3657,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-12T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3667,7 +3668,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3678,7 +3679,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T16:35:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3689,7 +3690,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-14T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3700,7 +3701,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-14T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3711,7 +3712,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-14T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3722,7 +3723,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3733,7 +3734,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-13T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 14
@@ -3746,7 +3747,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-18T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3757,7 +3758,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-19T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3768,7 +3769,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3779,7 +3780,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3790,7 +3791,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-21T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3801,7 +3802,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-21T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3812,7 +3813,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-21T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3823,7 +3824,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3834,7 +3835,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-20T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 15
@@ -3847,7 +3848,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-25T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3858,7 +3859,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-26T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3869,7 +3870,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3880,7 +3881,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3891,7 +3892,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-28T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3902,7 +3903,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-28T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3913,7 +3914,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-28T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3924,7 +3925,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3935,7 +3936,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-06-27T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 16
   {
@@ -3947,7 +3948,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-02T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3958,7 +3959,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-03T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3969,7 +3970,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3980,7 +3981,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -3991,7 +3992,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-05T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4002,7 +4003,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-05T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4013,7 +4014,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-05T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4024,7 +4025,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4035,7 +4036,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-04T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 17
@@ -4048,7 +4049,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-09T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4059,7 +4060,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-10T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4070,7 +4071,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4081,7 +4082,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T16:35:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4092,7 +4093,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-12T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4103,7 +4104,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-12T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4114,7 +4115,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-12T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4125,7 +4126,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4136,7 +4137,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-11T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 18
@@ -4149,7 +4150,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-16T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4160,7 +4161,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-17T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4171,7 +4172,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4182,7 +4183,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4193,7 +4194,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-19T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4204,7 +4205,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-19T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4215,7 +4216,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-19T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4226,7 +4227,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4237,7 +4238,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-18T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 19
@@ -4250,7 +4251,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-23T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4261,7 +4262,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-24T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4272,7 +4273,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4283,7 +4284,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4294,7 +4295,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-26T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4305,7 +4306,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-26T15:20:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4316,7 +4317,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-26T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4327,7 +4328,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4338,7 +4339,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-25T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 20
@@ -4351,7 +4352,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-30T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4362,7 +4363,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-07-31T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4373,7 +4374,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4384,7 +4385,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4395,7 +4396,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-02T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4406,7 +4407,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-02T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4417,7 +4418,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-02T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4428,7 +4429,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4439,7 +4440,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-01T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   // ROUND 21
   {
@@ -4451,7 +4452,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-06T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4462,7 +4463,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-07T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4473,7 +4474,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4484,7 +4485,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4495,7 +4496,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-09T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4506,7 +4507,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-09T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4517,7 +4518,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-09T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4528,7 +4529,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4539,7 +4540,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-08T16:40:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 22
@@ -4552,7 +4553,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-13T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4563,7 +4564,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-14T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4574,7 +4575,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T16:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4585,7 +4586,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T19:25:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4596,7 +4597,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-16T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4607,7 +4608,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-16T15:20:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4618,7 +4619,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-16T16:40:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4629,7 +4630,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T14:35:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4640,7 +4641,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-15T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 
   // ROUND 23
@@ -4653,7 +4654,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-20T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4664,7 +4665,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-21T19:30:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4675,7 +4676,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T19:25:00+10:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4686,7 +4687,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T16:35:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4697,7 +4698,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-23T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4708,7 +4709,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-23T13:10:00+10:30"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4719,7 +4720,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-23T15:20:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4730,7 +4731,7 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T13:10:00+11:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
   {
     sport: "AFL",
@@ -4741,6 +4742,6 @@ export const games: StrippedGames[] = [
     datetime: new Date("2026-08-22T18:10:00+08:00"),
     season: "2026",
     winningTeamId: null,
-    status: "SCHEDULED",
+    status: GameStatus.SCHEDULED,
   },
 ];

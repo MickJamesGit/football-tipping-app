@@ -26,6 +26,7 @@ import { GameWithTeamNames, teamColors, Tips } from "@/types/definitions";
 import { useToast } from "@/components/use-toast";
 import { useFormState } from "react-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { GameResponse } from "@/lib/games/games.schema";
 
 type SelectedTeams = {
   [game: string]: string;
@@ -43,7 +44,7 @@ export default function TippingTable({
   sport,
   round,
 }: {
-  games: GameWithTeamNames[];
+  games: GameResponse[];
   tips: Tips[];
   sportsRounds: {
     sport: string;
@@ -259,7 +260,7 @@ export default function TippingTable({
               <Button
                 variant="outline"
                 size="icon"
-                className="text-sm font-medium bg-primary text-primary-foreground/80 hover:text-current hover:text-white hover:bg-primary sm:hover:bg-white
+                className="text-sm font-medium bg-primary text-primary-foreground/80 hover:text-current hover:bg-primary sm:hover:bg-white
               sm:hover:text-black"
                 onClick={goToNextRound}
               >
@@ -286,11 +287,11 @@ export default function TippingTable({
             </TableHeader>
             <TableBody>
               {games?.map((game) => {
-                const homeTeamColors = teamColors[game.homeTeamName] || {
+                const homeTeamColors = teamColors[game.homeTeam.name] || {
                   primary: "#ccc",
                   secondary: "#ccc",
                 };
-                const awayTeamColors = teamColors[game.awayTeamName] || {
+                const awayTeamColors = teamColors[game.awayTeam.name] || {
                   primary: "#ccc",
                   secondary: "#ccc",
                 };
@@ -354,13 +355,13 @@ export default function TippingTable({
                     >
                       <div className="flex items-center h-full gap-2">
                         <div
-                          className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0"
+                          className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full shrink-0"
                           style={{
                             background: `linear-gradient(135deg, ${homeTeamColors.primary} 50%, ${homeTeamColors.secondary} 50%)`,
                           }}
                         ></div>
                         <div className="text-left flex flex-col justify-center">
-                          {renderTeamName(game.homeTeamName)}
+                          {renderTeamName(game.homeTeam.name)}
                         </div>
                       </div>
                     </TableCell>
@@ -408,10 +409,10 @@ export default function TippingTable({
                     >
                       <div className="flex items-center h-full gap-2 justify-end">
                         <div className="text-right flex flex-col justify-center">
-                          {renderTeamName(game.awayTeamName)}
+                          {renderTeamName(game.awayTeam.name)}
                         </div>
                         <div
-                          className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10  rounded-full flex-shrink-0"
+                          className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10  rounded-full shrink-0"
                           style={{
                             background: `linear-gradient(135deg, ${awayTeamColors.primary} 50%, ${awayTeamColors.secondary} 50%)`,
                           }}

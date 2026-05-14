@@ -1,15 +1,19 @@
 import { Competition, Game, Round, Tip, User } from "@prisma/client";
 
-export type GameWithTeamNames = Game & {
-  homeTeamName: string;
-  awayTeamName: string;
-};
+export type GameWithTeamNames = {
+  homeTeam: { name: string };
+  awayTeam: { name: string };
+} & Game;
 
 export type GameWithRankings = GameWithTeamNames & {
-  homeTeamName: string;
-  homeTeamRanking: number | null;
-  awayTeamName: string;
-  awayTeamRanking: number | null;
+  homeTeam: {
+    name: string;
+    ranking: number | null;
+  };
+  awayTeam: {
+    name: string;
+    ranking: number | null;
+  };
 };
 
 export type UpcomingGame = GameWithRankings & {

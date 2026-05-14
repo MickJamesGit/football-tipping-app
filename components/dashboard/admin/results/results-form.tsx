@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/components/use-toast";
 import { useRouter } from "next/navigation";
 import { saveGameResults } from "@/lib/admin";
-import { GameWithTeamNames } from "@/types/definitions";
 import { useFormState } from "react-dom";
+import { GameResponse } from "@/lib/games/games.schema";
 
 interface ResultsFormProps {
-  unresultedGames: GameWithTeamNames[];
+  unresultedGames: GameResponse[];
 }
 
 export type States = {
@@ -104,8 +104,8 @@ export default function ResultsForm({ unresultedGames }: ResultsFormProps) {
               <td className="px-4 py-2 border-b">
                 {new Date(game.datetime).toLocaleString()}
               </td>
-              <td className="px-4 py-2 border-b">{game.homeTeamName}</td>
-              <td className="px-4 py-2 border-b">{game.awayTeamName}</td>
+              <td className="px-4 py-2 border-b">{game.homeTeam.name}</td>
+              <td className="px-4 py-2 border-b">{game.awayTeam.name}</td>
               <td className="px-4 py-2 border-b">
                 <input
                   type="number"
