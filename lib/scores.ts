@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma";
+import { requireAuth } from "./auth/requireAdmin";
 
 export async function getLastRoundScores(sports: string[]): Promise<
   {
@@ -11,11 +12,9 @@ export async function getLastRoundScores(sports: string[]): Promise<
     totalGames: number;
   }[]
 > {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+  const session = await requireAuth();
+  
+  const userId = session.id;
   const todaysDate = new Date();
 
   try {

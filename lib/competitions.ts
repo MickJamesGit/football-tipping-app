@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setUserTipsToAwayTeams } from "./tips";
 import { revalidatePath } from "next/cache";
+import { requireAuth } from "./auth/requireAdmin";
 
 export async function getActiveCompetitions(): Promise<string[]> {
   const todaysDate = new Date();
@@ -32,11 +33,9 @@ export async function getActiveCompetitions(): Promise<string[]> {
 }
 
 export async function getUserRegisteredCompetitions(): Promise<string[]> {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+  const session = await requireAuth();
+
+  const userId = session.id;
 
   const todaysDate = new Date();
 
@@ -83,11 +82,9 @@ export async function getUserUnregisteredCompetitions(): Promise<
     userCount: number;
   }[]
 > {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+  const session = await requireAuth();
+
+  const userId = session.id;
   const todaysDate = new Date();
 
   try {
@@ -139,16 +136,13 @@ export async function getUserUnregisteredCompetitions(): Promise<
 }
 
 export async function updateUserCompetitions(competitionId: string) {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
+  const session = await requireAuth();
 
   try {
     const existingRegistration = await prisma.userCompetition.findUnique({
       where: {
         userId_competitionId: {
-          userId: session.user.id,
+          userId: session.id,
           competitionId: competitionId,
         },
       },
@@ -161,7 +155,7 @@ export async function updateUserCompetitions(competitionId: string) {
 
     await prisma.userCompetition.create({
       data: {
-        userId: session.user.id,
+        userId: session.id,
         competitionId: competitionId,
       },
     });

@@ -1,19 +1,16 @@
 "use server";
 
-import { auth } from "@/auth";
 import { States } from "@/components/dashboard/admin/results/results-form";
 import prisma from "@/prisma";
+import { requireAdmin } from "./auth/requireAdmin";
 
 export async function saveGameResults(
   state: States,
   formData: FormData,
 ): Promise<{ error: boolean; message: string }> {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return { error: true, message: "You must be logged in to save scores." };
-  }
+  const session = await requireAdmin();
 
-  if (session.user.id !== "56c47f5e-6481-48e9-99e0-d9f1434a98f1") {
+  if (session.id !== "56c47f5e-6481-48e9-99e0-d9f1434a98f1") {
     return {
       error: true,
       message: "You are not authorized to save scores.",
