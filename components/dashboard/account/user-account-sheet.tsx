@@ -28,18 +28,18 @@ const UserAccountSheet = () => {
   };
 
   return (
-    <div className="z-[600]">
+    <div className="z-600">
       <Sheet>
         <SheetTrigger>
           <UserAccountIcon />
         </SheetTrigger>
 
-        <SheetContent className="w-[250px]">
+        <SheetContent className="w-250px">
           <SheetHeader className="flex flex-col items-center space-y-4">
             {user.alias && (
               <>
                 <SheetDescription>
-                  <Avatar className="h-[100px] w-[100px] rounded-full">
+                  <Avatar className="h-25 w-25 rounded-full">
                     {user.image && <AvatarImage src={user.image} />}
 
                     <AvatarFallback className="bg-emerald-500 text-white flex items-center justify-center h-full w-full text-2xl">

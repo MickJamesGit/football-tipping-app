@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 import { LeaderboardEntry } from "../types/definitions";
+import { requireAuth } from "./auth/requireAdmin";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -32,11 +33,9 @@ export async function getOverallSummaryRanking(sports: string[]): Promise<
     totalUsers: number;
   }[]
 > {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+  const session = await requireAuth();
+
+  const userId = session.id;
 
   try {
     const results = await Promise.all(

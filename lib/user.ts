@@ -11,6 +11,7 @@ import {
 } from "./schemas";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { requireAuth } from "./auth/requireAdmin";
 
 export async function getUserByEmail(email: string): Promise<User | null> {
   try {
@@ -83,16 +84,9 @@ export async function getUserAliasByUserId(
 export async function setAccountDetails(
   values: z.infer<typeof accountRegistrationDetailsSchema>,
 ) {
-  const session = await auth();
-  if (!session) redirect("/login");
-
-  if (!session || !session.user || !session.user.id) {
-    return {
-      message: "Error: Unable to set account details.",
-    };
-  }
-
-  const userId = session.user.id;
+  const session = await requireAuth();
+    
+  const userId = session.id;
 
   const validatedFields = accountRegistrationDetailsSchema.safeParse(values);
 
@@ -142,14 +136,7 @@ export async function setAccountDetails(
 export async function updateAccountDetails(
   values: z.infer<typeof accountDetailsSchema>,
 ) {
-  const session = await auth();
-  if (!session) redirect("/login");
-
-  if (!session.user?.id) {
-    return {
-      message: "Error: Unable to update account details.",
-    };
-  }
+  const session = await requireAuth();
 
   const validatedFields = accountDetailsSchema.safeParse(values);
 
@@ -162,7 +149,7 @@ export async function updateAccountDetails(
 
   try {
     await prisma.user.update({
-      where: { id: session.user.id },
+      where: { id: session.id },
       data: {
         alias: username,
         receiveTippingReminders: receiveTippingReminders,

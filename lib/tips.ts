@@ -7,16 +7,15 @@ import { Tips } from "../types/definitions";
 import { tipSchema } from "./schemas";
 import { updateOverallScore, updateUserScores } from "./scores";
 import { States } from "@/components/dashboard/admin/results/results-form";
+import { requireAuth } from "./auth/requireAdmin";
 
 export async function getTipsBySportRound(
   sport: string,
   round: string,
 ): Promise<Tips[]> {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+  const session = await requireAuth();
+  
+  const userId = session.id;
 
   try {
     const tips = await prisma.tip.findMany({
@@ -68,15 +67,7 @@ export async function updateTips(
   state: States,
   formData: FormData,
 ): Promise<{ error: boolean; message: string }> {
-  const session = await auth();
-  if (!session) redirect("/login");
-
-  if (!session.user?.id) {
-    return {
-      error: true,
-      message: "Unable to save tips.",
-    };
-  }
+  const session = await requireAuth();
 
   const tipsData = extractTipsFromFormData(formData);
   // Validate the data
@@ -115,7 +106,7 @@ export async function updateTips(
 
     // Fetch existing tips for the logged-in user
     const existingTips = await prisma.tip.findMany({
-      where: { userId: session.user.id },
+      where: { userId: session.id },
       select: { gameId: true, teamId: true },
     });
 
@@ -131,7 +122,7 @@ export async function updateTips(
         // Update the existing tip
         await prisma.tip.updateMany({
           where: {
-            userId: session.user.id,
+            userId: session.id,
             gameId: gameId,
           },
           data: {
@@ -142,7 +133,7 @@ export async function updateTips(
         // Insert a new tip
         await prisma.tip.create({
           data: {
-            userId: session.user.id,
+            userId: session.id,
             gameId: gameId,
             teamId: tipTeamId,
           },
@@ -160,17 +151,9 @@ export async function updateTips(
 }
 
 export async function setUserTipsToAwayTeams(sport: string) {
-  const session = await auth();
-  if (!session) redirect("/login");
-
-  if (!session.user?.id) {
-    return {
-      error: true,
-      message: "Unable to save tips.",
-    };
-  }
-
-  const userId = session.user.id;
+  const session = await requireAuth();
+  
+  const userId = session.id;
 
   // Step 1: Fetch completed games for the specified sport and season
   const completedGames = await prisma.game.findMany({
@@ -290,11 +273,9 @@ export async function setNewUserTips(
 export async function getTipsByGames(
   gameIds: string[],
 ): Promise<{ gameId: string; teamName: string }[]> {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    return redirect("/login");
-  }
-  const userId = session.user.id;
+  const session = await requireAuth();
+  
+  const userId = session.id;
 
   try {
     const tips = await prisma.tip.findMany({
